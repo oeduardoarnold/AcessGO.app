@@ -24,7 +24,7 @@ def index():
     return render_template('index.html', user=current_user)
 
 @main_bp.route('/dashboard')
-# @login_required  # Esta rota também requer autenticação
+@login_required  # Esta rota também requer autenticação
 def dashboard():
     """
     Página de dashboard (protegida).
@@ -36,3 +36,11 @@ def dashboard():
         Renderiza o template dashboard.html com dados do usuário
     """
     return render_template('dashboard.html', user=current_user)
+
+@main_bp.route('/perfil')
+@login_required
+def perfil():
+    """
+    Pagina de perfil limitada a quem ja tem login na plaraforma
+    """
+    return render_template('perfil.html',user=current_user)
