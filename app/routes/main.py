@@ -8,7 +8,7 @@ from flask_login import login_required, current_user
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
-@login_required  # Decorator que protege a rota - requer autenticação
+# @login_required  # Decorator que protege a rota - requer autenticação
 def index():
     """
     Página inicial do sistema (protegida).
@@ -24,7 +24,7 @@ def index():
     return render_template('index.html', user=current_user)
 
 @main_bp.route('/dashboard')
-@login_required  # Esta rota também requer autenticação
+# @login_required  # Esta rota também requer autenticação
 def dashboard():
     """
     Página de dashboard (protegida).
