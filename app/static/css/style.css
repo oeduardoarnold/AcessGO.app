@@ -319,7 +319,7 @@ body {
 /* Cards Grid */
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
     margin: 2rem 0;
 }
@@ -568,4 +568,13 @@ body {
     .dashboard-stats {
         grid-template-columns: 1fr;
     }
+}
+
+.bento {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
 }
