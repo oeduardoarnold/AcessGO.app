@@ -235,3 +235,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Mensagem no console para desenvolvedores
 console.log('Sistema Template Flask - IENH Dev Sistemas II 2025');
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.slide-item');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    
+    let currentSlide = 0;
+
+    // Função para mostrar o slide
+    function showSlide(index) {
+        // Remove a classe 'active' de todos
+        slides.forEach(slide => slide.classList.remove('active'));
+        
+        // Lógica circular (se passar do último, volta pro primeiro)
+        if (index >= slides.length) {
+            currentSlide = 0;
+        } else if (index < 0) {
+            currentSlide = slides.length - 1;
+        } else {
+            currentSlide = index;
+        }
+
+        // Adiciona 'active' apenas no slide atual
+        slides[currentSlide].classList.add('active');
+    }
+
+    // Event Listeners para os botões
+    nextBtn.addEventListener('click', () => {
+        showSlide(currentSlide + 1);
+    });
+
+    prevBtn.addEventListener('click', () => {
+        showSlide(currentSlide - 1);
+    });
+
+    // Opcional: Mudança automática a cada 5 segundos
+    setInterval(() => {
+        showSlide(currentSlide + 1);
+    }, 5000);
+});

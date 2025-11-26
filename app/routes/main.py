@@ -21,7 +21,30 @@ def index():
     """
     # current_user é um objeto especial do Flask-Login que representa
     # o usuário atualmente autenticado na sessão
-    return render_template('index.html', user=current_user)
+    
+    
+    slides_data = [
+        {
+            "image": "",
+            "title": "Bento Gonçalves",
+            "link": "/destinos/bento", # Rota para onde o botão vai
+            "button_text": "Ver mais"
+        },
+        {
+            "image": "https://picsum.photos/id/1015/800/400",
+            "title": "Oceano Azul",
+            "link": "/pagina-oceano",
+            "button_text": "Explorar Oceano"
+        },
+        {
+            "image": "https://picsum.photos/id/1025/800/400",
+            "title": "Floresta Densa",
+            "link": "/pagina-floresta",
+            "button_text": "Entrar na Floresta"
+        }
+    ]
+    
+    return render_template('index.html', user=current_user, slides=slides_data)
 
 @main_bp.route('/dashboard')
 @login_required  # Esta rota também requer autenticação
@@ -44,3 +67,10 @@ def perfil():
     Pagina de perfil limitada a quem ja tem login na plaraforma
     """
     return render_template('perfil.html',user=current_user)
+
+
+@main_bp.route("/destinos/<destino>")
+def destinos(destino):
+    print(destino)
+    if destino == "bento":
+        return render_template("bento.html",user=current_user )

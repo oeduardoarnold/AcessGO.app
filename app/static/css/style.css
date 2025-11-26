@@ -592,11 +592,79 @@ body {
     }
 }
 
-.bento {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1rem auto;
-    border-radius: 12px;
+/* Container Principal */
+.carousel-container {
+    position: relative;
+    width: 800px; /* Ajuste conforme necessidade */
+    max-width: 100%;
+    height: 400px;
+    margin: 50px auto;
     overflow: hidden;
-    box-shadow: var(--shadow);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
+
+/* Slides */
+.slide-item {
+    display: none; /* Esconde todos por padrão */
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Slide Ativo (JS vai adicionar essa classe) */
+.slide-item.active {
+    display: block;
+}
+
+.slide-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Texto e Botão sobre a imagem */
+.content {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+}
+
+/* Estilo do Botão */
+.btn-action {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #ff5722;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-action:hover {
+    background-color: #e64a19;
+}
+
+/* Botões de Navegação (Setas) */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#prevBtn { left: 10px; }
+#nextBtn { right: 10px; }
