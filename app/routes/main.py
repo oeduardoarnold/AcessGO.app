@@ -25,22 +25,22 @@ def index():
     
     slides_data = [
         {
-            "image": "",
-            "title": "Bento Gonçalves",
+            "image": "static/images/bento.jpg",
+            "title": "Bento Gonçalves - RS",
             "link": "/destinos/bento", # Rota para onde o botão vai
             "button_text": "Ver mais"
         },
         {
-            "image": "https://picsum.photos/id/1015/800/400",
-            "title": "Oceano Azul",
-            "link": "/pagina-oceano",
-            "button_text": "Explorar Oceano"
+            "image": "static/images/porto.jpg",
+            "title": "Porto Alegre - RS",
+            "link": "/destinos/porto",
+            "button_text": "Ver mais"
         },
         {
-            "image": "https://picsum.photos/id/1025/800/400",
-            "title": "Floresta Densa",
-            "link": "/pagina-floresta",
-            "button_text": "Entrar na Floresta"
+            "image": "static/images/gramado.jpg",
+            "title": "Gramado - RS",
+            "link": "/destinos/gramado",
+            "button_text": "Ver mais"
         }
     ]
     
@@ -74,3 +74,9 @@ def destinos(destino):
     print(destino)
     if destino == "bento":
         return render_template("bento.html",user=current_user )
+
+    if destino == "porto":
+        return render_template("porto.html",user=current_user )
+
+    if destino == "gramado":
+        return render_template("gramado.html",user=current_user )

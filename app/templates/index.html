@@ -8,21 +8,7 @@
         <div class="carousel-slide">
             {% for slide in slides %}
                 <div class="slide-item {% if loop.index0 == 0 %}active{% endif %}"> 
-                    <img src="{{ url_for('static', filename='images/bento.jpg') }}" alt="{{ slide.title }}">
-                    <div class="content">
-                        <h2>{{ slide.title }}</h2>
-                        <a href="{{ slide.link }}" class="btn-action">{{ slide.button_text }}</a>
-                    </div>
-                </div>
-                <div class="slide-item {% if loop.index0 == 0 %}active{% endif %}"> 
-                    <img src="{{ url_for('static', filename='images/porto.jpg') }}" alt="{{ slide.title }}">
-                    <div class="content">
-                        <h2>{{ slide.title }}</h2>
-                        <a href="{{ slide.link }}" class="btn-action">{{ slide.button_text }}</a>
-                    </div>
-                </div>
-                <div class="slide-item {% if loop.index0 == 0 %}active{% endif %}"> 
-                    <img src="{{ url_for('static', filename='images/bento.jpg') }}" alt="{{ slide.title }}">
+                    <img src="{{ slide.image }}" alt="{{ slide.title }}">
                     <div class="content">
                         <h2>{{ slide.title }}</h2>
                         <a href="{{ slide.link }}" class="btn-action">{{ slide.button_text }}</a>
@@ -35,6 +21,6 @@
         <button id="nextBtn" class="nav-btn">❯</button>
     </div>
 
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
 
 {% endblock %}

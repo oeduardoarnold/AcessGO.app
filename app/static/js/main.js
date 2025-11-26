@@ -237,6 +237,8 @@ document.addEventListener('DOMContentLoaded', function() {
 console.log('Sistema Template Flask - IENH Dev Sistemas II 2025');
 
 
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.slide-item');
     const nextBtn = document.getElementById('nextBtn');
@@ -274,5 +276,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // Opcional: Mudança automática a cada 5 segundos
     setInterval(() => {
         showSlide(currentSlide + 1);
-    }, 5000);
+    }, 10000);
 });
