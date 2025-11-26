@@ -62,6 +62,26 @@ body {
     text-decoration: none;
 }
 
+.search{
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    background-color: white;
+    width: 400px;
+    margin: 20px auto;
+    border-radius: 20px;
+    padding: 5px 10px;
+    color: #4b4b4b ;
+}
+
+#searchInput{
+    border: none;
+    outline: none;
+    padding: 8px;
+    background-color: transparent;
+    width: 100%;
+}
+
 .navbar-menu {
     display: flex;
     align-items: center;
