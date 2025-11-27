@@ -24,13 +24,13 @@
             {% endblock search_bar_condition %}
             <div class="navbar-menu">
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('main.index') }}">Início</a>
-                    <a href="{{ url_for('main.perfil') }}">Perfil</a>
+                    <a href="{{ url_for('main.index') }}">INÍCIO</a>
+                    <a href="{{ url_for('main.perfil') }}">PERFIL</a>
                     <span class="navbar-user">Olá, {{ current_user.username }}!</span>
-                    <a href="{{ url_for('auth.logout') }}" class="btn-logout">Sair</a>
+                    <a href="{{ url_for('auth.logout') }}" class="btn-logout">SAIR</a>
                 {% else %}
-                    <a href="{{ url_for('auth.login') }}">Login</a>
-                    <a href="{{ url_for('auth.register') }}">Cadastrar</a>
+                    <a href="{{ url_for('auth.login') }}" class="bnt-login">LOGIN</a>
+                    <a href="{{ url_for('auth.register') }}" class="bnt-cadastro">CADASTRO</a>
                 {% endif %}
             </div>
         </div>
