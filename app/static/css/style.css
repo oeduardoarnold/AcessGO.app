@@ -640,7 +640,7 @@ body {
     display: inline-block;
     margin-top: 10px;
     padding: 10px 20px;
-    background-color: #ff5722;
+    background-color: #0bca0ef7;
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -649,7 +649,7 @@ body {
 }
 
 .btn-action:hover {
-    background-color: #e64a19;
+    background-color:#0bca0ef7;
 }
 
 /* Botões de Navegação (Setas) */
@@ -668,3 +668,4 @@ body {
 
 #prevBtn { left: 10px; }
 #nextBtn { right: 10px; }
+
