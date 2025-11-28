@@ -1,4 +1,7 @@
 /* Reset e Configurações Gerais */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+
 * {
     margin: 0;
     padding: 0;
@@ -21,7 +24,7 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Poppins';
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--light-color);
@@ -36,7 +39,6 @@ body {
 
 .bnt-cadastro{
     color: #fffffff7;
-    background-color: #1da131;
     font-weight: bold;
 }
 
@@ -102,7 +104,6 @@ body {
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s;
-    border: 2px solid rgb(4, 16, 85);
     border-radius: 7px;
     padding: 5px;
     font-family: sans-serif;
@@ -385,8 +386,9 @@ body {
 }
 
 .card-text {
-    color: var(--secondary-color);
+    color: #065f46;
     margin-bottom: 1.5rem;
+    font-weight: bold;
 }
 
 /* Info Section */
@@ -441,9 +443,10 @@ body {
     margin-bottom: 2rem;
 }
 
+/*Pagina das cidades*/
 .page-header h1.gramado-cidade {
-    font-size: 48px;
-    color: #003cff;
+    font-size: 1.5rem;
+    color: #064407f7;
 }
 
 .page-header h1 {
@@ -467,6 +470,11 @@ body {
     margin-bottom: 2rem;
 }
 
+.page-header h1.poa-cidade {
+    font-size: 1.5rem;
+    color: #064407f7;
+}
+
 .stat-card {
     background: rgba(164, 222, 255, 0.473);
     color: #020202;
@@ -476,6 +484,29 @@ body {
     display: flex;
     align-items: center;
     gap: 1rem;
+}
+
+.poa-text{
+    color: #064407f7;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.hoteis-poa img {
+  width: 200px; 
+  height: auto; 
+  max-width: 100%; /* Garante que não ultrapasse a largura do pai */
+  margin-right: 1.1rem;
+
+  /* Estilo visual */
+  border-radius: 8px;
+  box-shadow: #066ef678 0px 4px 8px;
+  transition: transform 0.3s ease;
+}
+
+.hoteis-poa img:hover {
+  transform: scale(1.02); /* Aumenta ligeiramente a imagem */
 }
 
 .stat-icon {
