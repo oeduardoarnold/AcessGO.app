@@ -509,6 +509,41 @@ body {
   transform: scale(1.02); /* Aumenta ligeiramente a imagem */
 }
 
+.hoteis-gramado {
+  display: flex;
+  flex-wrap: wrap;       /* permite quebrar linha */
+  gap: 1.1rem;           /* espaço entre os blocos */
+  justify-content: flex-start;
+}
+
+.hoteis-gramado figure {
+  display: flex;
+  flex-direction: column; /* imagem em cima, legenda embaixo */
+  align-items: center;    /* centraliza tudo */
+  width: 200px;           /* mesmo tamanho da imagem */
+  margin: 0;              /* remove margens extras */
+}
+
+.hoteis-gramado img {
+  width: 200px; 
+  height: 150px; 
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: #066ef678 0px 4px 8px;
+  transition: transform 0.3s ease;
+}
+
+.hoteis-gramado img:hover {
+  transform: scale(1.02);
+}
+
+.hoteis-gramado figcaption {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+}
+
 .stat-icon {
     font-size: 2.5rem;
 }
