@@ -31,7 +31,7 @@ def index():
             "button_text": "Ver mais"
         },
         {
-            "image": "static/images/porto.jpg",
+            "image": "static/images/porto-2.jpg",
             "title": "Porto Alegre - RS",
             "link": "/destinos/porto",
             "button_text": "Ver mais"
