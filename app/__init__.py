@@ -44,9 +44,10 @@ def create_app():
     # Blueprints permitem organizar a aplicação em componentes modulares
     from app.routes.auth import auth_bp
     from app.routes.main import main_bp
-    
+    from app.routes.profile import profile_bp    
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
+    app.register_blueprint(profile_bp)
     
     # Criar todas as tabelas no banco de dados se ainda não existirem
     # app_context() garante que temos acesso ao contexto da aplicação

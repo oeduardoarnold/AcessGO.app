@@ -619,6 +619,51 @@ body {
   font-weight: bold;
 }
 
+/*======================================================================
+   ESTILIZANDO O PERFIL
+=========================================================================*/
+perfil-container {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 80px); /* considerando header de 80px */
+    justify-content: center;
+}
+
+.sidebar {
+    width: 16.2rem;
+    border-right: 2px solid #e5e5e5;
+    padding: 2.5rem 1.25rem;
+    color: #0bca0ef7;
+}
+
+.sidebar h2 {
+    font-size: 1.75rem;
+    margin-bottom: 2.5rem;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 2.1875rem;
+}
+
+.sidebar-menu a {
+    font-size: 1.125rem;
+    text-decoration: none;
+    color:#064407f7;
+}
+
+.sidebar-menu a:hover {
+    font-weight: bold;
+    color: #066ef6
+}
+
+.perfil-conteudo {
+    flex: 1;
+    padding: 2.5rem;
+    background-color: #f9f9f9;
+}
+
 /*======================================================================*/
 
 
@@ -833,4 +878,3 @@ body {
 
 #prevBtn { left: 0.625rem; }
 #nextBtn { right: 0.625rem; }
-

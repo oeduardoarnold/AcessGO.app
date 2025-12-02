@@ -3,94 +3,30 @@
 {% block title %}Perfil - Sistema Template{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1>Página de Perfil</h1>
-    <p>Bem-vindo à sua página de perfil!</p>
-</div>
+<div class="perfil-container">
 
-<div class="container">
-    <div class="page-header">
-        <h1>Dashboard</h1>
-        <p>Painel de controle do sistema</p>
-    </div>
+    <!-- MENU LATERAL -->
+    <aside class="sidebar">
+        <h2>Perfil</h2>
 
-    <div class="dashboard-stats">
-        <div class="stat-card">
-            <div class="stat-icon">📈</div>
-            <div class="stat-content">
-                <h3 class="stat-value">0</h3>
-                <p class="stat-label">Total de Acessos</p>
-            </div>
-        </div>
+        <nav class="sidebar-menu">
+            <a href="#">Inicio</a>
+            <a href="#">Informações</a>
+            <a href="#">Preferencias de acessibilidade</a>
+            <a href="#">Historico</a>
+            <a href="#">Niveis</a>
+            <a href="#">Documentos</a>
+        </nav>
+    </aside>
 
-        <div class="stat-card">
-            <div class="stat-icon">✅</div>
-            <div class="stat-content">
-                <h3 class="stat-value">0</h3>
-                <p class="stat-label">Tarefas Concluídas</p>
-            </div>
-        </div>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="perfil-conteudo">
+        <!-- colocar cards, formulários etc aqui -->
+    </main>
 
-        <div class="stat-card">
-            <div class="stat-icon">⏰</div>
-            <div class="stat-content">
-                <h3 class="stat-value">0</h3>
-                <p class="stat-label">Tarefas Pendentes</p>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">👥</div>
-            <div class="stat-content">
-                <h3 class="stat-value">1</h3>
-                <p class="stat-label">Usuários Ativos</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="dashboard-content">
-        <div class="dashboard-section">
-            <h2>Atividades Recentes</h2>
-            <div class="activity-list">
-                <div class="activity-item">
-                    <span class="activity-icon">🔔</span>
-                    <div class="activity-details">
-                        <p class="activity-text">Você fez login no sistema</p>
-                        <span class="activity-time">Agora</span>
-                    </div>
-                </div>
-                <div class="activity-item">
-                    <span class="activity-icon">✨</span>
-                    <div class="activity-details">
-                        <p class="activity-text">Conta criada com sucesso</p>
-                        <span class="activity-time">{{ user.created_at.strftime('%d/%m/%Y') }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="dashboard-section">
-            <h2>Ações Rápidas</h2>
-            <div class="quick-actions">
-                <button class="action-btn" onclick="alert('Funcionalidade em desenvolvimento')">
-                    <span class="action-icon">➕</span>
-                    Nova Tarefa
-                </button>
-                <button class="action-btn" onclick="alert('Funcionalidade em desenvolvimento')">
-                    <span class="action-icon">📄</span>
-                    Gerar Relatório
-                </button>
-                <button class="action-btn" onclick="alert('Funcionalidade em desenvolvimento')">
-                    <span class="action-icon">💾</span>
-                    Exportar Dados
-                </button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="info-section">
-    <h2>Informações da Conta</h2>
     <div class="info-grid">
         <div class="info-item">
             <strong>Usuário:</strong>
