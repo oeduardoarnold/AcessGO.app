@@ -46,7 +46,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 1.25rem;
     width: 100%;
 }
 
@@ -76,19 +76,19 @@ body {
 .search{
     display: flex;
     align-items: center;
-    border: 1px solid var(--border-color);
+    border: 0.06rem solid var(--border-color);
     background-color: white;
-    width: 400px;
-    margin: 20px auto;
-    border-radius: 20px;
-    padding: 5px 10px;
+    width: 25rem;
+    margin: 1.25rem auto;
+    border-radius: 1.25rem;
+    padding: 0.312rem 0.625rem;
     color: #4b4b4b ;
 }
 
 #searchInput{
     border: none;
     outline: none;
-    padding: 8px;
+    padding: 0.5rem;
     background-color: transparent;
     width: 100%;
 }
@@ -104,8 +104,8 @@ body {
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s;
-    border-radius: 7px;
-    padding: 5px;
+    border-radius: 0.5rem;
+    padding: 0.312rem;
     font-family: sans-serif;
 }
 
@@ -211,7 +211,7 @@ body {
     border-radius: 0.75rem;
     box-shadow: var(--shadow-lg);
     width: 100%;
-    max-width: 450px;
+    max-width: 28.12rem;
     border: 2px solid rgb(0, 71, 0);
 }
 
@@ -446,14 +446,14 @@ body {
 /*Pagina das cidades*/
 .page-header h1.gramado-cidade {
     font-size: 1.5rem;
-    color: #064407f7;
+    color: #065f46;
 }
 
 .page-header h1 {
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--dark-color);
-    margin-top: 0.500rem;
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
 
@@ -472,7 +472,12 @@ body {
 
 .page-header h1.poa-cidade {
     font-size: 1.5rem;
-    color: #064407f7;
+    color: #065f46;
+}
+
+.page-header h1.bento-cidade {
+    font-size: 1.5rem;
+    color: #065f46;
 }
 
 .stat-card {
@@ -489,28 +494,48 @@ body {
 /*======================================================================
     ALTERAÇOES DE ESTILOS PARA AS PAGINAS RELACIONADAS A PORTO ALEGRE
 =========================================================================*/
+.hoteis-poa {
+  display: flex;
+  flex-wrap: wrap;       /* permite quebrar linha */
+  gap: 1.1rem;           /* espaço entre os blocos */
+  justify-content: flex-start;
+  margin-top: 0.4rem;
+}
 
-.poa-text{
-    color: #064407f7;
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+.hoteis-poa figure {
+  display: flex;
+  flex-direction: column; /* imagem em cima, legenda embaixo */
+  align-items: center;    /* centraliza tudo */
+  width: 12.5rem;           /* mesmo tamanho da imagem */
+  margin: 0;              /* remove margens extras */
 }
 
 .hoteis-poa img {
-  width: 200px; 
-  height: auto; 
-  max-width: 100%; /* Garante que não ultrapasse a largura do pai */
-  margin-right: 1.1rem;
-
-  /* Estilo visual */
-  border-radius: 8px;
+  width: 12.5rem; 
+  height: 9.375rem; 
+  max-width: 100%;
+  border-radius: 0.5rem;
   box-shadow: #066ef678 0px 4px 8px;
   transition: transform 0.3s ease;
 }
 
 .hoteis-poa img:hover {
-  transform: scale(1.02); /* Aumenta ligeiramente a imagem */
+  transform: scale(1.02);
+}
+
+.hoteis-poa figcaption {
+  margin-top: 0.375rem;
+  font-size: 0.875rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.titulos {
+  margin-top: 1.7rem;
+  color: #065f46;
+}
+.pontos {
+  color: #065f46;
 }
 
 /*======================================================================
@@ -522,21 +547,22 @@ body {
   flex-wrap: wrap;       /* permite quebrar linha */
   gap: 1.1rem;           /* espaço entre os blocos */
   justify-content: flex-start;
+  margin-top: 0.4rem;
 }
 
 .hoteis-gramado figure {
   display: flex;
   flex-direction: column; /* imagem em cima, legenda embaixo */
   align-items: center;    /* centraliza tudo */
-  width: 200px;           /* mesmo tamanho da imagem */
+  width: 12.5rem;           /* mesmo tamanho da imagem */
   margin: 0;              /* remove margens extras */
 }
 
 .hoteis-gramado img {
-  width: 200px; 
-  height: 150px; 
+  width: 12.5rem; 
+  height: 9.375rem; 
   max-width: 100%;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   box-shadow: #066ef678 0px 4px 8px;
   transition: transform 0.3s ease;
 }
@@ -546,41 +572,53 @@ body {
 }
 
 .hoteis-gramado figcaption {
-  margin-top: 6px;
-  font-size: 14px;
+  margin-top: 0.375rem;
+  font-size: 0.875rem;
   color: #333;
   font-weight: bold;
 }
+
 
 /*======================================================================
     ALTERAÇOES DE ESTILOS PARA AS PAGINAS RELACIONADAS A BENTO GONÇALVES
 =========================================================================*/
 
-.bento-text{
-    color: #064407f7;
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    position: relative;
-    left: 31%;
+.hoteis-bento {
+  display: flex;
+  flex-wrap: wrap;       /* permite quebrar linha */
+  gap: 1.1rem;           /* espaço entre os blocos */
+  justify-content: flex-start;
+  margin-top: 0.4rem;
+}
+
+.hoteis-bento figure {
+  display: flex;
+  flex-direction: column; /* imagem em cima, legenda embaixo */
+  align-items: center;    /* centraliza tudo */
+  width: 12.5rem;           /* mesmo tamanho da imagem */
+  margin: 0;              /* remove margens extras */
 }
 
 .hoteis-bento img {
-  width: 200px; 
-  height: auto; 
-  max-width: 100%; /* Garante que não ultrapasse a largura do pai */
-  margin-right: 1.1rem;
-  position:  relative;
-  left: 13%;
-  
-  border-radius: 8px;
+  width: 12.5rem; 
+  height: 9.375rem; 
+  max-width: 100%;
+  border-radius: 0.5rem;
   box-shadow: #066ef678 0px 4px 8px;
   transition: transform 0.3s ease;
 }
 
 .hoteis-bento img:hover {
-  transform: scale(1.02); /* Aumenta ligeiramente a imagem */
+  transform: scale(1.02);
 }
+
+.hoteis-bento figcaption {
+  margin-top: 0.375rem;
+  font-size: 0.875rem;
+  color: #333;
+  font-weight: bold;
+}
+
 /*======================================================================*/
 
 
@@ -725,9 +763,9 @@ body {
     width: 100vw; /* Ajuste conforme necessidade */
     max-width: 100%;
     height: 70vh;
-    margin: 50px auto;
+    margin: 3.125rem auto;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
@@ -754,23 +792,23 @@ body {
 /* Texto e Botão sobre a imagem */
 .content {
     position: absolute;
-    bottom: 40px;
-    left: 40px;
+    bottom: 2.5rem;
+    left: 2.5rem;
     background: rgba(0, 0, 0, 0.6);
-    padding: 20px;
-    border-radius: 8px;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
     color: white;
 }
 
 /* Estilo do Botão */
 .btn-action {
     display: inline-block;
-    margin-top: 10px;
-    padding: 10px 20px;
+    margin-top: 0.625rem;
+    padding: 0.625rem 1.25rem;
     background-color: #0bca0ef7;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     font-weight: bold;
     transition: 0.3s;
 }
@@ -788,11 +826,11 @@ body {
     color: white;
     border: none;
     font-size: 2rem;
-    padding: 10px;
+    padding: 0.625rem;
     cursor: pointer;
     z-index: 10;
 }
 
-#prevBtn { left: 10px; }
-#nextBtn { right: 10px; }
+#prevBtn { left: 0.625rem; }
+#nextBtn { right: 0.625rem; }
 

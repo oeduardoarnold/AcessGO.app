@@ -25,19 +25,19 @@ def index():
     
     slides_data = [
         {
-            "image": "static/images/bento.jpg",
+            "image": "static/images/bento/bento.jpg",
             "title": "Bento Gonçalves - RS",
             "link": "/destinos/bento", # Rota para onde o botão vai
             "button_text": "Ver mais"
         },
         {
-            "image": "static/images/porto-2.jpg",
+            "image": "static/images/poa/porto-2.jpg",
             "title": "Porto Alegre - RS",
             "link": "/destinos/porto",
             "button_text": "Ver mais"
         },
         {
-            "image": "static/images/gramado.jpg",
+            "image": "static/images/gramado/gramado.jpg",
             "title": "Gramado - RS",
             "link": "/destinos/gramado",
             "button_text": "Ver mais"
