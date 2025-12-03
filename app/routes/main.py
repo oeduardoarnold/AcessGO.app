@@ -68,15 +68,18 @@ def perfil():
     """
     return render_template('perfil.html',user=current_user)
 
-
+# ====================================================================================
+# Alterar a rota para pasta cidades, toda acidade adicionada deve ser adicionada la;
+# para isso faça /nome_da_pasta/nome_da_cidade.html dentro da def destinos
+# ====================================================================================
 @main_bp.route("/destinos/<destino>")
 def destinos(destino):
     print(destino)
     if destino == "bento":
-        return render_template("bento.html",user=current_user )
+        return render_template("/cidades/bento.html",user=current_user )
 
     if destino == "porto":
-        return render_template("porto.html",user=current_user )
+        return render_template("/cidades/porto.html",user=current_user )
 
     if destino == "gramado":
-        return render_template("gramado.html",user=current_user )
+        return render_template("/cidades/gramado.html",user=current_user )
