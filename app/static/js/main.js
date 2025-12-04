@@ -278,3 +278,15 @@ document.addEventListener('DOMContentLoaded', () => {
         showSlide(currentSlide + 1);
     }, 10000);
 });
+
+// ========================================
+// ALERTA DE BOTÕES DO PERFIL, E NAS PAGINAS DE CIDADE
+// ========================================
+
+function abrirAlerta() {
+   Swal.fire({
+  icon: "error",
+  title: "Oops...",
+  text: "Funcionalidade em desenvolvimento!",
+});
+}
