@@ -2,3 +2,7 @@
 # Isso permite fazer: from app.models import User
 # Em vez de: from app.models.user import User
 from app.models.user import User
+from app.models.cidade import Cidade
+from app.models.hotel import Hotel
+from app.models.experiencia import Experiencia
+from app.models.acessibilidade import Acessibilidade
