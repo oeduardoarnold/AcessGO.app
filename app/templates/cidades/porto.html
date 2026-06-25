@@ -21,80 +21,123 @@
     </div>
 
     <div class="container-poa">
+        <!-- SEÇÃO: HOSPEDAGENS (IDs 21 a 25) -->
         <div class="hoteis-poa">
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/hotel1.poa.jfif" alt="">
-                <figcaption>Hotel Master Cosmopolitan</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/hotel2.poa.jfif" alt="">
-                <figcaption>Hotel Continental</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/hotel3.poa.jfif" alt="">
-                <figcaption>Plaza São Rafael</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/hotel4.poa.jfif" alt="">
-                <figcaption>Double Tree by Hilton</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/hotel5.poa.jfif" alt="">
-                <figcaption>Hotel Laghetto Viverone Moinhos</figcaption>
-            </figure></button>
+            <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=11) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/poa/hotel1.poa.jfif') }}" alt="Hotel Master Cosmopolitan">
+                    <figcaption>Hotel Master Cosmopolitan</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=12) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/poa/hotel2.poa.jfif') }}" alt="Hotel Continental">
+                    <figcaption>Hotel Continental</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=13) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/poa/hotel3.poa.jfif') }}" alt="Plaza São Rafael">
+                    <figcaption>Plaza São Rafael</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=14) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/poa/hotel4.poa.jfif') }}" alt="Double Tree by Hilton">
+                    <figcaption>Double Tree by Hilton</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=15) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/poa/hotel5.poa.jfif') }}" alt="Hotel Laghetto Viverone Moinhos">
+                    <figcaption>Hotel Laghetto Viverone Moinhos</figcaption>
+                </figure>
+            </a>
         </div>  
 
         <br>
 
-     <h2 class="pontos">Pontos Turísticos</h2>
+        <!-- SEÇÃO: PONTOS TURÍSTICOS (IDs 21 a 25) -->
+        <h2 class="pontos">Pontos Turísticos</h2>
         <div class="hoteis-poa">
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/orla.jfif" alt="">
-                <figcaption>Orla do Guaíba</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/marioquintana.jfif" alt="">
-                <figcaption>Casa de Cultura Mario Quintana</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/memorialrs.jfif" alt="">
-                <figcaption>Memorial do Rio Grande do Sul</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/pracamatriz.jfif" alt="">
-                <figcaption>Praça da Matriz</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/moinhos.jfif" alt="">
-                <figcaption>Parque Moinhos de Vento</figcaption>
-            </figure></button>
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=21) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/poa/orla.jfif') }}" alt="Orla do Guaíba">
+                    <figcaption>Orla do Guaíba</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=22) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/poa/marioquintana.jfif') }}" alt="Casa de Cultura Mario Quintana">
+                    <figcaption>Casa de Cultura Mario Quintana</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=23) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/poa/memorialrs.jfif') }}" alt="Memorial do Rio Grande do Sul">
+                    <figcaption>Memorial do Rio Grande do Sul</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=24) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/poa/pracamatriz.jfif') }}" alt="Praça da Matriz">
+                    <figcaption>Praça da Matriz</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=25) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/poa/moinhos.jfif') }}" alt="Parque Moinhos de Vento">
+                    <figcaption>Parque Moinhos de Vento</figcaption>
+                </figure>
+            </a>
         </div>
     </div>
     
+    <!-- SEÇÃO: EXPERIÊNCIAS (IDs 26 a 30) -->
     <h2 class="titulos">Aproveite também as experiências!</h2>
-        <div class="hoteis-poa">
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/arena.jfif" alt="">
+    <div class="hoteis-poa">
+        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=26) }}" class="btn-figure">
+            <figure>
+                <img src="{{ url_for('static', filename='images/poa/arena.jfif') }}" alt="Viva a atmosfera gremista!">
                 <figcaption>Viva a atmosfera gremista!</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/guaiba.jfif" alt="">
+            </figure>
+        </a>
+        
+        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=27) }}" class="btn-figure">
+            <figure>
+                <img src="{{ url_for('static', filename='images/poa/guaiba.jfif') }}" alt="Veleje pelo Guaíba">
                 <figcaption>Veleje pelo Guaíba</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/rdelaboca.jfif" alt="">
+            </figure>
+        </a>
+        
+        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=28) }}" class="btn-figure">
+            <figure>
+                <img src="{{ url_for('static', filename='images/poa/rdelaboca.jfif') }}" alt="Explore a gastronomia local!">
                 <figcaption>Explore a gastronomia local!</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/theatro.jfif" alt="">
+            </figure>
+        </a>
+        
+        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=29) }}" class="btn-figure">
+            <figure>
+                <img src="{{ url_for('static', filename='images/poa/theatro.jfif') }}" alt="Assista a um espetáculo no histórico Theatro São Pedro">
                 <figcaption>Assista a um espetáculo no histórico Theatro São Pedro</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/poa/iberec.jfif" alt="">
+            </figure>
+        </a>
+        
+        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=30) }}" class="btn-figure">
+            <figure>
+                <img src="{{ url_for('static', filename='images/poa/iberec.jfif') }}" alt="Entre na arte da cidade">
                 <figcaption>Entre na arte da cidade</figcaption>
-            </figure></button>
-        </div>
+            </figure>
+        </a>
     </div>
-
-
+</div>
 {% endblock %}

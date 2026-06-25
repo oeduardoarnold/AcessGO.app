@@ -21,80 +21,103 @@
     </div>
 
     <div class="container-gramado">
-        <div class="hoteis-gramado">
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/gram_ht01.webp" alt="">
-                <figcaption>Hotel Valle D’incanto</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/gram_ht02.jpg" alt="">
-                <figcaption>Hotel Ritta Höppner</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/gram_ht03.jpg" alt="">
-                <figcaption>WoodStone Gramado Hotel</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/gram_ht04.jpg" alt="">
-                <figcaption>Exclusive Gramado</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/gram_ht05.webp" alt="">
-                <figcaption>Buona Vitta Gramado</figcaption>
-            </figure>
-            </figure></button>
-        </div>  
-
+        <!-- SEÇÃO: HOSPEDAGENS (IDs 11 a 15) -->
+       <div class="hoteis-gramado">
+    <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=6) }}" class="btn-figure">
+        <figure><img src="{{ url_for('static', filename='images/gramado/gram_ht01.webp') }}"><figcaption>Hotel Valle D’incanto</figcaption></figure>
+    </a>
+    <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=7) }}" class="btn-figure">
+        <figure><img src="{{ url_for('static', filename='images/gramado/gram_ht02.jpg') }}"><figcaption>Hotel Ritta Höppner</figcaption></figure>
+    </a>
+    <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=8) }}" class="btn-figure">
+        <figure><img src="{{ url_for('static', filename='images/gramado/gram_ht03.jpg') }}"><figcaption>WoodStone Gramado Hotel</figcaption></figure>
+    </a>
+    <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=9) }}" class="btn-figure">
+        <figure><img src="{{ url_for('static', filename='images/gramado/gram_ht04.jpg') }}"><figcaption>Exclusive Gramado</figcaption></figure>
+    </a>
+    <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=10) }}" class="btn-figure">
+        <figure><img src="{{ url_for('static', filename='images/gramado/gram_ht05.webp') }}"><figcaption>Buona Vitta Gramado</figcaption></figure>
+    </a>
+</div>
         <br>
 
-     <h2 class="pontos">Pontos Turísticos</h2>
-             
+        <!-- SEÇÃO: PONTOS TURÍSTICOS (IDs 11 a 15) -->
+        <h2 class="pontos">Pontos Turísticos</h2>
         <div class="hoteis-gramado">
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/pnt_tur01.webp" alt="">
-                <figcaption>Lago Negro</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/pnt_tur02.jpg" alt="">
-                <figcaption>Mini Mundo</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/pnt_tur03.jpg" alt="">
-                <figcaption>Rua Coberta</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/pnt_tur04.avif" alt="">
-                <figcaption>Snowland</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/pnt_tur05.jpg" alt="">
-                <figcaption>Museu de Cera Dreamland</figcaption>
-            </figure></button>
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=11) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/gramado/pnt_tur01.webp') }}" alt="Lago Negro">
+                    <figcaption>Lago Negro</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=12) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/gramado/pnt_tur02.jpg') }}" alt="Mini Mundo">
+                    <figcaption>Mini Mundo</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=13) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/gramado/pnt_tur03.jpg') }}" alt="Rua Coberta">
+                    <figcaption>Rua Coberta</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=14) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/gramado/pnt_tur04.avif') }}" alt="Snowland">
+                    <figcaption>Snowland</figcaption>
+                </figure>
+            </a>
+            
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=15) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename='images/gramado/pnt_tur05.jpg') }}" alt="Museu de Cera Dreamland">
+                    <figcaption>Museu de Cera Dreamland</figcaption>
+                </figure>
+            </a>
         </div>
     </div>
     
+    <!-- SEÇÃO: EXPERIÊNCIAS (IDs 16 a 20) -->
     <h2 class="titulos">Aproveite também as experiências!</h2>
-        <div class="hoteis-poa">
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/gramadoexp1.jfif" alt="">
+    <div class="hoteis-poa">
+        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=16) }}" class="btn-figure">
+            <figure>
+                <img src="{{ url_for('static', filename='images/gramado/gramadoexp1.jfif') }}" alt="Viva o natal em gramado">
                 <figcaption>Viva o natal em gramado</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/gramadoexp2.jfif" alt="">
+            </figure>
+        </a>
+        
+        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=17) }}" class="btn-figure">
+            <figure>
+                <img src="{{ url_for('static', filename='images/gramado/gramadoexp2.jfif') }}" alt="Carros antigos e classicos de Hollywood">
                 <figcaption>Se impressione com carros antigos e classicos de Hollywood!</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/gramadoexp3.jfif" alt="">
+            </figure>
+        </a>
+        
+        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=18) }}" class="btn-figure">
+            <figure>
+                <img src="{{ url_for('static', filename='images/gramado/gramadoexp3.jfif') }}" alt="Gastronomia de Gramado">
                 <figcaption>Experimente outro nivel de gastronomia</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/gramadoexp4.jfif" alt="">
+            </figure>
+        </a>
+        
+        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=19) }}" class="btn-figure">
+            <figure>
+                <img src="{{ url_for('static', filename='images/gramado/gramadoexp4.jfif') }}" alt="Cartões postais da Serra Gaúcha">
                 <figcaption>Parta para um dos cartões postais da Serra Gaúcha</figcaption>
-            </figure></button>
-            <button class="btn-figure" onclick= ""><figure>
-                <img src="../static/images/gramado/gramadoexp5.jfif" alt="">
+            </figure>
+        </a>
+        
+        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=20) }}" class="btn-figure">
+            <figure>
+                <img src="{{ url_for('static', filename='images/gramado/gramadoexp5.jfif') }}" alt="Rua Torta">
                 <figcaption>Tire fotos na Rua Torta</figcaption>
-            </figure></button>
-        </div>
+            </figure>
+        </a>
     </div>
+</div>
 {% endblock %}

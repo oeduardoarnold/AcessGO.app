@@ -18,7 +18,7 @@
             {% block search_bar_condition %}
                 <div class="search">
                     <label for="searchInput"></label>
-                    <img src="../static/images/search_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Search" class="material-icon-symbols-outlined">
+                    <img src="{{ url_for('static', filename='images/search_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg') }}" alt="Search" class="material-icon-symbols-outlined">    
                     <input type="text" id="searchInput" placeholder="Pesquisar">
             </div>
             {% endblock search_bar_condition %}

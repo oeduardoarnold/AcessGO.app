@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Reservar - {{ nome }}{% endblock %}
+
+{% block search_bar_condition %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    
+    <div class="reserva-titulo-centralizado">
+        <h1>{{ nome }}</h1>
+    </div>
+
+    <div class="reserva-layout">
+        
+    <div class="reserva-fotos">
+        <div class="reserva-fotos-content">
+            <img src="{{ url_for('static', filename=imagem) }}" alt="Imagem de {{ nome }}" style="max-width: 100%; max-height: 300px; border-radius: 4px; object-fit: cover; margin-bottom: 15px;">
+            <p>{{ nome }}</p>
+            <p class="reserva-subtexto-fotos">Imagens reais focadas em rampas, banheiros adaptados e acessos.</p>
+        </div>
+    </div>
+
+        <div class="reserva-pagamento">
+            <h3>Área de Pagamento</h3>
+            
+            <form method="POST" action="">
+                <div class="reserva-form-group">
+                    <label for="data_reserva">Selecione a Data:</label>
+                    <input type="date" id="data_reserva" name="data_reserva" class="reserva-input" required>
+                </div>
+
+                <div class="reserva-form-group">
+                    <label for="quantidade">Quantidade de Pessoas:</label>
+                    <input type="number" id="quantidade" name="quantidade" min="1" value="1" class="reserva-input" required>
+                </div>
+
+                <hr class="reserva-divisor">
+
+                <button type="submit" class="btn-reserva-confirmar">
+                    {% if tipo == 'hotel' %} Confirmar Reserva {% else %} Confirmar Compra {% endif %}
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
