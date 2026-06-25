@@ -7,44 +7,58 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="wrapper-reserva-pagedolado">
     
-    <div class="reserva-titulo-centralizado">
-        <h1>{{ nome }}</h1>
+    <div class="titulo-fotos-topo">
+        <h1>Fotos <span>(Acessibilidade, Espaços...)</span></h1>
     </div>
 
-    <div class="reserva-layout">
+    <div class="container-reserva">
         
-    <div class="reserva-fotos">
-        <div class="reserva-fotos-content">
-            <img src="{{ url_for('static', filename=imagem) }}" alt="Imagem de {{ nome }}" style="max-width: 100%; max-height: 300px; border-radius: 4px; object-fit: cover; margin-bottom: 15px;">
-            <p>{{ nome }}</p>
-            <p class="reserva-subtexto-fotos">Imagens reais focadas em rampas, banheiros adaptados e acessos.</p>
+        <div class="coluna-detalhes">
+            <div class="photo-grid-container">
+                <div class="grid-main">
+                    <img src="{{ url_for('static', filename=imagem) }}" alt="{{ nome }}">
+                </div>
+                <div class="grid-small">
+                    <img src="{{ url_for('static', filename=imagem) }}" alt="{{ nome }}" class="filter-bright">
+                </div>
+                <div class="grid-small">
+                    <img src="{{ url_for('static', filename=imagem) }}" alt="{{ nome }}" class="filter-warm">
+                </div>
+                <div class="grid-small">
+                    <img src="{{ url_for('static', filename=imagem) }}" alt="{{ nome }}" class="filter-cool">
+                </div>
+                <div class="grid-small btn-ver-todas-container">
+                    <img src="{{ url_for('static', filename=imagem) }}" alt="{{ nome }}" class="filter-dark">
+                    <button class="btn-mostrar-todas">
+                        Mostrar todas as fotos
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
 
-        <div class="reserva-pagamento">
+        <div class="card-pagamento">
             <h3>Área de Pagamento</h3>
-            
             <form method="POST" action="">
-                <div class="reserva-form-group">
-                    <label for="data_reserva">Selecione a Data:</label>
-                    <input type="date" id="data_reserva" name="data_reserva" class="reserva-input" required>
+                <div class="form-group">
+                    <label for="data">Selecione a Data:</label>
+                    <input type="date" id="data" name="data" class="form-control" required>
                 </div>
-
-                <div class="reserva-form-group">
-                    <label for="quantidade">Quantidade de Pessoas:</label>
-                    <input type="number" id="quantidade" name="quantidade" min="1" value="1" class="reserva-input" required>
+                <div class="form-group">
+                    <label for="pessoas">Quantidade de Pessoas:</label>
+                    <input type="number" id="pessoas" name="pessoas" class="form-control" value="1" min="1" required>
                 </div>
-
-                <hr class="reserva-divisor">
-
-                <button type="submit" class="btn-reserva-confirmar">
-                    {% if tipo == 'hotel' %} Confirmar Reserva {% else %} Confirmar Compra {% endif %}
-                </button>
+                <button type="submit" class="btn-confirmar">Confirmar Reserva</button>
             </form>
         </div>
 
     </div>
+
+    <div class="info-hotel-secao">
+        <h2>{{ nome }}</h2>
+        <p class="sub-text">Imagens reais focadas em rampas, banheiros adaptados e acessos.</p>
+    </div>
+
 </div>
 {% endblock %}
