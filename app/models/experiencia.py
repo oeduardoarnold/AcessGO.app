@@ -8,3 +8,5 @@ class Experiencia(db.Model):
     cidade_id = db.Column(db.Integer, db.ForeignKey('cidade.id'))
 
     categoria = db.Column(db.String(50))
+    
+    imagem = db.Column(db.String(300), nullable=True)
