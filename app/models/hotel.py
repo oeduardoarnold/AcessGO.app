@@ -9,5 +9,6 @@ class Hotel(db.Model):
 
     endereco = db.Column(db.String(200))
     telefone = db.Column(db.String(20))
+    preco = db.Column(db.Float, nullable=True, default=0.00)
 
     acessibilidade = db.relationship('Acessibilidade', backref='hotel', uselist=False)

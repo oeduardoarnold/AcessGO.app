@@ -87,11 +87,14 @@ def destinos(destino):
         return render_template("/cidades/gramado.html",user=current_user )
 
 
+from app.models.acessibilidade import Acessibilidade  # Certifique-se de importar o modelo de Acessibilidade
+
 @main_bp.route('/reserva/<string:tipo>/<int:item_id>', methods=['GET', 'POST'])
 @login_required
 def detalhe_reserva(tipo, item_id):
     item_nome = ""
     item_imagem = ""
+    acessibilidade = None  # Inicializa como None por padrão
     
     # 1. MAPEAMENTO DE NOMES (Bento: 1-10 | Gramado: 11-20 | Porto Alegre: 21-30)
     nomes_hoteis = {
@@ -120,16 +123,23 @@ def detalhe_reserva(tipo, item_id):
         try:
             # Tenta buscar do banco de dados primeiro
             hotel = Hotel.query.get(item_id)
-            item_nome = hotel.nome if hotel else nomes_hoteis.get(item_id, f"Hotel {item_id}")
+            if hotel:
+                item_nome = hotel.nome
+                # NOVIDADE: Busca a acessibilidade vinculada ao ID real deste hotel
+                acessibilidade = Acessibilidade.query.filter_by(hotel_id=hotel.id).first()
+            else:
+                item_nome = nomes_hoteis.get(item_id, f"Hotel {item_id}")
+                # Fallback: se o hotel não veio do banco mas o banco está ativo, tenta buscar pelo ID do fallback
+                acessibilidade = Acessibilidade.query.filter_by(hotel_id=item_id).first()
         except Exception:
             # Fallback seguro caso a tabela do banco não esteja pronta
             item_nome = nomes_hoteis.get(item_id, f"Hotel {item_id}")
+            acessibilidade = None
         
         # Mapeamento de Imagens dos Hotéis por Região e Extensão Real
         if item_id <= 5:
             item_imagem = f"images/bento/hotel{item_id}.bento.jfif"
         elif item_id >= 6 and item_id <= 10:
-            # Gramado usa formatos mistos (.webp e .jpg)
             mapa_gramado_ht = {6: "gram_ht01.webp", 7: "gram_ht02.jpg", 8: "gram_ht03.jpg", 9: "gram_ht04.jpg", 10: "gram_ht05.webp"}
             item_imagem = f"images/gramado/{mapa_gramado_ht[item_id]}"
         elif item_id >= 11 and item_id <= 15:
@@ -139,6 +149,7 @@ def detalhe_reserva(tipo, item_id):
     # 3. LÓGICA PARA PONTOS TURÍSTICOS E EXPERIÊNCIAS
     else:  # tipo == 'experiencia'
         item_nome = nomes_experiencias.get(item_id, f"Experiência {item_id}")
+        acessibilidade = None  # Experiências não exibem o bloco de acessibilidade de hotéis
         
         # Mapeamento de Imagens das Experiências por Região e Extensão Real
         if item_id <= 5:
@@ -146,24 +157,23 @@ def detalhe_reserva(tipo, item_id):
         elif item_id <= 10:
             item_imagem = f"images/bento/exp{item_id - 5}.jfif"
         elif item_id >= 11 and item_id <= 20:
-            # Gramado usa pnt_turXX com várias extensões e gramadoexpXX.jfif
             mapa_gramado_exp = {
                 11: "pnt_tur01.webp", 12: "pnt_tur02.jpg", 13: "pnt_tur03.jpg", 14: "pnt_tur04.avif", 15: "pnt_tur05.jpg",
                 16: "gramadoexp1.jfif", 17: "gramadoexp2.jfif", 18: "gramadoexp3.jfif", 19: "gramadoexp4.jfif", 20: "gramadoexp5.jfif"
             }
             item_imagem = f"images/gramado/{mapa_gramado_exp[item_id]}"
         elif item_id >= 21 and item_id <= 30:
-            # Porto Alegre usa nomes textuais diretos (.jfif)
             mapa_poa_exp = {
                 21: "orla.jfif", 22: "marioquintana.jfif", 23: "memorialrs.jfif", 24: "pracamatriz.jfif", 25: "moinhos.jfif",
                 26: "arena.jfif", 27: "guaiba.jfif", 28: "rdelaboca.jfif", 29: "theatro.jfif", 30: "iberec.jfif"
             }
             item_imagem = f"images/poa/{mapa_poa_exp[item_id]}"
 
-    # 4. RENDERIZAÇÃO DO TEMPLATE ÚNICO DE CHECKOUT
+    # 4. RENDERIZAÇÃO DO TEMPLATE ÚNICO DE CHECKOUT (Variável acessibilidade adicionada)
     return render_template('reserva.html', 
                            user=current_user, 
                            tipo=tipo, 
                            item_id=item_id, 
                            nome=item_nome,
-                           imagem=item_imagem)
+                           imagem=item_imagem,
+                           acessibilidade=acessibilidade)  # <-- Enviado com sucesso ao Jinja

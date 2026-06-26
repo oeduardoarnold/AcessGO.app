@@ -9,56 +9,118 @@
 {% block content %}
 <div class="wrapper-reserva-pagedolado">
     
-    <div class="titulo-fotos-topo">
-        <h1>Fotos <span>(Acessibilidade, Espaços...)</span></h1>
+    <!-- 1. Nome do Local no Topo -->
+    <div class="topo-nome-local">
+        <h1>{{ nome }}</h1>
+        <p class="sub-text">Confira os detalhes de acessibilidade e espaços do estabelecimento.</p>
     </div>
 
     <div class="container-reserva">
         
+        <!-- Coluna da Esquerda: Grids e Informações -->
         <div class="coluna-detalhes">
-            <div class="photo-grid-container">
-                <div class="grid-main">
-                    <img src="{{ url_for('static', filename=imagem) }}" alt="{{ nome }}">
-                </div>
-                <div class="grid-small">
-                    <img src="{{ url_for('static', filename=imagem) }}" alt="{{ nome }}" class="filter-bright">
-                </div>
-                <div class="grid-small">
-                    <img src="{{ url_for('static', filename=imagem) }}" alt="{{ nome }}" class="filter-warm">
-                </div>
-                <div class="grid-small">
-                    <img src="{{ url_for('static', filename=imagem) }}" alt="{{ nome }}" class="filter-cool">
-                </div>
-                <div class="grid-small btn-ver-todas-container">
-                    <img src="{{ url_for('static', filename=imagem) }}" alt="{{ nome }}" class="filter-dark">
-                    <button class="btn-mostrar-todas">
-                        Mostrar todas as fotos
-                    </button>
+            
+            <!-- SEÇÃO 1: Fotos de Acessibilidade -->
+            <div class="secao-fotos-acessibilidade">
+                <h2 class="titulo-grid">Fotos para Acessibilidade</h2>
+                <div class="photo-grid-container">
+                    <div class="grid-main">
+                        <img src="{{ url_for('static', filename=imagem) }}" alt="Acessibilidade em {{ nome }}">
+                    </div>
+                    <div class="grid-small"><img src="{{ url_for('static', filename=imagem) }}" alt="Rampa ou Acesso"></div>
+                    <div class="grid-small"><img src="{{ url_for('static', filename=imagem) }}" alt="Banheiro Adaptado"></div>
+                    <div class="grid-small"><img src="{{ url_for('static', filename=imagem) }}" alt="Sinalização"></div>
+                    <div class="grid-small btn-ver-todas-container">
+                        <img src="{{ url_for('static', filename=imagem) }}" alt="Mais acessos">
+                    </div>
                 </div>
             </div>
+
+            <!-- SEÇÃO 2: Card de Informações de Acessibilidade do Local -->
+            {% if tipo == 'hotel' %}
+            <div class="card-info-acessibilidade">
+                <h3>Recursos de Acessibilidade Disponíveis</h3>
+                <ul class="lista-acessibilidade">
+                    <!-- Aqui você pode usar as variáveis do seu banco de dados para renderizar dinamicamente -->
+                    <li class="{% if acessibilidade.rampa %}disponivel{% else %}indisponivel{% endif %}">
+                        <span class="icon"></span> Rampas de Acesso
+                    </li>
+                    <li class="{% if acessibilidade.elevador %}disponivel{% else %}indisponivel{% endif %}">
+                        <span class="icon"></span> Elevador Adaptado
+                    </li>
+                    <li class="{% if acessibilidade.banheiro_acessivel %}disponivel{% else %}indisponivel{% endif %}">
+                        <span class="icon"></span> Banheiro Acessível
+                    </li>
+                    <li class="{% if acessibilidade.piso_tatil %}disponivel{% else %}indisponivel{% endif %}">
+                        <span class="icon"></span> Piso Tátil
+                    </li>
+                    <li class="{% if acessibilidade.braille %}disponivel{% else %}indisponivel{% endif %}">
+                        <span class="icon"></span> Sinalização em Braille
+                    </li>
+                    <li class="{% if acessibilidade.sinalizacao_visual %}disponivel{% else %}indisponivel{% endif %}">
+                        <span class="icon"></span> Alertas Visuais/Luminosos
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- SEÇÃO 3: Fotos para os Espaços do Local -->
+            <div class="secao-fotos-espacos">
+                <h2 class="titulo-grid">Fotos para os Espaços do Local</h2>
+                <div class="photo-grid-container">
+                    <div class="grid-main">
+                        <img src="{{ url_for('static', filename=imagem) }}" alt="Espaços de {{ nome }}">
+                    </div>
+                    <div class="grid-small"><img src="{{ url_for('static', filename=imagem) }}" alt="Quarto / Acomodação"></div>
+                    <div class="grid-small"><img src="{{ url_for('static', filename=imagem) }}" alt="Área Comum"></div>
+                    <div class="grid-small"><img src="{{ url_for('static', filename=imagem) }}" alt="Restaurante / Lazer"></div>
+                    <div class="grid-small btn-ver-todas-container">
+                        <img src="{{ url_for('static', filename=imagem) }}" alt="Outros espaços">
+                    </div>
+                </div>
+            </div>
+
         </div>
 
+<!-- COLUNA DA DIREITA: Card Dinâmico (Reserva ou Guia Informativo) -->
         <div class="card-pagamento">
-            <h3>Área de Pagamento</h3>
-            <form method="POST" action="">
-                <div class="form-group">
-                    <label for="data">Selecione a Data:</label>
-                    <input type="date" id="data" name="data" class="form-control" required>
+            {% if tipo == 'hotel' %}
+                <!-- Exibe o formulário original apenas para Hotéis -->
+                <h3>Área de Pagamento</h3>
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label for="data">Selecione a Data:</label>
+                        <input type="date" id="data" name="data" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pessoas">Quantidade de Pessoas:</label>
+                        <input type="number" id="pessoas" name="pessoas" class="form-control" value="1" min="1" required>
+                    </div>
+                    <button type="submit" class="btn-confirmar">Confirmar Reserva</button>
+                </form>
+            {% else %}
+                <!-- Alternativa Inteligente para Pontos Turísticos e Experiências -->
+                <h3>Guia de Visitação</h3>
+                
+                <div class="info-guia-item">
+                    <p class="guia-label"><strong>📍 Como chegar:</strong></p>
+                    <p class="guia-text">Consulte a melhor rota para visitar este local durante sua viagem.</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ nome|urlencode }}" target="_blank" class="btn-mapa">
+                        Ver no Google Maps
+                    </a>
                 </div>
-                <div class="form-group">
-                    <label for="pessoas">Quantidade de Pessoas:</label>
-                    <input type="number" id="pessoas" name="pessoas" class="form-control" value="1" min="1" required>
+
+                <div class="info-guia-item" style="margin-top: 15px;">
+                    <p class="guia-label"><strong>⏰ Melhor Horário:</strong></p>
+                    <p class="guia-text">Recomendamos a visitação durante o dia para aproveitar melhor os espaços e registrar belas fotos.</p>
                 </div>
-                <button type="submit" class="btn-confirmar">Confirmar Reserva</button>
-            </form>
+
+                <div class="info-guia-item" style="margin-top: 15px;">
+                    <p class="guia-label"><strong>💵 Custo estimado:</strong></p>
+                    <p class="guia-text">A maioria dos pontos públicos possui acesso gratuito. Verifique no local se há atividades pagas por perto.</p>
+                </div>
+
+                <button onclick="window.history.back()" class="btn-voltar">Voltar para a Exploração</button>
+            {% endif %}
         </div>
-
-    </div>
-
-    <div class="info-hotel-secao">
-        <h2>{{ nome }}</h2>
-        <p class="sub-text">Imagens reais focadas em rampas, banheiros adaptados e acessos.</p>
-    </div>
-
-</div>
 {% endblock %}
