@@ -41,7 +41,6 @@
             <div class="card-info-acessibilidade">
                 <h3>Recursos de Acessibilidade Disponíveis</h3>
                 <ul class="lista-acessibilidade">
-                    <!-- Aqui você pode usar as variáveis do seu banco de dados para renderizar dinamicamente -->
                     <li class="{% if acessibilidade.rampa %}disponivel{% else %}indisponivel{% endif %}">
                         <span class="icon"></span> Rampas de Acesso
                     </li>
@@ -82,24 +81,48 @@
 
         </div>
 
-<!-- COLUNA DA DIREITA: Card Dinâmico (Reserva ou Guia Informativo) -->
+        <!-- COLUNA DA DIREITA: Card Dinâmico Triplo (Hotel vs Experiência Paga vs Gratuito) -->
         <div class="card-pagamento">
             {% if tipo == 'hotel' %}
-                <!-- Exibe o formulário original apenas para Hotéis -->
+                <!-- ESTADO 1: Formulário para Hotéis -->
                 <h3>Área de Pagamento</h3>
+                <p class="preco-destaque" style="font-size: 16px; color: #1e5f38; margin-bottom: 15px;">
+                    <strong>Valor da Diária:</strong> R$ {{ "%.2f"|format(preco_item) }}
+                </p>
+                
                 <form method="POST" action="">
                     <div class="form-group">
-                        <label for="data">Selecione a Data:</label>
+                        <label for="data">Selecione a Data de Entrada:</label>
                         <input type="date" id="data" name="data" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="pessoas">Quantidade de Pessoas:</label>
+                        <label for="pessoas">Quantidade de Hóspedes:</label>
                         <input type="number" id="pessoas" name="pessoas" class="form-control" value="1" min="1" required>
                     </div>
                     <button type="submit" class="btn-confirmar">Confirmar Reserva</button>
                 </form>
+
+            {% elif tipo == 'experiencia' and preco_item > 0 %}
+                <!-- ESTADO 2: Formulário para Experiências Pagas -->
+                <h3>Agendar Atividade</h3>
+                <p class="preco-destaque" style="font-size: 16px; color: #066ef6; margin-bottom: 15px;">
+                    <strong>Valor do Ingresso:</strong> R$ {{ "%.2f"|format(preco_item) }} / pessoa
+                </p>
+                
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label for="data_exp">Selecione a Data do Passeio:</label>
+                        <input type="date" id="data_exp" name="data" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ingressos">Quantidade de Ingressos:</label>
+                        <input type="number" id="ingressos" name="pessoas" class="form-control" value="1" min="1" required>
+                    </div>
+                    <button type="submit" class="btn-confirmar" style="background-color: #066ef6;">Adquirir Ingressos</button>
+                </form>
+
             {% else %}
-                <!-- Alternativa Inteligente para Pontos Turísticos e Experiências -->
+                <!-- ESTADO 3: Guia para Pontos Turísticos Gratuitos (Preço == 0) -->
                 <h3>Guia de Visitação</h3>
                 
                 <div class="info-guia-item">
@@ -117,10 +140,13 @@
 
                 <div class="info-guia-item" style="margin-top: 15px;">
                     <p class="guia-label"><strong>💵 Custo estimado:</strong></p>
-                    <p class="guia-text">A maioria dos pontos públicos possui acesso gratuito. Verifique no local se há atividades pagas por perto.</p>
+                    <p class="guia-text">Este local possui acesso gratuito à comunidade e visitantes.</p>
                 </div>
 
                 <button onclick="window.history.back()" class="btn-voltar">Voltar para a Exploração</button>
             {% endif %}
         </div>
+
+    </div>
+</div>
 {% endblock %}
