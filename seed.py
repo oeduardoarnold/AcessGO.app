@@ -135,7 +135,7 @@ def popular_banco():
         Experiencia(nome="Orla do Guaíba", descricao="Revitalizada, ótima para caminhadas e ver o pôr do sol.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00),
         Experiencia(nome="Casa de Cultura Mario Quintana", descricao="Antigo hotel transformado em centro cultural contendo acervos.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00),
         Experiencia(nome="Memorial do Rio Grande do Sul", descricao="Preservação da história e cultura do estado.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00),
-        Experiencia(nome="Praça da Matriz", descricao="Coração político e histórico da capital.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00),
+        Experiencia(nome="Praça Marechal Deodoro (Praça da Matriz)", descricao="Coração político e histórico da capital.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00),
         Experiencia(nome="Parque Moinhos de Vento", descricao="Conhecido como Parcão, ideal para lazer.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00),
         # Experiências
         Experiencia(nome="Viva a atmosfera gremista!", descricao="Visita guiada ou dia de jogo na Arena do Grêmio.", cidade_id=poa.id, categoria="Experiencia", preco=40.00),
