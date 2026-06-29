@@ -640,10 +640,10 @@ figcaption{
   color: #333;
   font-weight: bold;
 }
-
 /*======================================================================
-    ALTERAÇOES DE ESTILOS PARA A PAGINA DE RESERVAS
+    ALTERAÇÕES DE ESTILOS PARA A PÁGINA DE RESERVAS (ATUALIZADO)
 =========================================================================*/
+
 /* Container que engloba toda a página para centralização geral */
 .wrapper-reserva-pagedolado {
     max-width: 1200px;
@@ -651,66 +651,69 @@ figcaption{
     padding: 0 20px;
 }
 
-/* Título alinhado com a extremidade esquerda da página */
-.titulo-fotos-topo {
-    margin-bottom: 20px;
+/* 1. SEÇÃO DO TOPO: Título Principal do Estabelecimento */
+.topo-nome-local {
+    margin-bottom: 25px;
+    width: 100%;
 }
 
-/* O container flex que alinha os topos das fotos e do card */
+.topo-nome-local h1 {
+    color: #1e5f38;
+    margin-bottom: 5px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.topo-nome-local .sub-text {
+    color: #666;
+    font-size: 15px;
+    margin: 0;
+}
+
+/* 2. ESTRUTURA PRINCIPAL: Alinhamento das Colunas */
 .container-reserva {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: flex-start; /* Força o alinhamento estrito pelo topo de ambos */
+    align-items: flex-start; /* Força o alinhamento estrito pelo topo da esquerda e direita */
     gap: 30px;
     width: 100%;
-    margin-bottom: 30px; /* Espaço para a seção de texto que vem abaixo */
 }
 
-/* Coluna da Esquerda (Fotos + Título) ocupando mais espaço */
+/* Coluna da Esquerda (Grids de Fotos + Card de Recursos Técnicos) */
 .coluna-detalhes {
     flex: 2;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px; /* Distância uniforme e limpa entre cada bloco vertical */
 }
 
-/* Estilização do Título do Topo das Fotos */
-.titulo-fotos-topo {
-    margin-bottom: 15px; /* Espaço entre o título e o início das fotos */
-}
-
-.titulo-fotos-topo h1 {
-    font-size: 24px;
+/* Títulos internos de cada Grid de Fotos */
+.titulo-grid {
+    font-size: 20px;
     color: #333333;
     font-weight: 700;
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 15px;
 }
 
-/* Deixa o texto de dentro dos parênteses mais suave e leve */
-.titulo-fotos-topo h1 span {
-    font-size: 18px;
-    color: #666666;
-    font-weight: 400;
-    margin-left: 5px;
-}
-
-/* O Mini Grid de Fotos dentro da coluna da esquerda */
+/* 3. COMPONENTE: Grid de Imagens (Reutilizável para Acessibilidade e Espaços) */
 .photo-grid-container {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 8px;
-    height: 350px; /* Reduzi um pouco a altura para harmonizar com o card lateral */
+    height: 350px; /* Altura harmonizada com o card de pagamento lateral */
     border-radius: 12px;
     overflow: hidden;
-    margin-bottom: 20px;
-    box-shadow: #066ef678 0px 4px 8px;
+    box-shadow: #066ef62b 0px 4px 12px; /* Sombra leve para suavizar o visual azul */
 }
 
 .photo-grid-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    box-shadow: #066ef678 0px 4px 8px;
 }
 
 .grid-main {
@@ -722,38 +725,105 @@ figcaption{
     position: relative;
 }
 
-/* Filtros visuais para simular fotos diferentes */
-.filter-bright { filter: brightness(1.1) contrast(1.05); }
-.filter-warm { filter: sepia(0.15) saturate(1.1); }
-.filter-cool { filter: hue-rotate(8deg) brightness(0.95); }
-.filter-dark { filter: brightness(0.7); }
-
-/* Seção de texto posicionada logo abaixo dos blocos */
-.info-hotel-secao {
-    width: 100%;
-    margin-top: 10px;
+/* Botão "Mostrar Todas" sobreposto na última imagem do grid */
+.btn-ver-todas-container {
+    position: relative;
 }
 
-/* Seção de Texto abaixo da Foto */
-.info-hotel-secao h2 {
+.btn-ver-todas-container img {
+    filter: brightness(0.5); /* Escurece a última foto de fundo para destacar o botão */
+}
+
+.btn-mostrar-todas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.btn-mostrar-todas:hover {
+    background: #ffffff;
+}
+
+/* 4. COMPONENTE: Card com os Itens Técnicos de Acessibilidade */
+.card-info-acessibilidade {
+    background-color: #ffffff;
+    border: 1px solid #ebeeeb;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: #00000008 0px 4px 12px;
+}
+
+.card-info-acessibilidade h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
     color: #1e5f38;
-    margin-bottom: 5px;
-    font-size: 24px;
+    font-weight: 700;
 }
 
-.info-hotel-secao .sub-text {
-    color: #666;
+.lista-acessibilidade {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.lista-acessibilidade li {
+    display: flex;
+    align-items: center;
     font-size: 15px;
+    font-weight: 500;
 }
 
-/* COLUNA DA DIREITA: Card de Pagamento Estilizado */
+/* Estilos de badges/indicadores para itens disponíveis vs indisponíveis */
+.lista-acessibilidade li.disponivel {
+    color: #287c46;
+}
+
+.lista-acessibilidade li.indisponivel {
+    color: #999999;
+    text-decoration: line-through; /* Risca itens indisponíveis para facilitar filtros visuais */
+}
+
+/* Ícones dinâmicos via pseudo-elementos */
+.lista-acessibilidade li::before {
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.lista-acessibilidade li.disponivel::before {
+    content: "✓";
+}
+
+.lista-acessibilidade li.indisponivel::before {
+    content: "✕";
+}
+
+/* 5. COLUNA DA DIREITA: Card de Pagamento Lateral */
 .card-pagamento {
     flex: 1;
     background-color: #f9f9f9;
     border: 1px solid #ebeeeb;
     border-radius: 12px;
     padding: 25px;
-    box-shadow: #066ef678 0px 4px 8px;
+    box-shadow: #066ef62b 0px 4px 12px;
+    position: sticky;
+    align-self: center; /* Mantém o card centralizado verticalmente na coluna */
+    top: 20px; /* Mantém o card visível ao rolar a página pelos grids */
 }
 
 .card-pagamento h3 {
@@ -761,15 +831,16 @@ figcaption{
     margin-bottom: 20px;
     font-size: 18px;
     color: #333;
+    font-weight: 700;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 7px;
     font-weight: 600;
     font-size: 14px;
     color: #444;
@@ -777,10 +848,19 @@ figcaption{
 
 .form-control {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 10px 12px;
+    border: 1px solid #cccccc;
     border-radius: 6px;
     box-sizing: border-box;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    border-color: #287c46;
+    outline: none;
 }
 
 .btn-confirmar {
@@ -793,7 +873,7 @@ figcaption{
     font-weight: bold;
     border-radius: 6px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 5px;
     transition: background 0.2s;
 }
 
@@ -801,6 +881,57 @@ figcaption{
     background-color: #1e5f38;
 }
 
+/* Botão do Google Maps para Experiências */
+.btn-mapa {
+    display: block;
+    text-align: center;
+    background-color: #4285F4; /* Azul clássico do Google Maps */
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    margin-top: 8px;
+    transition: background 0.2s;
+}
+
+.btn-mapa:hover {
+    background-color: #357ae8;
+}
+
+/* Botão de Voltar */
+.btn-voltar {
+    width: 100%;
+    background-color: #666666;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.2s;
+}
+
+.btn-voltar:hover {
+    background-color: #444444;
+}
+
+/* Textos informativos do guia */
+.info-guia-item .guia-label {
+    font-size: 14px;
+    margin-bottom: 3px;
+    color: #333;
+}
+
+.info-guia-item .guia-text {
+    font-size: 13.5px;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+}
 /* Responsividade para Telas Pequenas (Celular) */
 @media (max-width: 768px) {
     .container-reserva {
