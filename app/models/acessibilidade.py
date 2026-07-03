@@ -4,6 +4,7 @@ class Acessibilidade(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     hotel_id = db.Column(db.Integer, db.ForeignKey('hotel.id'))
+    experiencia_id = db.Column(db.Integer, db.ForeignKey('experiencia.id'))
 
     rampa = db.Column(db.Boolean, default=False)
     elevador = db.Column(db.Boolean, default=False)
