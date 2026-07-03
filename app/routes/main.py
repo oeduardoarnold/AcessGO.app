@@ -121,6 +121,10 @@ def detalhe_reserva(tipo, item_id):
                 item_nome = hotel.nome
                 preco_item = hotel.preco  # <-- Busca o preço mapeado no Banco
                 acessibilidade = Acessibilidade.query.filter_by(hotel_id=hotel.id).first()
+                # Coleta as coordenadas reais do banco se elas existirem
+                if hotel.latitude and hotel.longitude:
+                    lat = hotel.latitude
+                    lng = hotel.longitude
             else:
                 item_nome = nomes_hoteis.get(item_id, f"Hotel {item_id}")
                 acessibilidade = Acessibilidade.query.filter_by(hotel_id=item_id).first()
@@ -146,6 +150,10 @@ def detalhe_reserva(tipo, item_id):
             if exp:
                 item_nome = exp.nome
                 preco_item = exp.preco  # <-- Busca o preço mapeado no Banco (0.00 para grátis)
+                # Coleta as coordenadas reais do banco se elas existirem
+                if exp.latitude and exp.longitude:
+                    lat = exp.latitude
+                    lng = exp.longitude
             else:
                 item_nome = nomes_experiencias.get(item_id, f"Experiência {item_id}")
         except Exception:
@@ -179,4 +187,6 @@ def detalhe_reserva(tipo, item_id):
                            nome=item_nome,
                            imagem=item_imagem,
                            acessibilidade=acessibilidade,
-                           preco_item=preco_item)  # <-- Enviado com sucesso ao Jinja
+                           preco_item=preco_item,
+                           lat=lat,        # <-- Enviado com sucesso ao Jinja
+                           lng=lng)        # <-- Enviado com sucesso ao Jinja

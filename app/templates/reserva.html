@@ -7,6 +7,9 @@
 {% endblock %}
 
 {% block content %}
+<!-- Importação do CSS do Leaflet para renderizar o mapa corretamente -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
 <div class="wrapper-reserva-pagedolado">
     
     <!-- 1. Nome do Local no Topo -->
@@ -79,6 +82,12 @@
                 </div>
             </div>
 
+            <!-- SEÇÃO ADICIONADA: Localização no Mapa -->
+            <div class="secao-mapa" style="margin-top: 30px;">
+                <h2 class="titulo-grid">Localização</h2>
+                <div id="map" style="width: 100%; height: 350px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-top: 15px; z-index: 1;"></div>
+            </div>
+
         </div>
 
         <!-- COLUNA DA DIREITA: Card Dinâmico Triplo (Hotel vs Experiência Paga vs Gratuito) -->
@@ -112,7 +121,7 @@
                 <form method="POST" action="">
                     <div class="form-group">
                         <label for="data_exp">Selecione a Data do Passeio:</label>
-                        <input type="date" id="data_exp" name="data" class="form-control" required>
+                        <input type="date" id="date" name="data" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="ingressos">Quantidade de Ingressos:</label>
@@ -124,15 +133,6 @@
             {% else %}
                 <!-- ESTADO 3: Guia para Pontos Turísticos Gratuitos (Preço == 0) -->
                 <h3>Guia de Visitação</h3>
-                
-                <div class="info-guia-item">
-                    <p class="guia-label"><strong>📍 Como chegar:</strong></p>
-                    <p class="guia-text">Consulte a melhor rota para visitar este local durante sua viagem.</p>
-                    <a href="https://www.google.com/maps/search/?api=1&query={{ nome|urlencode }}" target="_blank" class="btn-mapa">
-                        Ver no Google Maps
-                    </a>
-                </div>
-
                 <div class="info-guia-item" style="margin-top: 15px;">
                     <p class="guia-label"><strong>⏰ Melhor Horário:</strong></p>
                     <p class="guia-text">Recomendamos a visitação durante o dia para aproveitar melhor os espaços e registrar belas fotos.</p>
@@ -149,4 +149,28 @@
 
     </div>
 </div>
+
+<!-- Scripts do Leaflet para carregar o mapa dinamicamente usando as variáveis enviadas pelo Python -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Captura a latitude e longitude injetadas pelo Flask
+        var lat = {{ lat }};
+        var lng = {{ lng }};
+        var localNome = "{{ nome }}";
+
+        // Inicializa o mapa focado nas coordenadas do local
+        var map = L.map('map').setView([lat, lng], 15);
+
+        // Carrega a camada visual do OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Adiciona um marcador exatamente no ponto correto com um pop-up contendo o nome do local
+        L.marker([lat, lng]).addTo(map)
+            .bindPopup('<b>' + localNome + '</b><br>Coordenadas: ' + lat + ', ' + lng)
+            .openPopup();
+    });
+</script>
 {% endblock %}

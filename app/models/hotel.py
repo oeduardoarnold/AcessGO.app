@@ -12,3 +12,6 @@ class Hotel(db.Model):
     preco = db.Column(db.Float, nullable=True, default=0.00)
 
     acessibilidade = db.relationship('Acessibilidade', backref='hotel', uselist=False)
+    
+    latitude = db.Column(db.Float, nullable=True)
+    longitude = db.Column(db.Float, nullable=True)

@@ -10,3 +10,6 @@ class Experiencia(db.Model):
     categoria = db.Column(db.String(50))
     
     preco = db.Column(db.Float, nullable=True, default=0.00)
+    
+    latitude = db.Column(db.Float, nullable=True)
+    longitude = db.Column(db.Float, nullable=True)
