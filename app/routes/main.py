@@ -90,7 +90,7 @@ def destinos(destino):
 
 
 @main_bp.route('/reserva/<string:tipo>/<int:item_id>', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def detalhe_reserva(tipo, item_id):
     item_nome = ""
     item_imagem = ""

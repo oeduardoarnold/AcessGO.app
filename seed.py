@@ -20,39 +20,39 @@ def popular_banco():
 
     # Hotéis - Bento (Adicionado preco, latitude e longitude)
     hoteis_bento = [
-        Hotel(nome="Pousada Pipas Terroir", descricao="Hospedagem charmosa em pipas de vinho.", cidade_id=bento.id, endereco="Vale dos Vinhedos", telefone="(54) 9999-0001", preco=350.00, latitude=-29.1723, longitude=-51.5645),
-        Hotel(nome="Döra Experience", descricao="Cabanas modernas e imersivas.", cidade_id=bento.id, endereco="Linha Leopoldina", telefone="(54) 9999-0002", preco=420.00, latitude=-29.1654, longitude=-51.5712),
-        Hotel(nome="Budget Farroupilha", descricao="Hotel prático e econômico.", cidade_id=bento.id, endereco="Centro", telefone="(54) 9999-0003", preco=180.00, latitude=-29.1691, longitude=-51.5184),
-        Hotel(nome="Hotel Bem-Te-Vi", descricao="Acolhedor e cercado pela natureza.", cidade_id=bento.id, endereco="Caminhos de Pedra", telefone="(54) 9999-0004", preco=260.00, latitude=-29.1022, longitude=-51.5039),
-        Hotel(nome="Spa do Vinho Condomínio", descricao="Hotel de luxo e bem-estar no vale.", cidade_id=bento.id, endereco="Vale dos Vinhedos", telefone="(54) 9999-0005", preco=680.00, latitude=-29.1785, longitude=-51.5548)
+        Hotel(nome="Pousada Pipas Terroir", descricao="Hospedagem charmosa em pipas de vinho.", cidade_id=bento.id, endereco="Vale dos Vinhedos", telefone="(54) 9999-0001", preco=1350.00, latitude=-29.1764, longitude=-51.5727),
+        Hotel(nome="Döra Experience", descricao="Cabanas modernas e imersivas.", cidade_id=bento.id, endereco="Linha Leopoldina", telefone="(54) 9999-0002", preco=420.00, latitude=-29.1670, longitude=-51.5583),
+        Hotel(nome="Budget Farroupilha", descricao="Hotel prático e econômico.", cidade_id=bento.id, endereco="Centro", telefone="(54) 9999-0003", preco=215.00, latitude=-29.221822, longitude=-51.334116),
+        Hotel(nome="Hotel Bem-Te-Vi", descricao="Acolhedor e cercado pela natureza.", cidade_id=bento.id, endereco="Caminhos de Pedra", telefone="(54) 9999-0004", preco=260.00, latitude=-29.173626, longitude=-51.344823),
+        Hotel(nome="Spa do Vinho Condomínio", descricao="Hotel de luxo e bem-estar no vale.", cidade_id=bento.id, endereco="Vale dos Vinhedos", telefone="(54) 9999-0005", preco=680.00, latitude=-29.186916, longitude=-51.580977)
     ]
     db.session.add_all(hoteis_bento)
     db.session.commit()
 
     # Acessibilidade Real dos Hotéis de Bento
     db.session.add_all([
-        Acessibilidade(hotel_id=hoteis_bento[0].id, rampa=False, elevador=False, banheiro_acessivel=False),
-        Acessibilidade(hotel_id=hoteis_bento[1].id, rampa=True, elevador=False, banheiro_acessivel=True),
-        Acessibilidade(hotel_id=hoteis_bento[2].id, rampa=True, elevador=True, banheiro_acessivel=True),
-        Acessibilidade(hotel_id=hoteis_bento[3].id, rampa=False, elevador=False, banheiro_acessivel=False),
-        Acessibilidade(hotel_id=hoteis_bento[4].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=True)
+        Acessibilidade(hotel_id=hoteis_bento[0].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(hotel_id=hoteis_bento[1].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(hotel_id=hoteis_bento[2].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(hotel_id=hoteis_bento[3].id, rampa=False, elevador=False, banheiro_acessivel=False, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(hotel_id=hoteis_bento[4].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=True, piso_tatil=False, braille=False)
     ])
     db.session.commit()
 
     # Pontos Turísticos e Experiências - Bento (Adicionado preco, latitude e longitude)
     db.session.add_all([
         # Pontos Turísticos
-        Experiencia(nome="Vale del Vino", descricao="Vinícolas e belas paisagens.", cidade_id=bento.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.1687, longitude=-51.5492),
-        Experiencia(nome="Parque da Ovelha", descricao="Vivência da rotina de uma fazenda.", cidade_id=bento.id, categoria="Ponto Turistico", preco=90.00, latitude=-29.1009, longitude=-51.5025),
-        Experiencia(nome="Parque Temático Epopeia Italiana", descricao="Espetáculo teatral sobre a imigração.", cidade_id=bento.id, categoria="Ponto Turistico", preco=35.00, latitude=-29.1632, longitude=-51.5273),
-        Experiencia(nome="Pipa Pórtico", descricao="Entrada principal da cidade em formato de pipa.", cidade_id=bento.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.1869, longitude=-51.5147),
-        Experiencia(nome="Vale do Rio das Antas", descricao="Mirantes e paisagens exuberantes.", cidade_id=bento.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.0558, longitude=-51.5342),
+        Experiencia(nome="Vale del Vino", descricao="Vinícolas e belas paisagens.", cidade_id=bento.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.166969, longitude=-51.517234),
+        Experiencia(nome="Parque da Ovelha", descricao="Vivência da rotina de uma fazenda.", cidade_id=bento.id, categoria="Ponto Turistico", preco=90.00, latitude=-29.176599, longitude=-51.432329),
+        Experiencia(nome="Parque Temático Epopeia Italiana", descricao="Espetáculo teatral sobre a imigração.", cidade_id=bento.id, categoria="Ponto Turistico", preco=35.00, latitude=-29.172771, longitude=-51.518435),
+        Experiencia(nome="Pipa Pórtico", descricao="Entrada principal da cidade em formato de pipa.", cidade_id=bento.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.174589, longitude=-51.521786),
+        Experiencia(nome="Belvedere Vale Das Antas", descricao="Mirantes e paisagens exuberantes.", cidade_id=bento.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.050711, longitude=-51.582610),
         # Experiências
-        Experiencia(nome="Faça um passeio de maria fumaça!", descricao="Passeio de trem a vapor com música e degustação.", cidade_id=bento.id, categoria="Experiencia", preco=178.00, latitude=-29.1630, longitude=-51.5271),
-        Experiencia(nome="Conheça o preparo tradicional do chimarrão", descricao="Aprenda a fazer a bebida típica dos gaúchos.", cidade_id=bento.id, categoria="Experiencia", preco=0.00, latitude=-29.1699, longitude=-51.5178),
-        Experiencia(nome="Piquenique nos vinhedos", descricao="Tarde relaxante com frios e vinhos locais.", cidade_id=bento.id, categoria="Experiencia", preco=120.00, latitude=-29.1752, longitude=-51.5583),
-        Experiencia(nome="Viva a aventura e adrenalina com voo de balão", descricao="Vista panorâmica incrível da região.", cidade_id=bento.id, categoria="Experiencia", preco=450.00, latitude=-29.1583, longitude=-51.5050),
-        Experiencia(nome="Experiência única no Parque Caminhos da Aventura", descricao="Atividades ao ar livre e ecoturismo.", cidade_id=bento.id, categoria="Experiencia", preco=60.00, latitude=-29.0711, longitude=-51.4872)
+        Experiencia(nome="Maria fumaça (Trem do Vinho)", descricao="Passeio de trem a vapor com música e degustação.", cidade_id=bento.id, categoria="Experiencia", preco=178.00, latitude=-29.173507, longitude=-51.517621),
+        Experiencia(nome="Casa da Erva Mate", descricao="Aprenda a fazer a bebida típica dos gaúchos.", cidade_id=bento.id, categoria="Experiencia", preco=0.00, latitude=-29.177126, longitude=-51.407422),
+        Experiencia(nome="Complexo Turistico Casa Valduga", descricao="Tarde relaxante com frios e vinhos locais.", cidade_id=bento.id, categoria="Experiencia", preco=120.00, latitude=-29.179754, longitude=-51.5566399),
+        Experiencia(nome="Vinícula Miolo", descricao="Vista panorâmica incrível da região.", cidade_id=bento.id, categoria="Experiencia", preco=450.00, latitude=-29.184122, longitude=-51.582642),
+        Experiencia(nome="Parque Caminhos da Aventura", descricao="Atividades ao ar livre e ecoturismo.", cidade_id=bento.id, categoria="Experiencia", preco=60.00, latitude=-29.175126, longitude=-51.427737)
     ])
 
 
@@ -65,38 +65,38 @@ def popular_banco():
 
     # Hotéis - Gramado (Adicionado preco, latitude e longitude)
     hoteis_gramado = [
-        Hotel(nome="Hotel Valle D’incanto", descricao="Considerado um dos hotéis mais românticos.", cidade_id=gramado.id, endereco="Av. Borges de Medeiros", telefone="(54) 8888-0001", preco=550.00, latitude=-29.3621, longitude=-50.8647),
-        Hotel(nome="Hotel Ritta Höppner", descricao="Tradicional, charmoso e com chalés.", cidade_id=gramado.id, endereco="Planalto", telefone="(54) 8888-0002", preco=490.00, latitude=-29.3828, longitude=-50.8793),
-        Hotel(nome="WoodStone Gramado Hotel", descricao="Design moderno em madeira e pedra.", cidade_id=gramado.id, endereco="Centro", telefone="(54) 8888-0003", preco=380.00, latitude=-29.3754, longitude=-50.8711),
-        Hotel(nome="Exclusive Gramado", descricao="Conforto e sofisticação com bandeira Atlantica.", cidade_id=gramado.id, endereco="Av. das Hortênsias", telefone="(54) 8888-0004", preco=420.00, latitude=-29.3663, longitude=-50.8592),
-        Hotel(nome="Buona Vitta Gramado", descricao="Inspirado na região da Toscana, Itália.", cidade_id=gramado.id, endereco="Estrada da Carazal", telefone="(54) 8888-0005", preco=620.00, latitude=-29.3951, longitude=-50.8936)
+        Hotel(nome="Hotel Valle D’incanto", descricao="Considerado um dos hotéis mais românticos.", cidade_id=gramado.id, endereco="Av. Borges de Medeiros", telefone="(54) 8888-0001", preco=550.00, latitude=-29.365108, longitude=-50.858427),
+        Hotel(nome="Hotel Ritta Höppner", descricao="Tradicional, charmoso e com chalés.", cidade_id=gramado.id, endereco="Planalto", telefone="(54) 8888-0002", preco=490.00, latitude=-29.384691, longitude=-50.876620),
+        Hotel(nome="WoodStone Gramado Hotel", descricao="Design moderno em madeira e pedra.", cidade_id=gramado.id, endereco="Centro", telefone="(54) 8888-0003", preco=380.00, latitude=-29.355266, longitude=-50.885899),
+        Hotel(nome="Exclusive Gramado", descricao="Conforto e sofisticação com bandeira Atlantica.", cidade_id=gramado.id, endereco="Av. das Hortênsias", telefone="(54) 8888-0004", preco=420.00, latitude=-29.366573, longitude=-50.860135),
+        Hotel(nome="Buona Vitta Gramado", descricao="Inspirado na região da Toscana, Itália.", cidade_id=gramado.id, endereco="Estrada da Carazal", telefone="(54) 8888-0005", preco=620.00, latitude=-29.366294, longitude=-50.858040)
     ]
     db.session.add_all(hoteis_gramado)
     db.session.commit()
 
     # Acessibilidade Real dos Hotéis de Gramado
     db.session.add_all([
-        Acessibilidade(hotel_id=hoteis_gramado[0].id, rampa=True, elevador=True, banheiro_acessivel=True),
-        Acessibilidade(hotel_id=hoteis_gramado[1].id, rampa=True, elevador=True, banheiro_acessivel=True),
-        Acessibilidade(hotel_id=hoteis_gramado[2].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=True),
-        Acessibilidade(hotel_id=hoteis_gramado[3].id, rampa=True, elevador=True, banheiro_acessivel=True, piso_tatil=True, braille=True),
-        Acessibilidade(hotel_id=hoteis_gramado[4].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=True)
+        Acessibilidade(hotel_id=hoteis_gramado[0].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(hotel_id=hoteis_gramado[1].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(hotel_id=hoteis_gramado[2].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=True, piso_tatil=False, braille=False),
+        Acessibilidade(hotel_id=hoteis_gramado[3].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=True, braille=True),
+        Acessibilidade(hotel_id=hoteis_gramado[4].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=True, piso_tatil=False, braille=False)
     ])
     db.session.commit()
 
     # Pontos Turísticos e Experiências - Gramado (Adicionado preco, latitude e longitude)
     db.session.add_all([
         # Pontos Turísticos
-        Experiencia(nome="Lago Negro", descricao="Lago artificial cercado por árvores da Floresta Negra.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.3923, longitude=-50.8847),
-        Experiencia(nome="Mini Mundo", descricao="Parque de miniaturas detalhadas ao ar livre.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=56.00, latitude=-29.3815, longitude=-50.8781),
-        Experiencia(nome="Rua Coberta", descricao="Centro gastronômico e de compras coberto.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.3751, longitude=-50.8741),
-        Experiencia(nome="Snowland", descricao="Primeiro parque de neve indoor das Américas.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=169.00, latitude=-29.4011, longitude=-50.9169),
-        Experiencia(nome="Museu de Cera Dreamland", descricao="Réplicas de cera de ícones da cultura pop.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=90.00, latitude=-29.3524, longitude=-50.8449),
+        Experiencia(nome="Lago Negro", descricao="Lago artificial cercado por árvores da Floresta Negra.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.395, longitude=-50.8761),
+        Experiencia(nome="Mini Mundo", descricao="Parque de miniaturas detalhadas ao ar livre.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=56.00, latitude=-29.384296, longitude=-50.875917),
+        Experiencia(nome="Rua Coberta", descricao="Centro gastronômico e de compras coberto.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.378725, longitude=-50.873594),
+        Experiencia(nome="Snowland", descricao="Primeiro parque de neve indoor das Américas.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=169.00, latitude=-29.344159, longitude=-50.922031),
+        Experiencia(nome="Museu de Cera Dreamland", descricao="Réplicas de cera de ícones da cultura pop.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=90.00, latitude=-29.361147, longitude=-50.848640),
         # Experiências
-        Experiencia(nome="Viva o natal em gramado", descricao="Espetáculos lúdicos e iluminação do Natal Luz.", cidade_id=gramado.id, categoria="Experiencia", preco=0.00, latitude=-29.3732, longitude=-50.8765),
-        Experiencia(nome="Se impressione com carros antigos e clássicos de Hollywood!", descricao="Visita ao Hollywood Dream Cars.", cidade_id=gramado.id, categoria="Experiencia", preco=80.00, latitude=-29.3562, longitude=-50.8493),
-        Experiencia(nome="Experimente outro nível de gastronomia", descricao="O tradicional rodízio de fondue de Gramado.", cidade_id=gramado.id, categoria="Experiencia", preco=140.00, latitude=-29.3768, longitude=-50.8725),
-        Experiencia(nome="Parta para um dos cartões postais da Serra Gaúcha", descricao="Igreja Matriz São Pedro.", cidade_id=gramado.id, categoria="Experiencia", preco=0.00, latitude=-29.3752, longitude=-50.8732),
+        Experiencia(nome="Avenida Borges de Medeiros", descricao="Espetáculos lúdicos e iluminação do Natal Luz.", cidade_id=gramado.id, categoria="Experiencia", preco=0.00, latitude=-29.385462, longitude=-50.873908),
+        Experiencia(nome="Hollywood Dream Cars", descricao="Visita ao Hollywood Dream Cars.", cidade_id=gramado.id, categoria="Experiencia", preco=80.00, latitude=-29.365697, longitude=-50.859772),
+        Experiencia(nome="Cuccina Boniatto", descricao="A comida italina da serra gaúcha.", cidade_id=gramado.id, categoria="Experiencia", preco=140.00, latitude=-29.385618, longitude=-50.874234),
+        Experiencia(nome="Igreja Matriz São Pedro", descricao="Igreja Matriz São Pedro.", cidade_id=gramado.id, categoria="Experiencia", preco=0.00, latitude=-29.379762, longitude=-50.874564),
         Experiencia(nome="Tire fotos na Rua Torta", descricao="A famosa rua sinuosa e cheia de flores.", cidade_id=gramado.id, categoria="Experiencia", preco=0.00, latitude=-29.3789, longitude=-50.8762)
     ])
 
@@ -110,39 +110,39 @@ def popular_banco():
 
     # Hotéis - Porto Alegre (Adicionado preco, latitude e longitude)
     hoteis_poa = [
-        Hotel(nome="Hotel Master Cosmopolitan", descricao="Excelente localização no bairro Moinhos de Vento.", cidade_id=poa.id, endereco="Bairro Moinhos", telefone="(51) 7777-0001", preco=290.00, latitude=-30.0245, longitude=-51.2012),
-        Hotel(nome="Hotel Continental", descricao="Tradicional e próximo ao centro histórico.", cidade_id=poa.id, endereco="Largo Vespasiano", telefone="(51) 7777-0002", preco=240.00, latitude=-30.0232, longitude=-51.2189),
-        Hotel(nome="Plaza São Rafael", descricao="Clássico da hotelaria gaúcha com águas termais.", cidade_id=poa.id, endereco="Av. Alberto Bins", telefone="(51) 7777-0003", preco=310.00, latitude=-30.0271, longitude=-51.2215),
-        Hotel(nome="Double Tree by Hilton", descricao="Moderno e com vista deslumbrante para o Guaíba.", cidade_id=poa.id, endereco="Av. Padre Cacique", telefone="(51) 7777-0004", preco=450.00, latitude=-30.0556, longitude=-51.2384),
-        Hotel(nome="Hotel Laghetto Viverone Moinhos", descricao="Fusão de casarão histórico com torre moderna.", cidade_id=poa.id, endereco="Moinhos de Vento", telefone="(51) 7777-0005", preco=380.00, latitude=-30.0229, longitude=-51.2057)
+        Hotel(nome="Hotel Master Cosmopolitan", descricao="Excelente localização no bairro Moinhos de Vento.", cidade_id=poa.id, endereco="Bairro Moinhos", telefone="(51) 7777-0001", preco=290.00, latitude=-30.019142, longitude=-51.202192),
+        Hotel(nome="Hotel Continental", descricao="Tradicional e próximo ao centro histórico.", cidade_id=poa.id, endereco="Largo Vespasiano", telefone="(51) 7777-0002", preco=240.00, latitude=-30.023598, longitude=-51.218458),
+        Hotel(nome="Plaza São Rafael", descricao="Clássico da hotelaria gaúcha com águas termais.", cidade_id=poa.id, endereco="Av. Alberto Bins", telefone="(51) 7777-0003", preco=310.00, latitude=-30.028051, longitude=-51.221330),
+        Hotel(nome="Double Tree by Hilton", descricao="Moderno e com vista deslumbrante para o Guaíba.", cidade_id=poa.id, endereco="Av. Padre Cacique", telefone="(51) 7777-0004", preco=450.00, latitude=-30.079790, longitude=-51.248368),
+        Hotel(nome="Hotel Laghetto Viverone Moinhos", descricao="Fusão de casarão histórico com torre moderna.", cidade_id=poa.id, endereco="Moinhos de Vento", telefone="(51) 7777-0005", preco=380.00, latitude=-30.027110, longitude=-51.206295)
     ]
     db.session.add_all(hoteis_poa)
     db.session.commit()
 
     # Acessibilidade Real dos Hotéis de Porto Alegre
     db.session.add_all([
-        Acessibilidade(hotel_id=hoteis_poa[0].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=True),
-        Acessibilidade(hotel_id=hoteis_poa[1].id, rampa=True, elevador=True, banheiro_acessivel=True),
-        Acessibilidade(hotel_id=hoteis_poa[2].id, rampa=True, elevador=True, banheiro_acessivel=True, piso_tatil=True),
-        Acessibilidade(hotel_id=hoteis_poa[3].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=True, sinalizacao_visual=True),
-        Acessibilidade(hotel_id=hoteis_poa[4].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=True)
+        Acessibilidade(hotel_id=hoteis_poa[0].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=True, sinalizacao_visual=True, piso_tatil=True),
+        Acessibilidade(hotel_id=hoteis_poa[1].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=False, sinalizacao_visual=False, piso_tatil=False),
+        Acessibilidade(hotel_id=hoteis_poa[2].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=False, sinalizacao_visual=False, piso_tatil=True),
+        Acessibilidade(hotel_id=hoteis_poa[3].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=True, sinalizacao_visual=True, piso_tatil=False),
+        Acessibilidade(hotel_id=hoteis_poa[4].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=False, sinalizacao_visual=True, piso_tatil=False)
     ])
     db.session.commit()
 
     # Pontos Turísticos e Experiências - Porto Alegre (Adicionado preco, latitude e longitude)
     db.session.add_all([
         # Pontos Turísticos
-        Experiencia(nome="Orla do Guaíba", descricao="Revitalizada, ótima para caminhadas e ver o pôr do sol.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.0368, longitude=-51.2421),
-        Experiencia(nome="Casa de Cultura Mario Quintana", descricao="Antigo hotel transformado em centro cultural contendo acervos.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.0326, longitude=-51.2344),
-        Experiencia(nome="Memorial do Rio Grande do Sul", descricao="Preservação da história e cultura do estado.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.0295, longitude=-51.2292),
-        Experiencia(nome="Praça Marechal Deodoro (Praça da Matriz)", descricao="Coração político e histórico da capital.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.0339, longitude=-51.2301),
-        Experiencia(nome="Parque Moinhos de Vento", descricao="Conhecido como Parcão, ideal para lazer.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.0248, longitude=-51.2039),
+        Experiencia(nome="Orla do Guaíba", descricao="Revitalizada, ótima para caminhadas e ver o pôr do sol.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.055655, longitude=-51.233814),
+        Experiencia(nome="Casa de Cultura Mario Quintana", descricao="Antigo hotel transformado em centro cultural contendo acervos.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.030967, longitude=-51.234467),
+        Experiencia(nome="Memorial do Rio Grande do Sul", descricao="Preservação da história e cultura do estado.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.028419, longitude=-51.230975),
+        Experiencia(nome="Praça Marechal Deodoro (Praça da Matriz)", descricao="Coração político e histórico da capital.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.032848, longitude=-51.230231),
+        Experiencia(nome="Parque Moinhos de Vento", descricao="Conhecido como Parcão, ideal para lazer.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.026756, longitude=-51.200683),
         # Experiências
-        Experiencia(nome="Viva a atmosfera gremista!", descricao="Visita guiada ou dia de jogo na Arena do Grêmio.", cidade_id=poa.id, categoria="Experiencia", preco=40.00, latitude=-29.9741, longitude=-51.1948),
-        Experiencia(nome="Veleje pelo Guaíba", descricao="Passeio de barco pegando a brisa da lagoa.", cidade_id=poa.id, categoria="Experiencia", preco=65.00, latitude=-30.0345, longitude=-51.2443),
-        Experiencia(nome="Explore a gastronomia local!", descricao="Churrascarias tradicionais da capital gaúcha.", cidade_id=poa.id, categoria="Experiencia", preco=0.00, latitude=-30.0291, longitude=-51.2078),
-        Experiencia(nome="Assista a um espetáculo no histórico Theatro São Pedro", descricao="Um dos palcos mais antigos e imponentes.", cidade_id=poa.id, categoria="Experiencia", preco=50.00, latitude=-30.0333, longitude=-51.2309),
-        Experiencia(nome="Entre na arte da cidade", descricao="Visita à Fundação Iberê Camargo.", cidade_id=poa.id, categoria="Experiencia", preco=0.00, latitude=-30.0801, longitude=-51.2486)
+        Experiencia(nome="Arena do Grêmio", descricao="Visita na Arena do Grêmio.", cidade_id=poa.id, categoria="Experiencia", preco=40.00, latitude=-29.973823, longitude=-51.194850),
+        Experiencia(nome="Veleje no Guaíba", descricao="Passeio de barco pegando a brisa da lagoa.", cidade_id=poa.id, categoria="Experiencia", preco=65.00, latitude=-30.097162, longitude=-51.256186),
+        Experiencia(nome="Explore a gastronomia local!", descricao="Churrascaria Santo Antônio.", cidade_id=poa.id, categoria="Experiencia", preco=0.00, latitude=-30.018058, longitude=-51.201348),
+        Experiencia(nome="Theatro São Pedro", descricao="Um dos palcos mais antigos e imponentes.", cidade_id=poa.id, categoria="Experiencia", preco=50.00, latitude=-30.0311797, longitude=-51.230478),
+        Experiencia(nome="Fundação Iberê Camargo", descricao="Fundação Iberê Camargo.", cidade_id=poa.id, categoria="Experiencia", preco=0.00, latitude=-30.077559, longitude=-51.245748)
     ])
 
     # Salva de forma definitiva no Banco tudo o que sobreu pendente
