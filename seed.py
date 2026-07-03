@@ -39,8 +39,8 @@ def popular_banco():
     ])
     db.session.commit()
 
-    # Pontos Turísticos e Experiências - Bento (Adicionado preco, latitude e longitude)
-    db.session.add_all([
+    # Pontos Turísticos e Experiências - Bento (Colocado em lista para capturar IDs)
+    exps_bento = [
         # Pontos Turísticos
         Experiencia(nome="Vale del Vino", descricao="Vinícolas e belas paisagens.", cidade_id=bento.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.166969, longitude=-51.517234),
         Experiencia(nome="Parque da Ovelha", descricao="Vivência da rotina de uma fazenda.", cidade_id=bento.id, categoria="Ponto Turistico", preco=90.00, latitude=-29.176599, longitude=-51.432329),
@@ -53,7 +53,23 @@ def popular_banco():
         Experiencia(nome="Complexo Turistico Casa Valduga", descricao="Tarde relaxante com frios e vinhos locais.", cidade_id=bento.id, categoria="Experiencia", preco=120.00, latitude=-29.179754, longitude=-51.5566399),
         Experiencia(nome="Vinícula Miolo", descricao="Vista panorâmica incrível da região.", cidade_id=bento.id, categoria="Experiencia", preco=450.00, latitude=-29.184122, longitude=-51.582642),
         Experiencia(nome="Parque Caminhos da Aventura", descricao="Atividades ao ar livre e ecoturismo.", cidade_id=bento.id, categoria="Experiencia", preco=60.00, latitude=-29.175126, longitude=-51.427737)
+    ]
+    db.session.add_all(exps_bento)
+    db.session.commit()
+
+    # Acessibilidade das Experiências de Bento
+    db.session.add_all([
+        # exps_bento[1] é o "Parque da Ovelha"
+        Acessibilidade(experiencia_id=exps_bento[1].id, rampa=True, elevador=False, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(experiencia_id=exps_bento[2].id, rampa=True, elevador=False, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(experiencia_id=exps_bento[4].id, rampa=True, elevador=False, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(experiencia_id=exps_bento[5].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(experiencia_id=exps_bento[6].id, rampa=True, elevador=False, banheiro_acessivel=True, sinalizacao_visual=True, piso_tatil=False, braille=True),
+        Acessibilidade(experiencia_id=exps_bento[7].id, rampa=True, elevador=False, banheiro_acessivel=True, sinalizacao_visual=True, piso_tatil=False, braille=True),
+        Acessibilidade(experiencia_id=exps_bento[8].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(experiencia_id=exps_bento[9].id, rampa=True, elevador=False, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False)
     ])
+    db.session.commit()
 
 
     # ==========================================
@@ -84,8 +100,8 @@ def popular_banco():
     ])
     db.session.commit()
 
-    # Pontos Turísticos e Experiências - Gramado (Adicionado preco, latitude e longitude)
-    db.session.add_all([
+    # Pontos Turísticos e Experiências - Gramado (Colocado em lista para capturar IDs)
+    exps_gramado = [
         # Pontos Turísticos
         Experiencia(nome="Lago Negro", descricao="Lago artificial cercado por árvores da Floresta Negra.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=0.00, latitude=-29.395, longitude=-50.8761),
         Experiencia(nome="Mini Mundo", descricao="Parque de miniaturas detalhadas ao ar livre.", cidade_id=gramado.id, categoria="Ponto Turistico", preco=56.00, latitude=-29.384296, longitude=-50.875917),
@@ -98,7 +114,21 @@ def popular_banco():
         Experiencia(nome="Cuccina Boniatto", descricao="A comida italina da serra gaúcha.", cidade_id=gramado.id, categoria="Experiencia", preco=140.00, latitude=-29.385618, longitude=-50.874234),
         Experiencia(nome="Igreja Matriz São Pedro", descricao="Igreja Matriz São Pedro.", cidade_id=gramado.id, categoria="Experiencia", preco=0.00, latitude=-29.379762, longitude=-50.874564),
         Experiencia(nome="Tire fotos na Rua Torta", descricao="A famosa rua sinuosa e cheia de flores.", cidade_id=gramado.id, categoria="Experiencia", preco=0.00, latitude=-29.3789, longitude=-50.8762)
+    ]
+    db.session.add_all(exps_gramado)
+    db.session.commit()
+
+    # Acessibilidade das Experiências de Gramado
+    db.session.add_all([
+        # exps_gramado[1] é o "Mini Mundo"
+        Acessibilidade(experiencia_id=exps_gramado[1].id, rampa=True, elevador=False, banheiro_acessivel=True, sinalizacao_visual=True, piso_tatil=False, braille=True),
+        Acessibilidade(experiencia_id=exps_gramado[3].id, rampa=True, elevador=True, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(experiencia_id=exps_gramado[4].id, rampa=True, elevador=False, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(experiencia_id=exps_gramado[6].id, rampa=True, elevador=False, banheiro_acessivel=True, sinalizacao_visual=False, piso_tatil=False, braille=False),
+        Acessibilidade(experiencia_id=exps_gramado[7].id, rampa=True, elevador=False, banheiro_acessivel=True, sinalizacao_visual=True, piso_tatil=False, braille=True),
+        
     ])
+    db.session.commit()
 
 
     # ==========================================
@@ -129,8 +159,8 @@ def popular_banco():
     ])
     db.session.commit()
 
-    # Pontos Turísticos e Experiências - Porto Alegre (Adicionado preco, latitude e longitude)
-    db.session.add_all([
+    # Pontos Turísticos e Experiências - Porto Alegre (Colocado em lista para capturar IDs)
+    exps_poa = [
         # Pontos Turísticos
         Experiencia(nome="Orla do Guaíba", descricao="Revitalizada, ótima para caminhadas e ver o pôr do sol.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.055655, longitude=-51.233814),
         Experiencia(nome="Casa de Cultura Mario Quintana", descricao="Antigo hotel transformado em centro cultural contendo acervos.", cidade_id=poa.id, categoria="Ponto Turistico", preco=0.00, latitude=-30.030967, longitude=-51.234467),
@@ -140,19 +170,32 @@ def popular_banco():
         # Experiências
         Experiencia(nome="Arena do Grêmio", descricao="Visita na Arena do Grêmio.", cidade_id=poa.id, categoria="Experiencia", preco=40.00, latitude=-29.973823, longitude=-51.194850),
         Experiencia(nome="Veleje no Guaíba", descricao="Passeio de barco pegando a brisa da lagoa.", cidade_id=poa.id, categoria="Experiencia", preco=65.00, latitude=-30.097162, longitude=-51.256186),
-        Experiencia(nome="Explore a gastronomia local!", descricao="Churrascaria Santo Antônio.", cidade_id=poa.id, categoria="Experiencia", preco=0.00, latitude=-30.018058, longitude=-51.201348),
+        Experiencia(nome="Churrascaria Santo Antônio.", descricao="Experiência de churrasco em um ambiente acolhedor.", cidade_id=poa.id, categoria="Experiencia", preco=0.00, latitude=-30.018058, longitude=-51.201348),
         Experiencia(nome="Theatro São Pedro", descricao="Um dos palcos mais antigos e imponentes.", cidade_id=poa.id, categoria="Experiencia", preco=50.00, latitude=-30.0311797, longitude=-51.230478),
         Experiencia(nome="Fundação Iberê Camargo", descricao="Fundação Iberê Camargo.", cidade_id=poa.id, categoria="Experiencia", preco=0.00, latitude=-30.077559, longitude=-51.245748)
-    ])
-
-    # Salva de forma definitiva no Banco tudo o que sobreu pendente
+    ]
+    db.session.add_all(exps_poa)
     db.session.commit()
+
+    # Acessibilidade das Experiências de Porto Alegre
+    db.session.add_all([
+        # exps_poa[0] é a "Orla do Guaíba"
+        Acessibilidade(experiencia_id=exps_poa[0].id, rampa=True, elevador=False, banheiro_acessivel=True, braille=False, sinalizacao_visual=True, piso_tatil=True),
+        # exps_poa[1] é a "Casa de Cultura Mario Quintana"
+        Acessibilidade(experiencia_id=exps_poa[1].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=True, sinalizacao_visual=True, piso_tatil=True),
+        Acessibilidade(experiencia_id=exps_poa[2].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=True, sinalizacao_visual=True, piso_tatil=True),
+        Acessibilidade(experiencia_id=exps_poa[5].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=True, sinalizacao_visual=True, piso_tatil=True),
+        Acessibilidade(experiencia_id=exps_poa[6].id, rampa=True, elevador=False, banheiro_acessivel=False, braille=False, sinalizacao_visual=False, piso_tatil=False),
+        Acessibilidade(experiencia_id=exps_poa[7].id, rampa=True, elevador=False, banheiro_acessivel=True, braille=True, sinalizacao_visual=True, piso_tatil=False),
+        Acessibilidade(experiencia_id=exps_poa[8].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=True, sinalizacao_visual=True, piso_tatil=True),
+        Acessibilidade(experiencia_id=exps_poa[9].id, rampa=True, elevador=True, banheiro_acessivel=True, braille=True, sinalizacao_visual=True, piso_tatil=True)
+    ])
+    db.session.commit()
+
     print("Banco de dados povoado com sucesso!")
 
 if __name__ == "__main__":
-    from app import create_app  # Ou apenas 'from app import app' dependendo de como está seu __init__.py
-    
-    # Se o seu __init__.py usa uma função (ex: create_app()):
+    from app import create_app
     app = create_app()
     
     with app.app_context():

@@ -144,22 +144,33 @@ def detalhe_reserva(tipo, item_id):
 
     # 3. LÓGICA PARA PONTOS TURÍSTICOS E EXPERIÊNCIAS
     else:  # tipo == 'experiencia'
+        # Pegamos o nome esperado do dicionário de fallback primeiro
+        nome_esperado = nomes_experiencias.get(item_id)
+        
         try:
-            # Tenta buscar do banco de dados primeiro para obter o preço e nome reais
+            # 1. Tenta buscar no banco pelo ID enviado
             exp = Experiencia.query.get(item_id)
+            
+            # 2. Se não achar pelo ID, busca pelo Nome exato para corrigir dessincronização de ID
+            if not exp and nome_esperado:
+                exp = Experiencia.query.filter_by(nome=nome_esperado).first()
+
             if exp:
                 item_nome = exp.nome
-                preco_item = exp.preco  # <-- Busca o preço mapeado no Banco (0.00 para grátis)
-                # Coleta as coordenadas reais do banco se elas existirem
+                preco_item = exp.preco
+                # Busca a acessibilidade usando o ID REAL que está no banco de dados
+                acessibilidade = Acessibilidade.query.filter_by(experiencia_id=exp.id).first()
+                
                 if exp.latitude and exp.longitude:
                     lat = exp.latitude
                     lng = exp.longitude
             else:
-                item_nome = nomes_experiencias.get(item_id, f"Experiência {item_id}")
+                # Fallback absoluto se o banco estiver completamente vazio
+                item_nome = nome_esperado if nome_esperado else f"Experiência {item_id}"
+                acessibilidade = Acessibilidade.query.filter_by(experiencia_id=item_id).first()
         except Exception:
-            item_nome = nomes_experiencias.get(item_id, f"Experiência {item_id}")
-            
-        acessibilidade = None  # Experiências não exibem o bloco de acessibilidade de hotéis
+            item_nome = nome_esperado if nome_esperado else f"Experiência {item_id}"
+            acessibilidade = None
         
         # Mapeamento de Imagens das Experiências
         if item_id <= 5:
