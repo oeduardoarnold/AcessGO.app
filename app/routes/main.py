@@ -70,6 +70,7 @@ def perfil():
     """
     Pagina de perfil limitada a quem ja tem login na plaraforma
     """
+        
     return render_template('perfil.html',user=current_user)
 
 # ====================================================================================

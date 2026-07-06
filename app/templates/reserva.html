@@ -23,9 +23,9 @@
         <!-- Coluna da Esquerda: Grids e Informações -->
         <div class="coluna-detalhes">
             
-            <!-- SEÇÃO 1: Fotos de Acessibilidade -->
+             <!-- SEÇÃO 1: Fotos de Acessibilidade -->
             <div class="secao-fotos-acessibilidade">
-                <h2 class="titulo-grid">Fotos para Acessibilidade</h2>
+                <h2 class="titulo-grid">Fotos do Hotel</h2>
                 <div class="photo-grid-container">
                     <div class="grid-main">
                         <img src="{{ url_for('static', filename=imagem) }}" alt="Acessibilidade em {{ nome }}">
@@ -65,22 +65,6 @@
                 </ul>
             </div>
             {% endif %}
-
-            <!-- SEÇÃO 3: Fotos para os Espaços do Local -->
-            <div class="secao-fotos-espacos">
-                <h2 class="titulo-grid">Fotos para os Espaços do Local</h2>
-                <div class="photo-grid-container">
-                    <div class="grid-main">
-                        <img src="{{ url_for('static', filename=imagem) }}" alt="Espaços de {{ nome }}">
-                    </div>
-                    <div class="grid-small"><img src="{{ url_for('static', filename=imagem) }}" alt="Quarto / Acomodação"></div>
-                    <div class="grid-small"><img src="{{ url_for('static', filename=imagem) }}" alt="Área Comum"></div>
-                    <div class="grid-small"><img src="{{ url_for('static', filename=imagem) }}" alt="Restaurante / Lazer"></div>
-                    <div class="grid-small btn-ver-todas-container">
-                        <img src="{{ url_for('static', filename=imagem) }}" alt="Outros espaços">
-                    </div>
-                </div>
-            </div>
 
             <!-- SEÇÃO ADICIONADA: Localização no Mapa -->
             <div class="secao-mapa" style="margin-top: 30px;">
