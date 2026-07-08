@@ -669,6 +669,39 @@ figcaption{
     font-size: 15px;
     margin: 0;
 }
+/* Estilização do botão de favoritar */
+
+/* Container que força o título H1 e o coração a ficarem na mesma linha */
+.titulo-favoritos-container {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Espaçamento horizontal entre o nome e o ícone */
+}
+
+/* Estilização básica e interações do botão de favoritar */
+.btn-favoritar {
+    color: #333333; /* Tom de cinza mais escuro para o texto ler bem */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px; /* Espaço entre o coração e o texto "Favoritar" */
+    padding: 4px 10px; /* Deixa o botão compacto */
+    font-size: 13px; /* Tamanho de texto menor para o botão */
+    font-weight: 500;
+    background-color: #ffffff;
+    border: 1px solid #cccccc; /* Borda cinza clara sutil */
+    border-radius: 6px; /* Cantos levemente arredondados */
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+/* Transição visual quando o usuário passa o mouse por cima */
+.btn-favoritar:hover {
+    color: #287bf1; /* Muda para a cor vermelha padrão de sistemas de feedback */
+    border-color: #287bf1; /* A borda também acompanha o vermelho */
+    background-color: #ffffff; /* Um fundo vermelho bem clarinho para dar destaque */
+    transform: translateY(-1px); /* Em vez de crescer, ele dá um leve "salto" para cima */
+}
 
 /* 2. ESTRUTURA PRINCIPAL: Alinhamento das Colunas */
 .container-reserva {
@@ -874,6 +907,7 @@ figcaption{
     border-radius: 6px;
     cursor: pointer;
     margin-top: 5px;
+    margin-bottom: 5px;
     transition: background 0.2s;
 }
 
@@ -949,18 +983,22 @@ figcaption{
 /*======================================================================
    ESTILIZANDO O PERFIL
 =========================================================================*/
-perfil-container {
+.perfil-container {
     display: flex;
     width: 100%;
-    height: calc(100vh - 80px); /* considerando header de 80px */
-    justify-content: center;
+    /* Opcional: Se sua barra superior tiver 60px de altura, descomente a linha abaixo */
+    /* min-height: calc(100vh - 60px); */
+    min-height: 100vh; /* Faz o container ocupar toda a altura da tela se não houver topo */
+    align-items: stretch; /* Garante que os filhos estiquem juntos verticalmente */
 }
 
 .sidebar {
-    width: 16.2rem;
-    border-right: 2px solid #e5e5e5;
-    padding: 2.5rem 1.25rem;
-    color: #0bca0ef7;
+    width: 250px; /* Largura fixa da sua barra lateral verde */
+    background-color: #cbe6d8; /* O tom de verde claro da sua imagem de exemplo */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 
 .sidebar h2 {
@@ -972,9 +1010,11 @@ perfil-container {
 .sidebar-menu {
     display: flex;
     flex-direction: column;
-    gap: 2.1875rem;
+    gap: 8px; /* Espaçamento menor e mais elegante entre os botões */
+    width: 100%; /* Garante que a lista use toda a largura disponível */
+    padding: 0;
+    margin: 0;
 }
-
 .sidebar-menu a {
     font-size: 1.125rem;
     text-decoration: none;
@@ -986,10 +1026,12 @@ perfil-container {
     color: #066ef6
 }
 
+
 .perfil-conteudo {
-    flex: 1;
-    padding: 2.5rem;
-    background-color: #f9f9f9;
+    flex: 1; /* Faz o conteúdo branco se expandir e preencher o resto da largura */
+    background-color: #ffffff; /* Fundo branco */
+    padding: 40px;
+    box-sizing: border-box;
 }
 
 .perfil-container {
@@ -1004,7 +1046,9 @@ perfil-container {
 }
 
 .sidebar h2 {
-  color: #2e7d32;
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #1e5f38;
 }
 
 .sidebar-menu a {

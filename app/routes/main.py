@@ -1,5 +1,5 @@
 # Importar componentes necessários do Flask
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 # Importar decorators e objetos do Flask-Login
 from flask_login import login_required, current_user
 from app import db
@@ -64,14 +64,36 @@ def dashboard():
     """
     return render_template('dashboard.html', user=current_user)
 
+from flask import redirect, url_for
+
 @main_bp.route('/perfil')
 @login_required
 def perfil():
     """
-    Pagina de perfil limitada a quem ja tem login na plaraforma
+    Redireciona a rota principal do perfil direto para a aba de informações
     """
-        
-    return render_template('perfil.html',user=current_user)
+    return redirect(url_for('main.perfil_informacoes'))
+
+@main_bp.route('/botoes_lat_perf/perfil_informacoes')
+def perfil_informacoes():
+    # Aponta para a subpasta e respeita o nome "perifl_informacoes" do seu arquivo
+    return render_template('botoes_lat_perf/perifl_informacoes.html', active_page='informacoes')
+
+@main_bp.route('/botoes_lat_perf/perfil_carrinho')
+def perfil_carrinho():
+    return render_template('botoes_lat_perf/perfil_carrinho.html', active_page='carrinho')
+
+@main_bp.route('/botoes_lat_perf/perfil_preferencias')
+def perfil_preferencias():
+    return render_template('botoes_lat_perf/perfil_preferencias.html', active_page='preferencias')
+
+@main_bp.route('/botoes_lat_perf/perfil_historico')
+def perfil_historico():
+    return render_template('botoes_lat_perf/perfil_historico.html', active_page='historico')
+
+@main_bp.route('/botoes_lat_perf/perfil_favoritos')
+def perfil_favoritos():
+    return render_template('botoes_lat_perf/perfil_favoritos.html', active_page='favoritos')
 
 # ====================================================================================
 # Alterar a rota para pasta cidades, toda acidade adicionada deve ser adicionada la;

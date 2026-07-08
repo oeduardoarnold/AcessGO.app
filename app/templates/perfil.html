@@ -5,29 +5,19 @@
 {% block content %}
 <div class="perfil-container">
 
-    <!-- MENU LATERAL -->
     <aside class="sidebar">
         <h2>Perfil</h2>
-
         <nav class="sidebar-menu">
-            <button class="btn-perfil" onclick=""><a href="#">Carrinho</a></button>
-            <button class="btn-perfil" onclick=""><a href="#">Preferencias de Acessibilidade</a></button>
-            <button class="btn-perfil" onclick=""><a href="#">Historico</a></button>
-            <button class="btn-perfil" onclick=""><a href="#">Favoritos</a></button>
+            <a href="{{ url_for('main.perfil_informacoes') }}" class="btn-perfil {% if active_page == 'informacoes' %}active{% endif %}">Informações</a>
+            <a href="{{ url_for('main.perfil_carrinho') }}" class="btn-perfil {% if active_page == 'carrinho' %}active{% endif %}">Carrinho</a>
+            <a href="{{ url_for('main.perfil_preferencias') }}" class="btn-perfil {% if active_page == 'preferencias' %}active{% endif %}">Preferências de Acessibilidade</a>
+            <a href="{{ url_for('main.perfil_historico') }}" class="btn-perfil {% if active_page == 'historico' %}active{% endif %}">Histórico</a>
+            <a href="{{ url_for('main.perfil_favoritos') }}" class="btn-perfil {% if active_page == 'favoritos' %}active{% endif %}">Favoritos</a>
         </nav>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <main class="perfil-conteudo">
-        <h1>Informações</h1>
-        <div class="info-section">
-            <div class="info-grid">
-                <div class="info-item"><strong>Usuário:</strong>Usertest</div>
-                <div class="info-item"><strong>Email:</strong>Teste@gmail.com</div>
-                <div class="info-item"><strong>Conta criada em:</strong>03/12/2025</div>
-                <div class="info-item"><strong>Status:</strong> <span class="badge badge-success">Ativo</span></div>
-            </div>
-        </div>
+        {% block perfil_content %}{% endblock %}
     </main>
 </div>
 {% endblock %}
