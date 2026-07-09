@@ -1228,6 +1228,75 @@ figcaption{
     }
 }
 
+/* ================= FORMULÁRIO INDEPENDENTE DE ADICIONAR AO CARRINHO (reserva.html) ================= */
+.form-add-carrinho {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #ddd;
+}
+
+.form-add-carrinho label {
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+}
+
+/* ================= CONTROLES DE QUANTIDADE DO CARRINHO ================= */
+.form-quantidade-carrinho {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.form-quantidade-carrinho label {
+    font-size: 14px;
+    color: #555;
+}
+
+.input-quantidade-carrinho {
+    width: 60px;
+    padding: 4px 6px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.btn-atualizar-quantidade {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s ease-in-out;
+}
+
+.btn-atualizar-quantidade:hover {
+    background: #e2e2e2;
+}
+
+/* ================= TOTAL DO CARRINHO ================= */
+.carrinho-total-container {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+    text-align: right;
+}
+
+.carrinho-total-label {
+    font-size: 18px;
+    color: #333;
+}
+
+.carrinho-total-valor {
+    color: #1e5f38;
+    font-weight: 700;
+}
+
 /*======================================================================*/
 
 

@@ -7,3 +7,4 @@ from app.models.hotel import Hotel
 from app.models.experiencia import Experiencia
 from app.models.acessibilidade import Acessibilidade
 from app.models.favorito import Favorito
+from app.models.carrinho import Carrinho

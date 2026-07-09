@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 # Importar decorators e objetos do Flask-Login
 from flask_login import login_required, current_user
 from app import db
-from app.models import Hotel, Experiencia, Acessibilidade, Cidade, Favorito, User
+from app.models import Hotel, Experiencia, Acessibilidade, Cidade, Favorito, User, Carrinho
 
 # Criar Blueprint para rotas principais da aplicação
 # Sem url_prefix, as rotas começam diretamente da raiz (/)
@@ -78,8 +78,100 @@ def perfil_informacoes():
     return render_template('botoes_lat_perf/perifl_informacoes.html', active_page='informacoes')
 
 @main_bp.route('/botoes_lat_perf/perfil_carrinho')
+@login_required
 def perfil_carrinho():
-    return render_template('botoes_lat_perf/perfil_carrinho.html', active_page='carrinho')
+    # 1. Busca os hotéis no carrinho
+    hoteis_carrinho = Carrinho.query.filter(Carrinho.user_id == current_user.id, Carrinho.hotel_id.isnot(None)).all()
+
+    # 2. Busca as experiências pagas no carrinho (pontos turísticos gratuitos nunca entram aqui)
+    experiencias_carrinho = Carrinho.query.filter(Carrinho.user_id == current_user.id, Carrinho.experiencia_id.isnot(None)).all()
+
+    # 3. Calcula o valor total do carrinho
+    total_carrinho = sum(item.subtotal for item in hoteis_carrinho) + sum(item.subtotal for item in experiencias_carrinho)
+
+    return render_template(
+        'botoes_lat_perf/perfil_carrinho.html',
+        active_page='carrinho',
+        hoteis=hoteis_carrinho,
+        experiencias=experiencias_carrinho,
+        total_carrinho=total_carrinho
+    )
+
+
+@main_bp.route('/carrinho/adicionar/<string:tipo>/<int:item_id>', methods=['POST'])
+@login_required
+def adicionar_carrinho(tipo, item_id):
+    """
+    Adiciona um item ao carrinho ou soma a quantidade se ele já estiver lá.
+    Apenas hotéis e experiências pagas podem ser adicionados (pontos turísticos
+    gratuitos não têm valor a pagar, então não fazem sentido no carrinho).
+    """
+    quantidade = request.form.get('quantidade', 1, type=int)
+    if quantidade is None or quantidade < 1:
+        quantidade = 1
+
+    if tipo == 'hotel':
+        item_carrinho = Carrinho.query.filter_by(user_id=current_user.id, hotel_id=item_id).first()
+    else:  # experiencia
+        # Verificação de segurança: só permite experiências com preço > 0
+        experiencia = Experiencia.query.get(item_id)
+        if experiencia and experiencia.preco <= 0:
+            flash('Este item é gratuito e não pode ser adicionado ao carrinho.', 'warning')
+            return redirect(request.referrer or url_for('main.index'))
+        item_carrinho = Carrinho.query.filter_by(user_id=current_user.id, experiencia_id=item_id).first()
+
+    if item_carrinho:
+        item_carrinho.quantidade += quantidade
+        flash('Quantidade atualizada no carrinho!', 'success')
+    else:
+        item_carrinho = Carrinho(user_id=current_user.id, quantidade=quantidade)
+        if tipo == 'hotel':
+            item_carrinho.hotel_id = item_id
+        else:
+            item_carrinho.experiencia_id = item_id
+        db.session.add(item_carrinho)
+        flash('Adicionado ao carrinho com sucesso!', 'success')
+
+    db.session.commit()
+    return redirect(request.referrer or url_for('main.perfil_carrinho'))
+
+
+@main_bp.route('/carrinho/atualizar/<int:carrinho_id>', methods=['POST'])
+@login_required
+def atualizar_carrinho(carrinho_id):
+    """
+    Atualiza a quantidade de um item do carrinho. Se a quantidade enviada
+    for menor que 1, o item é removido.
+    """
+    item = Carrinho.query.filter_by(id=carrinho_id, user_id=current_user.id).first()
+
+    if item:
+        nova_quantidade = request.form.get('quantidade', 1, type=int)
+        if nova_quantidade is None or nova_quantidade < 1:
+            db.session.delete(item)
+            flash('Item removido do carrinho.', 'info')
+        else:
+            item.quantidade = nova_quantidade
+            flash('Quantidade atualizada!', 'success')
+        db.session.commit()
+
+    return redirect(url_for('main.perfil_carrinho'))
+
+
+@main_bp.route('/carrinho/remover/<int:carrinho_id>', methods=['POST'])
+@login_required
+def remover_carrinho(carrinho_id):
+    """
+    Remove um item do carrinho, independente da quantidade.
+    """
+    item = Carrinho.query.filter_by(id=carrinho_id, user_id=current_user.id).first()
+
+    if item:
+        db.session.delete(item)
+        db.session.commit()
+        flash('Item removido do carrinho.', 'info')
+
+    return redirect(url_for('main.perfil_carrinho'))
 
 @main_bp.route('/botoes_lat_perf/perfil_preferencias')
 def perfil_preferencias():
@@ -163,12 +255,14 @@ def destinos(destino):
 
 
 @main_bp.route('/reserva/<string:tipo>/<int:item_id>', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def detalhe_reserva(tipo, item_id):
     item_nome = ""
     item_imagem = ""
     preco_item = 0.00  # Inicializa o preço zerado por padrão para segurança
     acessibilidade = None  # Inicializa como None por padrão
+    lat = -29.6  # Valor padrão de segurança (evita NameError se o item não tiver coordenadas no banco)
+    lng = -51.16  # Valor padrão de segurança (Serra Gaúcha/RS)
     
     # 1. MAPEAMENTO DE FALLBACK (Usado se o banco de dados falhar ou estiver vazio)
     nomes_hoteis = {
