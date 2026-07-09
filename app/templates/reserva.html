@@ -7,30 +7,30 @@
 {% endblock %}
 
 {% block content %}
-<!-- Importação do CSS do Leaflet para renderizar o mapa corretamente -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <div class="wrapper-reserva-pagedolado">
     
-    <!-- 1. Nome do Local no Topo -->
-<div class="topo-nome-local">
+    <div class="topo-nome-local">
         <div class="titulo-favoritos-container">
             <h1>{{ nome }}</h1>
-            <a href="#" class="btn-favoritar" title="Adicionar aos Favoritos">
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-                </svg>
-                <span>Favoritar</span>
-            </a>
+            
+            <form action="{{ url_for('main.favoritar_item', tipo=tipo, item_id=item_id) }}" method="POST" style="display: inline;">
+                <button type="submit" class="btn-favoritar" title="{% if is_favorited %}Remover dos Favoritos{% else %}Adicionar aos Favoritos{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="{% if is_favorited %}bi bi-heart-fill{% else %}bi bi-heart{% endif %}" viewBox="0 0 16 16">
+                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                    </svg>
+                    <span>{% if is_favorited %}Desfavoritar{% else %}Favoritar{% endif %}</span>
+                </button>
+            </form>
         </div>
         <p class="sub-text">Confira os detalhes de acessibilidade e espaços do estabelecimento.</p>
     </div>
+
     <div class="container-reserva">
         
-        <!-- Coluna da Esquerda: Grids e Informações -->
         <div class="coluna-detalhes">
             
-             <!-- SEÇÃO 1: Fotos de Acessibilidade -->
             <div class="secao-fotos-acessibilidade">
                 <h2 class="titulo-grid">Fotos do Hotel</h2>
                 <div class="photo-grid-container">
@@ -46,7 +46,6 @@
                 </div>
             </div>
 
-            <!-- SEÇÃO 2: Card de Informações de Acessibilidade do Local -->
             {% if acessibilidade != None %}
             <div class="card-info-acessibilidade">
                 <h3>Recursos de Acessibilidade Disponíveis</h3>
@@ -73,93 +72,85 @@
             </div>
             {% endif %}
 
-            <!-- SEÇÃO ADICIONADA: Localização no Mapa -->
-            <div class="secao-mapa" style="margin-top: 30px;">
+            <div class="secao-mapa">
                 <h2 class="titulo-grid">Você ficará por aqui:</h2>
-                <div id="map" style="width: 100%; height: 350px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-top: 15px; z-index: 1;"></div>
+                <div id="map"></div>
             </div>
 
         </div>
 
-        <!-- COLUNA DA DIREITA: Card Dinâmico Triplo (Hotel vs Experiência Paga vs Gratuito) -->
-        <div class="card-pagamento">
-            {% if tipo == 'hotel' %}
-                <!-- ESTADO 1: Formulário para Hotéis -->
-                <h3>Área de Pagamento</h3>
-                <p class="preco-destaque" style="font-size: 16px; color: #1e5f38; margin-bottom: 15px;">
-                    <strong>Valor da Diária:</strong> R$ {{ "%.2f"|format(preco_item) }}
-                </p>
-                
-                <form method="POST" action="">
-                    <div class="form-group">
-                        <label for="data">Selecione a Data de Entrada:</label>
-                        <input type="date" id="data" name="data" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="pessoas">Quantidade de Hóspedes:</label>
-                        <input type="number" id="pessoas" name="pessoas" class="form-control" value="1" min="1" required>
-                    </div>
-                    <button type="submit" class="btn-confirmar">Confirmar Reserva</button>
-                    <button type="submit" name="action" value="carrinho" formnovalidate class="btn-confirmar">Adicionar ao Carrinho</button>
-                </form>
+        <div class="card-pagamento-container">
+            <div class="card-pagamento">
+                {% if tipo == 'hotel' %}
+                    <h3>Área de Pagamento</h3>
+                    <p class="preco-destaque">
+                        <strong>Valor da Diária:</strong> R$ {{ "%.2f"|format(preco_item) }}
+                    </p>
+                    
+                    <form method="POST" action="">
+                        <div class="form-group">
+                            <label for="data">Selecione a Data de Entrada:</label>
+                            <input type="date" id="data" name="data" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pessoas">Quantidade de Hóspedes:</label>
+                            <input type="number" id="pessoas" name="pessoas" class="form-control" value="1" min="1" required>
+                        </div>
+                        <button type="submit" class="btn-confirmar">Confirmar Reserva</button>
+                        <button type="submit" name="action" value="carrinho" formnovalidate class="btn-confirmar btn-carrinho-secundario">Adicionar ao Carrinho</button>
+                    </form>
 
-            {% elif tipo == 'experiencia' and preco_item > 0 %}
-                <!-- ESTADO 2: Formulário para Experiências Pagas -->
-                <h3>Agendar Atividade</h3>
-                <p class="preco-destaque" style="font-size: 16px; color: #066ef6; margin-bottom: 15px;">
-                    <strong>Valor do Ingresso:</strong> R$ {{ "%.2f"|format(preco_item) }} / pessoa
-                </p>
-                
-                <form method="POST" action="">
-                    <div class="form-group">
-                        <label for="data_exp">Selecione a Data do Passeio:</label>
-                        <input type="date" id="date" name="data" class="form-control" required>
+                {% elif tipo == 'experiencia' and preco_item > 0 %}
+                    <h3>Agendar Atividade</h3>
+                    <p class="preco-destaque azul">
+                        <strong>Valor do Ingresso:</strong> R$ {{ "%.2f"|format(preco_item) }} / pessoa
+                    </p>
+                    
+                    <form method="POST" action="">
+                        <div class="form-group">
+                            <label for="date">Selecione a Data do Passeio:</label>
+                            <input type="date" id="date" name="data" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ingressos">Quantidade de Ingressos:</label>
+                            <input type="number" id="ingressos" name="pessoas" class="form-control" value="1" min="1" required>
+                        </div>
+                        <button type="submit" class="btn-confirmar btn-azul">Adquirir Ingressos</button>
+                    </form>
+
+                {% else %}
+                    <h3>Guia de Visitação</h3>
+                    <div class="info-guia-item">
+                        <p class="guia-label"><strong>⏰ Melhor Horário:</strong></p>
+                        <p class="guia-text">Recomendamos a visitação durante o dia para aproveitar melhor os espaços e registrar belas fotos.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="ingressos">Quantidade de Ingressos:</label>
-                        <input type="number" id="ingressos" name="pessoas" class="form-control" value="1" min="1" required>
+
+                    <div class="info-guia-item">
+                        <p class="guia-label"><strong>💵 Custo estimado:</strong></p>
+                        <p class="guia-text">Este local possui acesso gratuito à comunidade e visitantes.</p>
                     </div>
-                    <button type="submit" class="btn-confirmar" style="background-color: #066ef6;">Adquirir Ingressos</button>
-                </form>
 
-            {% else %}
-                <!-- ESTADO 3: Guia para Pontos Turísticos Gratuitos (Preço == 0) -->
-                <h3>Guia de Visitação</h3>
-                <div class="info-guia-item" style="margin-top: 15px;">
-                    <p class="guia-label"><strong>⏰ Melhor Horário:</strong></p>
-                    <p class="guia-text">Recomendamos a visitação durante o dia para aproveitar melhor os espaços e registrar belas fotos.</p>
-                </div>
-
-                <div class="info-guia-item" style="margin-top: 15px;">
-                    <p class="guia-label"><strong>💵 Custo estimado:</strong></p>
-                    <p class="guia-text">Este local possui acesso gratuito à comunidade e visitantes.</p>
-                </div>
-
-                <button onclick="window.history.back()" class="btn-voltar">Voltar para a Exploração</button>
-            {% endif %}
+                    <button onclick="window.history.back()" class="btn-voltar">Voltar para a Exploração</button>
+                {% endif %}
+            </div>
         </div>
 
     </div>
 </div>
 
-<!-- Scripts do Leaflet para carregar o mapa dinamicamente usando as variáveis enviadas pelo Python -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Captura a latitude e longitude injetadas pelo Flask
         var lat = {{ lat }};
         var lng = {{ lng }};
         var localNome = "{{ nome }}";
 
-        // Inicializa o mapa focado nas coordenadas do local
         var map = L.map('map').setView([lat, lng], 15);
 
-        // Carrega a camada visual do OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Adiciona um marcador exatamente no ponto correto com um pop-up contendo o nome do local
         L.marker([lat, lng]).addTo(map)
             .bindPopup('<b>' + localNome + '</b><br>Coordenadas: ' + lat + ', ' + lng)
             .openPopup();

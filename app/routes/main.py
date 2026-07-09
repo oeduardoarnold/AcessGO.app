@@ -1,11 +1,9 @@
 # Importar componentes necessários do Flask
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 # Importar decorators e objetos do Flask-Login
 from flask_login import login_required, current_user
 from app import db
-from app.models.hotel import Hotel 
-from app.models.experiencia import Experiencia
-from app.models.acessibilidade import Acessibilidade
+from app.models import Hotel, Experiencia, Acessibilidade, Cidade, Favorito, User
 
 # Criar Blueprint para rotas principais da aplicação
 # Sem url_prefix, as rotas começam diretamente da raiz (/)
@@ -92,8 +90,60 @@ def perfil_historico():
     return render_template('botoes_lat_perf/perfil_historico.html', active_page='historico')
 
 @main_bp.route('/botoes_lat_perf/perfil_favoritos')
+@login_required
 def perfil_favoritos():
-    return render_template('botoes_lat_perf/perfil_favoritos.html', active_page='favoritos')
+    # 1. Busca os hotéis favoritados
+    hoteis_favoritos = Favorito.query.filter(Favorito.user_id == current_user.id, Favorito.hotel_id.isnot(None)).all()
+    
+    # 2. Busca todas as experiências/pontos favoritados
+    todos_favoritos_exp = Favorito.query.filter(Favorito.user_id == current_user.id, Favorito.experiencia_id.isnot(None)).all()
+    
+    pontos_turisticos = []
+    expericias_pagas = []
+    
+    for fav in todos_favoritos_exp:
+        if fav.experiencia and fav.experiencia.categoria:
+            # Transforma em minúsculo e remove espaços extras para padronizar
+            categoria_limpa = fav.experiencia.categoria.lower().strip()
+            
+            # Verifica se contém "ponto" e "turist" (assim aceita com ou sem acento no 'í')
+            if 'ponto' in categoria_limpa and 'turist' in categoria_limpa:
+                pontos_turisticos.append(fav)
+            else:
+                expericias_pagas.append(fav)
+                
+    return render_template(
+        'botoes_lat_perf/perfil_favoritos.html', 
+        active_page='favoritos', 
+        hoteis=hoteis_favoritos,
+        experiencias=expericias_pagas,
+        pontos_turisticos=pontos_turisticos
+    )
+
+@main_bp.route('/favoritar/<string:tipo>/<int:item_id>', methods=['POST'])
+@login_required
+def favoritar_item(tipo, item_id):
+    if tipo == 'hotel':
+        favorito = Favorito.query.filter_by(user_id=current_user.id, hotel_id=item_id).first()
+    else:  # experiencia ou ponto_turistico
+        favorito = Favorito.query.filter_by(user_id=current_user.id, experiencia_id=item_id).first()
+
+    if favorito:
+        db.session.delete(favorito)
+        db.session.commit()
+        flash('Item removido dos favoritos com sucesso!', 'info')
+    else:
+        novo_favorito = Favorito(user_id=current_user.id)
+        if tipo == 'hotel':
+            novo_favorito.hotel_id = item_id
+        else:  # Salva como experiencia (independente de ser Ponto Turístico ou Experiência)
+            novo_favorito.experiencia_id = item_id
+
+        db.session.add(novo_favorito)
+        db.session.commit()
+        flash('Adicionado aos favoritos com sucesso!', 'success')
+
+    return redirect(request.referrer or url_for('main.index'))
 
 # ====================================================================================
 # Alterar a rota para pasta cidades, toda acidade adicionada deve ser adicionada la;
@@ -213,6 +263,11 @@ def detalhe_reserva(tipo, item_id):
             }
             item_imagem = f"images/poa/{mapa_poa_exp[item_id]}"
 
+    if tipo == 'hotel':
+        is_favorited = Favorito.query.filter_by(user_id=current_user.id, hotel_id=item_id).first() is not None
+    else:
+        is_favorited = Favorito.query.filter_by(user_id=current_user.id, experiencia_id=item_id).first() is not None
+
     # 4. RENDERIZAÇÃO DO TEMPLATE (Variável preco_item adicionada ao retorno)
     return render_template('reserva.html', 
                            user=current_user, 
@@ -223,4 +278,5 @@ def detalhe_reserva(tipo, item_id):
                            acessibilidade=acessibilidade,
                            preco_item=preco_item,
                            lat=lat,        # <-- Enviado com sucesso ao Jinja
-                           lng=lng)        # <-- Enviado com sucesso ao Jinja
+                           lng=lng,
+                           is_favorited=is_favorited)        # <-- Enviado com sucesso ao Jinja

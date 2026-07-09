@@ -1,8 +1,5 @@
 from app import db          # Importa o db configurado no __init__.py da pasta app
-from app.models.cidade import Cidade
-from app.models.hotel import Hotel
-from app.models.experiencia import Experiencia
-from app.models.acessibilidade import Acessibilidade
+from app.models import User, Cidade, Hotel, Experiencia, Acessibilidade, Favorito  # Importa os modelos necessários para o povoamento
 
 def popular_banco():
     print("Iniciando o povoamento do banco de dados...")

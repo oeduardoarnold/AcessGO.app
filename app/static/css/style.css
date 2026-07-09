@@ -646,15 +646,13 @@ figcaption{
 
 /* Container que engloba toda a página para centralização geral */
 .wrapper-reserva-pagedolado {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 20px;
 }
-
 /* 1. SEÇÃO DO TOPO: Título Principal do Estabelecimento */
 .topo-nome-local {
-    margin-bottom: 25px;
-    width: 100%;
+    margin-bottom: 5px;
 }
 
 .topo-nome-local h1 {
@@ -675,51 +673,47 @@ figcaption{
 .titulo-favoritos-container {
     display: flex;
     align-items: center;
-    gap: 12px; /* Espaçamento horizontal entre o nome e o ícone */
+    justify-content: space-between;
+    gap: 15px;
 }
-
 /* Estilização básica e interações do botão de favoritar */
 .btn-favoritar {
-    color: #333333; /* Tom de cinza mais escuro para o texto ler bem */
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 6px; /* Espaço entre o coração e o texto "Favoritar" */
-    padding: 4px 10px; /* Deixa o botão compacto */
-    font-size: 13px; /* Tamanho de texto menor para o botão */
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
     font-weight: 500;
-    background-color: #ffffff;
-    border: 1px solid #cccccc; /* Borda cinza clara sutil */
-    border-radius: 6px; /* Cantos levemente arredondados */
-    transition: all 0.2s ease;
-    text-decoration: none;
+    color: #333;
+    transition: color 0.2s;
 }
 
 /* Transição visual quando o usuário passa o mouse por cima */
 .btn-favoritar:hover {
-    color: #287bf1; /* Muda para a cor vermelha padrão de sistemas de feedback */
-    border-color: #287bf1; /* A borda também acompanha o vermelho */
-    background-color: #ffffff; /* Um fundo vermelho bem clarinho para dar destaque */
-    transform: translateY(-1px); /* Em vez de crescer, ele dá um leve "salto" para cima */
+    color: #0f59e2;
+}
+
+.sub-text{
+    color: #666;
+    margin-top: 5px;
+    font-size: 14px;
 }
 
 /* 2. ESTRUTURA PRINCIPAL: Alinhamento das Colunas */
 .container-reserva {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start; /* Força o alinhamento estrito pelo topo da esquerda e direita */
-    gap: 30px;
-    width: 100%;
+    gap: 40px;
+    margin-top: 25px;
+    align-items: flex-start;
 }
 
 /* Coluna da Esquerda (Grids de Fotos + Card de Recursos Técnicos) */
 .coluna-detalhes {
-    flex: 2;
-    width: 100%;
+    flex: 2; /* Ocupa 2/3 do espaço disponível */
     display: flex;
     flex-direction: column;
-    gap: 35px; /* Distância uniforme e limpa entre cada bloco vertical */
+    gap: 30px;
 }
 
 /* Títulos internos de cada Grid de Fotos */
@@ -847,16 +841,17 @@ figcaption{
 }
 
 /* 5. COLUNA DA DIREITA: Card de Pagamento Lateral */
+.card-pagamento-container {
+    flex: 1; /* Ocupa 1/3 do espaço disponível */
+    position: sticky;
+    top: 20px; /* Faz o card fixar na lateral ao rolar a página */
+}
 .card-pagamento {
-    flex: 1;
-    background-color: #f9f9f9;
-    border: 1px solid #ebeeeb;
+    background: #ffffff;
     border-radius: 12px;
     padding: 25px;
-    box-shadow: #066ef62b 0px 4px 12px;
-    position: sticky;
-    align-self: center; /* Mantém o card centralizado verticalmente na coluna */
-    top: 20px; /* Mantém o card visível ao rolar a página pelos grids */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eee;
 }
 
 .card-pagamento h3 {
@@ -865,6 +860,35 @@ figcaption{
     font-size: 18px;
     color: #333;
     font-weight: 700;
+}
+
+/* Estilização Interna do Mapa */
+.secao-mapa #map {
+    width: 100%;
+    height: 350px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-top: 15px;
+    z-index: 1;
+}
+
+.preco-destaque {
+    font-size: 16px;
+    color: #1e5f38;
+    margin-bottom: 15px;
+}
+.preco-destaque.azul {
+    color: #066ef6;
+}
+.btn-confirmar.btn-carrinho-secundario {
+    background-color: #2a7a4a;
+    margin-top: 8px;
+}
+.btn-confirmar.btn-azul {
+    background-color: #066ef6;
+}
+.info-guia-item {
+    margin-top: 15px;
 }
 
 .form-group {
@@ -915,25 +939,6 @@ figcaption{
     background-color: #1e5f38;
 }
 
-/* Botão do Google Maps para Experiências */
-.btn-mapa {
-    display: block;
-    text-align: center;
-    background-color: #4285F4; /* Azul clássico do Google Maps */
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 6px;
-    margin-top: 8px;
-    transition: background 0.2s;
-}
-
-.btn-mapa:hover {
-    background-color: #357ae8;
-}
-
 /* Botão de Voltar */
 .btn-voltar {
     width: 100%;
@@ -967,16 +972,13 @@ figcaption{
     line-height: 1.4;
 }
 /* Responsividade para Telas Pequenas (Celular) */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .container-reserva {
-        flex-direction: column; /* Empilha um embaixo do outro se a tela for pequena */
+        flex-direction: column; /* Joga a área de pagamento para baixo se a tela for pequena */
     }
-    .photo-grid-container {
-        grid-template-columns: 1fr;
-        grid-template-rows: 250px;
-    }
-    .grid-small {
-        display: none;
+    .card-pagamento-container {
+        position: static;
+        width: 100%;
     }
 }
 
@@ -1089,6 +1091,141 @@ figcaption{
   padding: 3px 8px;
   border-radius: 4px;
   font-size: 14px;
+}
+
+
+/*======================================================================
+   ESTILIZANDO A PAGINA DE FAVORITOS
+=========================================================================*/
+/* Container Geral dos Favoritos */
+.favoritos-container {
+    width: 100%;
+    padding: 10px;
+}
+
+/* Espaçamento entre os blocos de categorias */
+.favoritos-secao {
+    margin-bottom: 40px;
+}
+
+/* Estilização dos Subtítulos com linhas coloridas baseadas nas classes da seção */
+.subtitulo-favoritos {
+    font-size: 18px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.secao-hoteis .subtitulo-favoritos {
+    color: #1e5f38;
+    border-bottom: 2px solid #1e5f38;
+}
+
+.secao-experiencias .subtitulo-favoritos {
+    color: #066ef6;
+    border-bottom: 2px solid #066ef6;
+}
+
+.secao-pontos .subtitulo-favoritos {
+    color: #db7b04;
+    border-bottom: 2px solid #db7b04;
+}
+
+/* ================= O SEGREDO DO ALINHAMENTO LADO A LADO ================= */
+.carrinho-grid {
+    display: flex;         /* Alinha os cards na horizontal */
+    flex-wrap: wrap;       /* Faz quebrar para a linha de baixo automaticamente */
+    gap: 20px;             /* Cria uma folga uniforme entre as linhas e colunas */
+    width: 100%;
+    margin-top: 15px;
+}
+
+/* Estrutura dos Cards */
+.carrinho-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out;
+    
+    /* Tamanho responsivo: tenta manter 4 por linha, mas respeita o tamanho mínimo */
+    flex: 0 1 calc(25% - 15px); 
+    min-width: 250px; 
+}
+
+.carrinho-card:hover {
+    transform: translateY(-3px);
+}
+
+/* Imagens dos Cards apontando para os seus arquivos estáticos */
+.carrinho-img {
+    background-size: cover;
+    background-position: center;
+    height: 150px;
+    width: 100%;
+}
+
+.img-hotel {
+    background-image: url('/static/images/hotel_padrao.jpg');
+}
+
+.img-experiencia {
+    background-image: url('/static/images/exp_padrao.jpg');
+}
+
+/* Textos dentro do Card */
+.carrinho-card-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nome-estabelecimento {
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #333;
+}
+
+.data-adicionado {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Cores das fontes dos preços de cada tipo */
+.preco-item {
+    font-weight: bold;
+    margin: 5px 0 0 0;
+}
+
+.valor-hotel {
+    color: #1e5f38;
+}
+
+.valor-experiencia {
+    color: #066ef6;
+}
+
+.valor-ponto {
+    color: #db7b04;
+}
+
+/* Mensagem de Categoria Vazia */
+.carrinho-vazio {
+    color: #888;
+    font-style: italic;
+    margin: 5px 0;
+}
+
+/* Ajuste fino extra para telas pequenas (ex: celulares antigos) */
+@media (max-width: 600px) {
+    .carrinho-card {
+        flex: 1 1 100%; /* Faz o card ocupar a largura total caso a tela seja minúscula */
+    }
 }
 
 /*======================================================================*/

@@ -1,6 +1,159 @@
 {% extends "perfil.html" %}
 
 {% block perfil_content %}
-    <h1>Título da Página (Ex: Meu Carrinho)</h1>
-    <p>Conteúdo específico aqui...</p>
+<div class="favoritos-container">
+    <h1 class="carrinho-titulo">Meus Favoritos</h1>
+
+    {# === MAPEAMENTO SEGURO DE FOTOS DO SEU PROJETO === #}
+    {% set fotos_hoteis = {
+        1: 'images/bento/hotel1.bento.jfif',
+        2: 'images/bento/hotel2.bento.jfif',
+        3: 'images/bento/hotel3.bento.jfif',
+        4: 'images/bento/hotel4.bento.jfif',
+        5: 'images/bento/hotel5.bento.jfif',
+        6: 'images/gramado/gram_ht01.webp',
+        7: 'images/gramado/gram_ht02.jpg',
+        8: 'images/gramado/gram_ht03.jpg',
+        9: 'images/gramado/gram_ht04.jpg',
+        10: 'images/gramado/gram_ht05.webp',
+        11: 'images/poa/hotel1.poa.jfif',
+        12: 'images/poa/hotel2.poa.jfif',
+        13: 'images/poa/hotel3.poa.jfif',
+        14: 'images/poa/hotel4.poa.jfif',
+        15: 'images/poa/hotel5.poa.jfif'
+    } %}
+
+    {% set fotos_experiencias = {
+        1: 'images/bento/ponto1.jfif',
+        2: 'images/bento/ponto2.jfif',
+        3: 'images/bento/ponto3.jfif',
+        4: 'images/bento/ponto4.jfif',
+        5: 'images/bento/ponto5.jfif',
+        6: 'images/bento/exp1.jfif',
+        7: 'images/bento/exp2.jfif',
+        8: 'images/bento/exp3.jfif',
+        9: 'images/bento/exp4.jfif',
+        10: 'images/bento/exp5.jfif',
+        11: 'images/gramado/pnt_tur01.webp',
+        12: 'images/gramado/pnt_tur02.jpg',
+        13: 'images/gramado/pnt_tur03.jpg',
+        14: 'images/gramado/pnt_tur04.avif',
+        15: 'images/gramado/pnt_tur05.jpg',
+        16: 'images/gramado/gramadoexp1.jfif',
+        17: 'images/gramado/gramadoexp2.jfif',
+        18: 'images/gramado/gramadoexp3.jfif',
+        19: 'images/gramado/gramadoexp4.jfif',
+        20: 'images/gramado/gramadoexp5.jfif',
+        21: 'images/poa/orla.jfif',
+        22: 'images/poa/marioquintana.jfif',
+        23: 'images/poa/memorialrs.jfif',
+        24: 'images/poa/pracamatriz.jfif',
+        25: 'images/poa/moinhos.jfif',
+        26: 'images/poa/arena.jfif',
+        27: 'images/poa/guaiba.jfif',
+        28: 'images/poa/rdelaboca.jfif',
+        29: 'images/poa/theatro.jfif',
+        30: 'images/poa/iberec.jfif'
+    } %}
+
+    <!-- ================= SEÇÃO 1: HOTÉIS ================= -->
+    <div class="favoritos-secao secao-hoteis">
+        <h2 class="subtitulo-favoritos">Hotéis Favoritados</h2>
+        <div class="carrinho-grid">
+            {% for fav in hoteis %}
+                {% if fav.hotel %}
+                <div class="carrinho-card">
+                    <div class="image-wrapper">
+                        <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=fav.hotel.id) }}" class="link-estabelecimento">
+                            {% set foto_path = fotos_hoteis.get(fav.hotel.id, 'images/hotel_padrao.jpg') %}
+                            <div class="carrinho-img" style="background-image: url('{{ url_for('static', filename=foto_path) }}');"></div> 
+                        </a>
+                    </div>
+                    <div class="carrinho-card-info">
+                        <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=fav.hotel.id) }}" class="nome-estabelecimento">
+                            {{ fav.hotel.nome }}
+                        </a>
+                        <p class="data-adicionado">{{ fav.hotel.endereco }}</p>
+                        <p class="preco-item valor-hotel">R$ {{ "%.2f"|format(fav.hotel.preco) }} / diária</p>
+                        <form action="{{ url_for('main.favoritar_item', tipo='hotel', item_id=fav.hotel.id) }}" method="POST" style="margin-top: 10px;">
+                            <button type="submit" class="btn-favoritar" title="Remover dos Favoritos">
+                                <span>Remover dos Favoritos</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            {% else %}
+                <p class="carrinho-vazio">Nenhum hotel favoritado.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ================= SEÇÃO 2: EXPERIÊNCIAS ================= -->
+    <div class="favoritos-secao secao-experiencias">
+        <h2 class="subtitulo-favoritos">Experiências Favoritadas</h2>
+        <div class="carrinho-grid">
+            {% for fav in experiencias %}
+                {% if fav.experiencia %}
+                <div class="carrinho-card">
+                    <div class="image-wrapper">
+                        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=fav.experiencia.id) }}" class="link-estabelecimento">
+                            {% set foto_path = fotos_experiencias.get(fav.experiencia.id, 'images/exp_padrao.jpg') %}
+                            <div class="carrinho-img" style="background-image: url('{{ url_for('static', filename=foto_path) }}');"></div>
+                        </a>
+                    </div>
+                    <div class="carrinho-card-info">
+                        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=fav.experiencia.id) }}" class="nome-estabelecimento">
+                            {{ fav.experiencia.nome }}
+                        </a>
+                        <p class="data-adicionado">{{ fav.experiencia.categoria }}</p>
+                        <p class="preco-item valor-experiencia">R$ {{ "%.2f"|format(fav.experiencia.preco) }}</p>
+                        <form action="{{ url_for('main.favoritar_item', tipo='experiencia', item_id=fav.experiencia.id) }}" method="POST" style="margin-top: 10px;">
+                            <button type="submit" class="btn-favoritar" title="Remover dos Favoritos">
+                                <span>Remover dos Favoritos</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            {% else %}
+                <p class="carrinho-vazio">Nenhuma experiência favoritada.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ================= SEÇÃO 3: PONTOS TURÍSTICOS ================= -->
+    <div class="favoritos-secao secao-pontos">
+        <h2 class="subtitulo-favoritos">Pontos Turísticos Favoritados</h2>
+        <div class="carrinho-grid">
+            {% for fav in pontos_turisticos %}
+                {% if fav.experiencia %}
+                <div class="carrinho-card">
+                    <div class="image-wrapper">
+                        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=fav.experiencia.id) }}" class="link-estabelecimento">
+                            {% set foto_path = fotos_experiencias.get(fav.experiencia.id, 'images/exp_padrao.jpg') %}
+                            <div class="carrinho-img" style="background-image: url('{{ url_for('static', filename=foto_path) }}');"></div>
+                        </a>
+                    </div>
+                    <div class="carrinho-card-info">
+                        <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=fav.experiencia.id) }}" class="nome-estabelecimento">
+                            {{ fav.experiencia.nome }}
+                        </a>
+                        <p class="data-adicionado">{{ fav.experiencia.categoria }}</p>
+                        <p class="preco-item valor-ponto">Acesso Gratuito</p>
+                        <form action="{{ url_for('main.favoritar_item', tipo='experiencia', item_id=fav.experiencia.id) }}" method="POST" style="margin-top: 10px;">
+                            <button type="submit" class="btn-favoritar" title="Remover dos Favoritos">
+                                <span>Remover dos Favoritos</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            {% else %}
+                <p class="carrinho-vazio">Nenhum ponto turístico favoritado.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
 {% endblock %}
