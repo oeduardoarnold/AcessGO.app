@@ -1279,6 +1279,24 @@ figcaption{
     background: #e2e2e2;
 }
 
+/* ================= BOTÃO ESVAZIAR TUDO (CARRINHO/FAVORITOS) ================= */
+.btn-esvaziar-tudo {
+    background: #fff;
+    color: #1e5f38;
+    border: 1px solid #1e5f38;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.btn-esvaziar-tudo:hover {
+    background: #1e5f38;
+    color: #fff;
+}
+
 /* ================= TOTAL DO CARRINHO ================= */
 .carrinho-total-container {
     margin-top: 20px;

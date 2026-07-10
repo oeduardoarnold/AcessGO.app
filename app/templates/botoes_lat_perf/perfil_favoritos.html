@@ -2,7 +2,14 @@
 
 {% block perfil_content %}
 <div class="favoritos-container">
-    <h1 class="carrinho-titulo">Meus Favoritos</h1>
+    <div class="carrinho-titulo-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <h1 class="carrinho-titulo">Meus Favoritos</h1>
+        {% if hoteis or experiencias or pontos_turisticos %}
+        <form action="{{ url_for('main.limpar_favoritos') }}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover todos os favoritos?');">
+            <button type="submit" class="btn-esvaziar-tudo">Esvaziar Favoritos</button>
+        </form>
+        {% endif %}
+    </div>
 
     {# === MAPEAMENTO SEGURO DE FOTOS DO SEU PROJETO === #}
     {% set fotos_hoteis = {
@@ -140,7 +147,11 @@
                             {{ fav.experiencia.nome }}
                         </a>
                         <p class="data-adicionado">{{ fav.experiencia.categoria }}</p>
-                        <p class="preco-item valor-ponto">Acesso Gratuito</p>
+                        {% if fav.experiencia.preco and fav.experiencia.preco > 0 %}
+                            <p class="preco-item valor-ponto">R$ {{ "%.2f"|format(fav.experiencia.preco) }} / pessoa</p>
+                        {% else %}
+                            <p class="preco-item valor-ponto">Acesso Gratuito</p>
+                        {% endif %}
                         <form action="{{ url_for('main.favoritar_item', tipo='experiencia', item_id=fav.experiencia.id) }}" method="POST" style="margin-top: 10px;">
                             <button type="submit" class="btn-favoritar" title="Remover dos Favoritos">
                                 <span>Remover dos Favoritos</span>

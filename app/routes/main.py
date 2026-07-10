@@ -173,6 +173,18 @@ def remover_carrinho(carrinho_id):
 
     return redirect(url_for('main.perfil_carrinho'))
 
+
+@main_bp.route('/carrinho/limpar', methods=['POST'])
+@login_required
+def limpar_carrinho():
+    """
+    Remove todos os itens do carrinho do usuário de uma vez só.
+    """
+    Carrinho.query.filter_by(user_id=current_user.id).delete()
+    db.session.commit()
+    flash('Carrinho esvaziado com sucesso!', 'info')
+    return redirect(url_for('main.perfil_carrinho'))
+
 @main_bp.route('/botoes_lat_perf/perfil_preferencias')
 def perfil_preferencias():
     return render_template('botoes_lat_perf/perfil_preferencias.html', active_page='preferencias')
@@ -236,6 +248,18 @@ def favoritar_item(tipo, item_id):
         flash('Adicionado aos favoritos com sucesso!', 'success')
 
     return redirect(request.referrer or url_for('main.index'))
+
+
+@main_bp.route('/favoritos/limpar', methods=['POST'])
+@login_required
+def limpar_favoritos():
+    """
+    Remove todos os favoritos do usuário de uma vez só.
+    """
+    Favorito.query.filter_by(user_id=current_user.id).delete()
+    db.session.commit()
+    flash('Favoritos esvaziados com sucesso!', 'info')
+    return redirect(url_for('main.perfil_favoritos'))
 
 # ====================================================================================
 # Alterar a rota para pasta cidades, toda acidade adicionada deve ser adicionada la;

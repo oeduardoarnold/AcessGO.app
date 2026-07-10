@@ -2,7 +2,14 @@
 
 {% block perfil_content %}
 <div class="carrinho-container">
-    <h1 class="carrinho-titulo">Meu Carrinho</h1>
+    <div class="carrinho-titulo-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <h1 class="carrinho-titulo">Meu Carrinho</h1>
+        {% if hoteis or experiencias %}
+        <form action="{{ url_for('main.limpar_carrinho') }}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover todos os itens do carrinho?');">
+            <button type="submit" class="btn-esvaziar-tudo">Esvaziar Carrinho</button>
+        </form>
+        {% endif %}
+    </div>
 
     {# === MAPEAMENTO SEGURO DE FOTOS DO SEU PROJETO === #}
     {% set fotos_hoteis = {
