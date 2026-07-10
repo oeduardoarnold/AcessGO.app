@@ -84,12 +84,13 @@
                         <p class="preco-item valor-hotel">R$ {{ "%.2f"|format(item.hotel.preco) }} / diária</p>
 
                         <form action="{{ url_for('main.atualizar_carrinho', carrinho_id=item.id) }}" method="POST" class="form-quantidade-carrinho">
-                            <label for="quantidade-{{ item.id }}">Diárias:</label>
+                            <label for="quantidade-{{ item.id }}">Diárias (estimativa):</label>
                             <input type="number" id="quantidade-{{ item.id }}" name="quantidade" value="{{ item.quantidade }}" min="1" class="input-quantidade-carrinho">
                             <button type="submit" class="btn-atualizar-quantidade" title="Atualizar quantidade">Atualizar</button>
                         </form>
 
-                        <p class="preco-item valor-hotel">Subtotal: R$ {{ "%.2f"|format(item.subtotal) }}</p>
+                        <p class="preco-item valor-hotel">Subtotal estimado: R$ {{ "%.2f"|format(item.subtotal) }}</p>
+                        <p class="sub-text" style="margin-top: -6px;">O valor final será recalculado pelas datas de entrada/saída escolhidas na finalização.</p>
 
                         <form action="{{ url_for('main.remover_carrinho', carrinho_id=item.id) }}" method="POST" style="margin-top: 10px;">
                             <button type="submit" class="btn-favoritar" title="Remover do Carrinho">
@@ -179,7 +180,7 @@
             <h3 class="finalizar-subtitulo">Hospedagens</h3>
             {% for item in hoteis %}
                 {% if item.hotel %}
-                <div class="item-finalizar-reserva">
+                <div class="item-finalizar-reserva" data-hotel-item-id="{{ item.id }}" data-preco-diaria="{{ item.hotel.preco }}">
                     <p class="item-finalizar-nome">{{ item.hotel.nome }}</p>
                     <div class="form-group-linha">
                         <div class="form-group">
@@ -191,6 +192,7 @@
                             <input type="date" id="data_saida_{{ item.id }}" name="data_saida_{{ item.id }}" class="form-control" required>
                         </div>
                     </div>
+                    <p id="resumo-diarias-{{ item.id }}" class="sub-text"></p>
                 </div>
                 {% endif %}
             {% endfor %}
@@ -249,4 +251,45 @@
 
 </div>
 <script src="{{ url_for('static', filename='js/mascaras.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('[data-hotel-item-id]').forEach(function (container) {
+            var itemId = container.getAttribute('data-hotel-item-id');
+            var precoDiaria = parseFloat(container.getAttribute('data-preco-diaria'));
+            var inputEntrada = document.getElementById('data_entrada_' + itemId);
+            var inputSaida = document.getElementById('data_saida_' + itemId);
+            var resumo = document.getElementById('resumo-diarias-' + itemId);
+
+            function atualizar() {
+                if (!inputEntrada.value || !inputSaida.value) {
+                    resumo.textContent = '';
+                    return;
+                }
+                var entrada = new Date(inputEntrada.value + 'T00:00:00');
+                var saida = new Date(inputSaida.value + 'T00:00:00');
+                var diarias = Math.round((saida - entrada) / (1000 * 60 * 60 * 24));
+
+                if (diarias <= 0) {
+                    resumo.textContent = 'A data de saída deve ser depois da data de entrada.';
+                    resumo.style.color = '#c0392b';
+                } else {
+                    var total = diarias * precoDiaria;
+                    resumo.textContent = diarias + (diarias === 1 ? ' diária' : ' diárias') +
+                        ' — Total: R$ ' + total.toFixed(2).replace('.', ',');
+                    resumo.style.color = '';
+                }
+            }
+
+            inputEntrada.addEventListener('change', function () {
+                if (inputEntrada.value) {
+                    var proximoDia = new Date(inputEntrada.value + 'T00:00:00');
+                    proximoDia.setDate(proximoDia.getDate() + 1);
+                    inputSaida.min = proximoDia.toISOString().split('T')[0];
+                }
+                atualizar();
+            });
+            inputSaida.addEventListener('change', atualizar);
+        });
+    });
+</script>
 {% endblock %}

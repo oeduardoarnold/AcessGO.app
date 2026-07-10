@@ -32,7 +32,7 @@
         <div class="coluna-detalhes">
             
             <div class="secao-fotos-acessibilidade">
-                <h2 class="titulo-grid">Fotos do Hotel</h2>
+                <h2 class="titulo-grid">Fotos do Espaço</h2>
                 <div class="photo-grid-container">
                     <div class="grid-main">
                         <img src="{{ url_for('static', filename=imagem) }}" alt="Acessibilidade em {{ nome }}">
@@ -108,9 +108,10 @@
                             <label for="data_saida">Selecione a Data de Saída:</label>
                             <input type="date" id="data_saida" name="data_saida" class="form-control" required>
                         </div>
+                        <p id="resumo-diarias" class="sub-text" style="margin: -8px 0 12px;"></p>
                         <div class="form-group">
                             <label for="pessoas">Quantidade de Hóspedes:</label>
-                            <input type="number" id="pessoas" name="quantidade" class="form-control" value="1" min="1" required>
+                            <input type="number" id="pessoas" name="hospedes" class="form-control" value="1" min="1" required>
                         </div>
                         <div class="form-group">
                             <label for="observacoes">Observações (opcional):</label>
@@ -246,4 +247,49 @@
     });
 </script>
 <script src="{{ url_for('static', filename='js/mascaras.js') }}"></script>
+
+{% if tipo == 'hotel' %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var inputEntrada = document.getElementById('data_entrada');
+        var inputSaida = document.getElementById('data_saida');
+        var resumo = document.getElementById('resumo-diarias');
+        var precoDiaria = {{ preco_item }};
+
+        function atualizarResumoDiarias() {
+            if (!inputEntrada.value || !inputSaida.value) {
+                resumo.textContent = '';
+                return;
+            }
+
+            var entrada = new Date(inputEntrada.value + 'T00:00:00');
+            var saida = new Date(inputSaida.value + 'T00:00:00');
+            var diffMs = saida - entrada;
+            var diarias = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+            if (diarias <= 0) {
+                resumo.textContent = 'A data de saída deve ser depois da data de entrada.';
+                resumo.style.color = '#c0392b';
+            } else {
+                var valorTotal = diarias * precoDiaria;
+                resumo.textContent = diarias + (diarias === 1 ? ' diária' : ' diárias') +
+                    ' selecionada(s) — Total: R$ ' + valorTotal.toFixed(2).replace('.', ',');
+                resumo.style.color = '';
+            }
+        }
+
+        inputEntrada.addEventListener('change', atualizarResumoDiarias);
+        inputSaida.addEventListener('change', atualizarResumoDiarias);
+
+        // Impede escolher saída antes ou igual à entrada, ajustando o mínimo permitido
+        inputEntrada.addEventListener('change', function () {
+            if (inputEntrada.value) {
+                var proximoDia = new Date(inputEntrada.value + 'T00:00:00');
+                proximoDia.setDate(proximoDia.getDate() + 1);
+                inputSaida.min = proximoDia.toISOString().split('T')[0];
+            }
+        });
+    });
+</script>
+{% endif %}
 {% endblock %}

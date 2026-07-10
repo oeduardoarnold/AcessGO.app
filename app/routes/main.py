@@ -268,10 +268,37 @@ def finalizar_reserva():
     numero_cartao_limpo = re.sub(r'\D', '', numero_cartao)
 
     for item in itens_carrinho:
+        # 1. Para hotéis, a quantidade de diárias e o valor total SEMPRE vêm das
+        # datas de entrada e saída escolhidas nesta tela — a quantidade que estava
+        # salva no carrinho é apenas uma estimativa e é ignorada aqui, garantindo
+        # que o valor final corresponda exatamente ao período escolhido.
+        if item.hotel_id:
+            data_entrada_str = request.form.get(f'data_entrada_{item.id}')
+            data_saida_str = request.form.get(f'data_saida_{item.id}')
+
+            if not data_entrada_str or not data_saida_str:
+                flash(f'Selecione a data de entrada e saída para {item.hotel.nome if item.hotel else "o hotel"}.', 'warning')
+                return redirect(url_for('main.perfil_carrinho'))
+
+            data_entrada = datetime.strptime(data_entrada_str, '%Y-%m-%d').date()
+            data_saida = datetime.strptime(data_saida_str, '%Y-%m-%d').date()
+            numero_diarias = (data_saida - data_entrada).days
+
+            if numero_diarias < 1:
+                flash(f'A data de saída deve ser posterior à data de entrada para {item.hotel.nome if item.hotel else "o hotel"}.', 'warning')
+                return redirect(url_for('main.perfil_carrinho'))
+
+            quantidade_reserva = numero_diarias
+            valor_total_reserva = (item.hotel.preco if item.hotel else 0) * numero_diarias
+        else:
+            # Experiências: quantidade continua sendo a quantidade de ingressos
+            quantidade_reserva = item.quantidade
+            valor_total_reserva = item.subtotal
+
         nova_reserva = Reserva(
             user_id=current_user.id,
-            quantidade=item.quantidade,
-            valor_total=item.subtotal,
+            quantidade=quantidade_reserva,
+            valor_total=valor_total_reserva,
             nome_responsavel=nome_responsavel,
             telefone_contato=telefone_contato,
             cpf_responsavel=cpf_formatado,
@@ -282,15 +309,9 @@ def finalizar_reserva():
         )
 
         if item.hotel_id:
-            # Campos específicos de hotel: data de entrada e de saída
-            data_entrada_str = request.form.get(f'data_entrada_{item.id}')
-            data_saida_str = request.form.get(f'data_saida_{item.id}')
-
             nova_reserva.hotel_id = item.hotel_id
-            if data_entrada_str:
-                nova_reserva.data_entrada = datetime.strptime(data_entrada_str, '%Y-%m-%d').date()
-            if data_saida_str:
-                nova_reserva.data_saida = datetime.strptime(data_saida_str, '%Y-%m-%d').date()
+            nova_reserva.data_entrada = data_entrada
+            nova_reserva.data_saida = data_saida
         else:
             # Campos específicos de experiência: data e horário do passeio
             data_passeio_str = request.form.get(f'data_passeio_{item.id}')
@@ -538,10 +559,6 @@ def detalhe_reserva(tipo, item_id):
         validade_cartao = request.form.get('validade_cartao', '').strip()
         cvv_cartao = request.form.get('cvv_cartao', '').strip()
 
-        quantidade = request.form.get('quantidade', 1, type=int)
-        if quantidade is None or quantidade < 1:
-            quantidade = 1
-
         if not nome_responsavel or not telefone_contato or not cpf_responsavel:
             flash('Preencha o nome do responsável, o telefone de contato e o CPF para confirmar a reserva.', 'warning')
             return redirect(url_for('main.detalhe_reserva', tipo=tipo, item_id=item_id))
@@ -556,10 +573,44 @@ def detalhe_reserva(tipo, item_id):
 
         numero_cartao_limpo = re.sub(r'\D', '', numero_cartao)
 
+        # 4.1. Para hotéis, a quantidade de diárias e o valor total SEMPRE vêm das
+        # datas de entrada e saída escolhidas — nunca de um campo separado, para
+        # garantir que o valor cobrado corresponda exatamente ao período reservado.
+        if tipo == 'hotel':
+            data_entrada_str = request.form.get('data_entrada')
+            data_saida_str = request.form.get('data_saida')
+
+            if not data_entrada_str or not data_saida_str:
+                flash('Selecione a data de entrada e a data de saída.', 'warning')
+                return redirect(url_for('main.detalhe_reserva', tipo=tipo, item_id=item_id))
+
+            data_entrada = datetime.strptime(data_entrada_str, '%Y-%m-%d').date()
+            data_saida = datetime.strptime(data_saida_str, '%Y-%m-%d').date()
+            numero_diarias = (data_saida - data_entrada).days
+
+            if numero_diarias < 1:
+                flash('A data de saída deve ser posterior à data de entrada.', 'warning')
+                return redirect(url_for('main.detalhe_reserva', tipo=tipo, item_id=item_id))
+
+            hospedes = request.form.get('hospedes', 1, type=int)
+            if hospedes is None or hospedes < 1:
+                hospedes = 1
+
+            quantidade = numero_diarias
+            valor_total = preco_item * numero_diarias
+
+            nota_hospedes = f'Hóspedes: {hospedes}'
+            observacoes = f'{nota_hospedes}\n{observacoes}'.strip() if observacoes else nota_hospedes
+        else:
+            quantidade = request.form.get('quantidade', 1, type=int)
+            if quantidade is None or quantidade < 1:
+                quantidade = 1
+            valor_total = preco_item * quantidade
+
         nova_reserva = Reserva(
             user_id=current_user.id,
             quantidade=quantidade,
-            valor_total=preco_item * quantidade,
+            valor_total=valor_total,
             nome_responsavel=nome_responsavel,
             telefone_contato=telefone_contato,
             cpf_responsavel=mascarar_cpf(cpf_responsavel),
@@ -570,14 +621,9 @@ def detalhe_reserva(tipo, item_id):
         )
 
         if tipo == 'hotel':
-            data_entrada_str = request.form.get('data_entrada')
-            data_saida_str = request.form.get('data_saida')
-
             nova_reserva.hotel_id = item_id
-            if data_entrada_str:
-                nova_reserva.data_entrada = datetime.strptime(data_entrada_str, '%Y-%m-%d').date()
-            if data_saida_str:
-                nova_reserva.data_saida = datetime.strptime(data_saida_str, '%Y-%m-%d').date()
+            nova_reserva.data_entrada = data_entrada
+            nova_reserva.data_saida = data_saida
         else:
             data_passeio_str = request.form.get('data_passeio')
             horario_passeio_str = request.form.get('horario_passeio')
