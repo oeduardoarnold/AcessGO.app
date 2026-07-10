@@ -464,7 +464,55 @@ def detalhe_reserva(tipo, item_id):
     else:
         is_favorited = Favorito.query.filter_by(user_id=current_user.id, experiencia_id=item_id).first() is not None
 
-    # 4. RENDERIZAÇÃO DO TEMPLATE (Variável preco_item adicionada ao retorno)
+    # 4. TRATAMENTO DO ENVIO DO FORMULÁRIO DE RESERVA DIRETA (sem passar pelo carrinho)
+    if request.method == 'POST':
+        nome_responsavel = request.form.get('nome_responsavel', '').strip()
+        telefone_contato = request.form.get('telefone_contato', '').strip()
+        observacoes = request.form.get('observacoes', '').strip()
+
+        quantidade = request.form.get('quantidade', 1, type=int)
+        if quantidade is None or quantidade < 1:
+            quantidade = 1
+
+        if not nome_responsavel or not telefone_contato:
+            flash('Preencha o nome do responsável e o telefone de contato para confirmar a reserva.', 'warning')
+            return redirect(url_for('main.detalhe_reserva', tipo=tipo, item_id=item_id))
+
+        nova_reserva = Reserva(
+            user_id=current_user.id,
+            quantidade=quantidade,
+            valor_total=preco_item * quantidade,
+            nome_responsavel=nome_responsavel,
+            telefone_contato=telefone_contato,
+            observacoes=observacoes or None
+        )
+
+        if tipo == 'hotel':
+            data_entrada_str = request.form.get('data_entrada')
+            data_saida_str = request.form.get('data_saida')
+
+            nova_reserva.hotel_id = item_id
+            if data_entrada_str:
+                nova_reserva.data_entrada = datetime.strptime(data_entrada_str, '%Y-%m-%d').date()
+            if data_saida_str:
+                nova_reserva.data_saida = datetime.strptime(data_saida_str, '%Y-%m-%d').date()
+        else:
+            data_passeio_str = request.form.get('data_passeio')
+            horario_passeio_str = request.form.get('horario_passeio')
+
+            nova_reserva.experiencia_id = item_id
+            if data_passeio_str:
+                nova_reserva.data_passeio = datetime.strptime(data_passeio_str, '%Y-%m-%d').date()
+            if horario_passeio_str:
+                nova_reserva.horario_passeio = horario_passeio_str
+
+        db.session.add(nova_reserva)
+        db.session.commit()
+
+        flash('Reserva confirmada com sucesso! Você pode acompanhar tudo no seu histórico.', 'success')
+        return redirect(url_for('main.perfil_historico'))
+
+    # 5. RENDERIZAÇÃO DO TEMPLATE (Variável preco_item adicionada ao retorno)
     return render_template('reserva.html', 
                            user=current_user, 
                            tipo=tipo, 
