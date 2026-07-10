@@ -1,6 +1,124 @@
 {% extends "perfil.html" %}
 
 {% block perfil_content %}
-    <h1>Título da Página (Ex: Meu Histórico)</h1>
-    <p>Conteúdo específico aqui...</p>
+<div class="carrinho-container">
+    <h1 class="carrinho-titulo">Histórico de Reservas</h1>
+
+    {# === MAPEAMENTO SEGURO DE FOTOS DO SEU PROJETO === #}
+    {% set fotos_hoteis = {
+        1: 'images/bento/hotel1.bento.jfif',
+        2: 'images/bento/hotel2.bento.jfif',
+        3: 'images/bento/hotel3.bento.jfif',
+        4: 'images/bento/hotel4.bento.jfif',
+        5: 'images/bento/hotel5.bento.jfif',
+        6: 'images/gramado/gram_ht01.webp',
+        7: 'images/gramado/gram_ht02.jpg',
+        8: 'images/gramado/gram_ht03.jpg',
+        9: 'images/gramado/gram_ht04.jpg',
+        10: 'images/gramado/gram_ht05.webp',
+        11: 'images/poa/hotel1.poa.jfif',
+        12: 'images/poa/hotel2.poa.jfif',
+        13: 'images/poa/hotel3.poa.jfif',
+        14: 'images/poa/hotel4.poa.jfif',
+        15: 'images/poa/hotel5.poa.jfif'
+    } %}
+
+    {% set fotos_experiencias = {
+        1: 'images/bento/ponto1.jfif',
+        2: 'images/bento/ponto2.jfif',
+        3: 'images/bento/ponto3.jfif',
+        4: 'images/bento/ponto4.jfif',
+        5: 'images/bento/ponto5.jfif',
+        6: 'images/bento/exp1.jfif',
+        7: 'images/bento/exp2.jfif',
+        8: 'images/bento/exp3.jfif',
+        9: 'images/bento/exp4.jfif',
+        10: 'images/bento/exp5.jfif',
+        11: 'images/gramado/pnt_tur01.webp',
+        12: 'images/gramado/pnt_tur02.jpg',
+        13: 'images/gramado/pnt_tur03.jpg',
+        14: 'images/gramado/pnt_tur04.avif',
+        15: 'images/gramado/pnt_tur05.jpg',
+        16: 'images/gramado/gramadoexp1.jfif',
+        17: 'images/gramado/gramadoexp2.jfif',
+        18: 'images/gramado/gramadoexp3.jfif',
+        19: 'images/gramado/gramadoexp4.jfif',
+        20: 'images/gramado/gramadoexp5.jfif',
+        21: 'images/poa/orla.jfif',
+        22: 'images/poa/marioquintana.jfif',
+        23: 'images/poa/memorialrs.jfif',
+        24: 'images/poa/pracamatriz.jfif',
+        25: 'images/poa/moinhos.jfif',
+        26: 'images/poa/arena.jfif',
+        27: 'images/poa/guaiba.jfif',
+        28: 'images/poa/rdelaboca.jfif',
+        29: 'images/poa/theatro.jfif',
+        30: 'images/poa/iberec.jfif'
+    } %}
+
+    <!-- ================= SEÇÃO 1: HOSPEDAGENS RESERVADAS ================= -->
+    <div class="favoritos-secao secao-hoteis">
+        <h2 class="subtitulo-favoritos">Hospedagens Reservadas</h2>
+        <div class="carrinho-grid">
+            {% for reserva in hoteis %}
+                {% if reserva.hotel %}
+                <div class="carrinho-card">
+                    <div class="image-wrapper">
+                        {% set foto_path = fotos_hoteis.get(reserva.hotel.id, 'images/hotel_padrao.jpg') %}
+                        <div class="carrinho-img" style="background-image: url('{{ url_for('static', filename=foto_path) }}');"></div>
+                    </div>
+                    <div class="carrinho-card-info">
+                        <p class="nome-estabelecimento">{{ reserva.hotel.nome }}</p>
+                        <p class="data-adicionado">{{ reserva.hotel.endereco }}</p>
+                        <p class="preco-item valor-hotel">Total pago: R$ {{ "%.2f"|format(reserva.valor_total) }}</p>
+                        <p class="reserva-detalhe">📅 Entrada: {{ reserva.data_entrada.strftime('%d/%m/%Y') if reserva.data_entrada else '-' }}</p>
+                        <p class="reserva-detalhe">📅 Saída: {{ reserva.data_saida.strftime('%d/%m/%Y') if reserva.data_saida else '-' }}</p>
+                        <p class="reserva-detalhe">🛏️ Diárias: {{ reserva.quantidade }}</p>
+                        <p class="reserva-detalhe">👤 Responsável: {{ reserva.nome_responsavel }}</p>
+                        <p class="reserva-detalhe">📞 Contato: {{ reserva.telefone_contato }}</p>
+                        {% if reserva.observacoes %}
+                        <p class="reserva-detalhe">📝 {{ reserva.observacoes }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            {% else %}
+                <p class="carrinho-vazio">Nenhuma hospedagem reservada ainda.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ================= SEÇÃO 2: EXPERIÊNCIAS RESERVADAS ================= -->
+    <div class="favoritos-secao secao-experiencias">
+        <h2 class="subtitulo-favoritos">Experiências / Pontos Turísticos Reservados</h2>
+        <div class="carrinho-grid">
+            {% for reserva in experiencias %}
+                {% if reserva.experiencia %}
+                <div class="carrinho-card">
+                    <div class="image-wrapper">
+                        {% set foto_path = fotos_experiencias.get(reserva.experiencia.id, 'images/exp_padrao.jpg') %}
+                        <div class="carrinho-img" style="background-image: url('{{ url_for('static', filename=foto_path) }}');"></div>
+                    </div>
+                    <div class="carrinho-card-info">
+                        <p class="nome-estabelecimento">{{ reserva.experiencia.nome }}</p>
+                        <p class="data-adicionado">{{ reserva.experiencia.categoria }}</p>
+                        <p class="preco-item valor-experiencia">Total pago: R$ {{ "%.2f"|format(reserva.valor_total) }}</p>
+                        <p class="reserva-detalhe">📅 Data do passeio: {{ reserva.data_passeio.strftime('%d/%m/%Y') if reserva.data_passeio else '-' }}</p>
+                        <p class="reserva-detalhe">🕒 Horário: {{ reserva.horario_passeio or '-' }}</p>
+                        <p class="reserva-detalhe">🎟️ Ingressos: {{ reserva.quantidade }}</p>
+                        <p class="reserva-detalhe">👤 Responsável: {{ reserva.nome_responsavel }}</p>
+                        <p class="reserva-detalhe">📞 Contato: {{ reserva.telefone_contato }}</p>
+                        {% if reserva.observacoes %}
+                        <p class="reserva-detalhe">📝 {{ reserva.observacoes }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            {% else %}
+                <p class="carrinho-vazio">Nenhuma experiência reservada ainda.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
 {% endblock %}

@@ -152,5 +152,76 @@
         <h2 class="carrinho-total-label">Total: <span class="carrinho-total-valor">R$ {{ "%.2f"|format(total_carrinho) }}</span></h2>
     </div>
 
+    <!-- ================= FINALIZAR RESERVA ================= -->
+    {% if hoteis or experiencias %}
+    <details class="finalizar-reserva-details">
+        <summary class="btn-finalizar-reserva">
+            🛒 Finalizar Reserva
+        </summary>
+
+        <form action="{{ url_for('main.finalizar_reserva') }}" method="POST" class="form-finalizar-reserva">
+
+            <h3 class="finalizar-subtitulo">Dados do Responsável</h3>
+            <div class="form-group">
+                <label for="nome_responsavel">Nome completo:</label>
+                <input type="text" id="nome_responsavel" name="nome_responsavel" class="form-control" value="{{ current_user.username }}" required>
+            </div>
+            <div class="form-group">
+                <label for="telefone_contato">Telefone de contato:</label>
+                <input type="tel" id="telefone_contato" name="telefone_contato" class="form-control" placeholder="(00) 00000-0000" required>
+            </div>
+
+            {% if hoteis %}
+            <h3 class="finalizar-subtitulo">Hospedagens</h3>
+            {% for item in hoteis %}
+                {% if item.hotel %}
+                <div class="item-finalizar-reserva">
+                    <p class="item-finalizar-nome">{{ item.hotel.nome }}</p>
+                    <div class="form-group-linha">
+                        <div class="form-group">
+                            <label for="data_entrada_{{ item.id }}">Data de entrada:</label>
+                            <input type="date" id="data_entrada_{{ item.id }}" name="data_entrada_{{ item.id }}" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="data_saida_{{ item.id }}">Data de saída:</label>
+                            <input type="date" id="data_saida_{{ item.id }}" name="data_saida_{{ item.id }}" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+
+            {% if experiencias %}
+            <h3 class="finalizar-subtitulo">Experiências</h3>
+            {% for item in experiencias %}
+                {% if item.experiencia %}
+                <div class="item-finalizar-reserva">
+                    <p class="item-finalizar-nome">{{ item.experiencia.nome }}</p>
+                    <div class="form-group-linha">
+                        <div class="form-group">
+                            <label for="data_passeio_{{ item.id }}">Data do passeio:</label>
+                            <input type="date" id="data_passeio_{{ item.id }}" name="data_passeio_{{ item.id }}" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="horario_passeio_{{ item.id }}">Horário:</label>
+                            <input type="time" id="horario_passeio_{{ item.id }}" name="horario_passeio_{{ item.id }}" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+
+            <div class="form-group">
+                <label for="observacoes">Observações (opcional):</label>
+                <textarea id="observacoes" name="observacoes" class="form-control" rows="3" placeholder="Alguma informação adicional para sua reserva?"></textarea>
+            </div>
+
+            <button type="submit" class="btn-confirmar">Confirmar Reserva</button>
+        </form>
+    </details>
+    {% endif %}
+
 </div>
 {% endblock %}

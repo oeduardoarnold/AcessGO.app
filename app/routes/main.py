@@ -2,8 +2,9 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 # Importar decorators e objetos do Flask-Login
 from flask_login import login_required, current_user
+from datetime import datetime
 from app import db
-from app.models import Hotel, Experiencia, Acessibilidade, Cidade, Favorito, User, Carrinho
+from app.models import Hotel, Experiencia, Acessibilidade, Cidade, Favorito, User, Carrinho, Reserva
 
 # Criar Blueprint para rotas principais da aplicação
 # Sem url_prefix, as rotas começam diretamente da raiz (/)
@@ -74,8 +75,8 @@ def perfil():
 
 @main_bp.route('/botoes_lat_perf/perfil_informacoes')
 def perfil_informacoes():
-    # Aponta para a subpasta e respeita o nome "perifl_informacoes" do seu arquivo
-    return render_template('botoes_lat_perf/perifl_informacoes.html', active_page='informacoes')
+    # Aponta para a subpasta e respeita o nome "perfil_informacoes" do seu arquivo
+    return render_template('botoes_lat_perf/perfil_informacoes.html', active_page='informacoes')
 
 @main_bp.route('/botoes_lat_perf/perfil_carrinho')
 @login_required
@@ -185,13 +186,90 @@ def limpar_carrinho():
     flash('Carrinho esvaziado com sucesso!', 'info')
     return redirect(url_for('main.perfil_carrinho'))
 
+
+@main_bp.route('/carrinho/finalizar', methods=['POST'])
+@login_required
+def finalizar_reserva():
+    """
+    Transforma todos os itens do carrinho em reservas confirmadas.
+    Cada item do carrinho vira um registro de Reserva; ao final, o carrinho é esvaziado.
+    """
+    itens_carrinho = Carrinho.query.filter_by(user_id=current_user.id).all()
+
+    if not itens_carrinho:
+        flash('Seu carrinho está vazio.', 'warning')
+        return redirect(url_for('main.perfil_carrinho'))
+
+    # Dados gerais, válidos para todos os itens desta reserva
+    nome_responsavel = request.form.get('nome_responsavel', '').strip()
+    telefone_contato = request.form.get('telefone_contato', '').strip()
+    observacoes = request.form.get('observacoes', '').strip()
+
+    if not nome_responsavel or not telefone_contato:
+        flash('Preencha o nome do responsável e o telefone de contato para confirmar a reserva.', 'warning')
+        return redirect(url_for('main.perfil_carrinho'))
+
+    for item in itens_carrinho:
+        nova_reserva = Reserva(
+            user_id=current_user.id,
+            quantidade=item.quantidade,
+            valor_total=item.subtotal,
+            nome_responsavel=nome_responsavel,
+            telefone_contato=telefone_contato,
+            observacoes=observacoes or None
+        )
+
+        if item.hotel_id:
+            # Campos específicos de hotel: data de entrada e de saída
+            data_entrada_str = request.form.get(f'data_entrada_{item.id}')
+            data_saida_str = request.form.get(f'data_saida_{item.id}')
+
+            nova_reserva.hotel_id = item.hotel_id
+            if data_entrada_str:
+                nova_reserva.data_entrada = datetime.strptime(data_entrada_str, '%Y-%m-%d').date()
+            if data_saida_str:
+                nova_reserva.data_saida = datetime.strptime(data_saida_str, '%Y-%m-%d').date()
+        else:
+            # Campos específicos de experiência: data e horário do passeio
+            data_passeio_str = request.form.get(f'data_passeio_{item.id}')
+            horario_passeio_str = request.form.get(f'horario_passeio_{item.id}')
+
+            nova_reserva.experiencia_id = item.experiencia_id
+            if data_passeio_str:
+                nova_reserva.data_passeio = datetime.strptime(data_passeio_str, '%Y-%m-%d').date()
+            if horario_passeio_str:
+                nova_reserva.horario_passeio = horario_passeio_str
+
+        db.session.add(nova_reserva)
+
+    # Esvazia o carrinho depois de transformar tudo em reservas
+    Carrinho.query.filter_by(user_id=current_user.id).delete()
+    db.session.commit()
+
+    flash('Reserva confirmada com sucesso! Você pode acompanhar tudo no seu histórico.', 'success')
+    return redirect(url_for('main.perfil_historico'))
+
 @main_bp.route('/botoes_lat_perf/perfil_preferencias')
 def perfil_preferencias():
     return render_template('botoes_lat_perf/perfil_preferencias.html', active_page='preferencias')
 
 @main_bp.route('/botoes_lat_perf/perfil_historico')
+@login_required
 def perfil_historico():
-    return render_template('botoes_lat_perf/perfil_historico.html', active_page='historico')
+    hoteis_reservados = Reserva.query.filter(
+        Reserva.user_id == current_user.id, Reserva.hotel_id.isnot(None)
+    ).order_by(Reserva.data_criacao.desc()).all()
+
+    experiencias_reservadas = Reserva.query.filter(
+        Reserva.user_id == current_user.id, Reserva.experiencia_id.isnot(None)
+    ).order_by(Reserva.data_criacao.desc()).all()
+
+    return render_template(
+        'botoes_lat_perf/perfil_historico.html',
+        active_page='historico',
+        hoteis=hoteis_reservados,
+        experiencias=experiencias_reservadas
+    )
 
 @main_bp.route('/botoes_lat_perf/perfil_favoritos')
 @login_required

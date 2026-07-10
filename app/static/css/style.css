@@ -1279,6 +1279,84 @@ figcaption{
     background: #e2e2e2;
 }
 
+/* ================= DETALHES DA RESERVA (HISTÓRICO) ================= */
+.reserva-detalhe {
+    font-size: 13px;
+    color: #555;
+    margin: 2px 0;
+}
+
+/* ================= FINALIZAR RESERVA (CARRINHO) ================= */
+.finalizar-reserva-details {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 14px 18px;
+    background: #fafafa;
+}
+
+.btn-finalizar-reserva {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    background-color: #1e5f38;
+    padding: 12px 22px;
+    border-radius: 8px;
+    list-style: none;
+    user-select: none;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.btn-finalizar-reserva:hover {
+    background-color: #164a2c;
+}
+
+.btn-finalizar-reserva::-webkit-details-marker {
+    display: none;
+}
+
+.form-finalizar-reserva {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e2e2;
+}
+
+.finalizar-subtitulo {
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #333;
+}
+
+.finalizar-subtitulo:first-of-type {
+    margin-top: 0;
+}
+
+.item-finalizar-reserva {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.item-finalizar-nome {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-group-linha {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.form-group-linha .form-group {
+    flex: 1 1 180px;
+}
+
 /* ================= BOTÃO ESVAZIAR TUDO (CARRINHO/FAVORITOS) ================= */
 .btn-esvaziar-tudo {
     background: #fff;
