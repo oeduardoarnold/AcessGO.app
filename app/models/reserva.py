@@ -18,6 +18,15 @@ class Reserva(db.Model):
     # Dados do responsável pela reserva
     nome_responsavel = db.Column(db.String(120), nullable=False)
     telefone_contato = db.Column(db.String(20), nullable=False)
+    # Por segurança, guardamos apenas os 3 últimos dígitos do CPF (não o número completo)
+    cpf_responsavel = db.Column(db.String(14), nullable=False)
+
+    # Dados do cartão de crédito usado no pagamento.
+    # Por segurança, NUNCA armazenamos o número completo do cartão nem o CVV no banco;
+    # guardamos apenas o nome impresso e os 4 últimos dígitos, apenas para exibição/conferência.
+    nome_cartao = db.Column(db.String(120), nullable=True)
+    numero_cartao_final = db.Column(db.String(4), nullable=True)
+    validade_cartao = db.Column(db.String(5), nullable=True)  # formato MM/AA
 
     # Datas: hotel usa entrada/saída; experiência usa data + horário do passeio
     data_entrada = db.Column(db.Date, nullable=True)

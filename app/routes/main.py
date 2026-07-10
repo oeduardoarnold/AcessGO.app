@@ -5,10 +5,51 @@ from flask_login import login_required, current_user
 from datetime import datetime
 from app import db
 from app.models import Hotel, Experiencia, Acessibilidade, Cidade, Favorito, User, Carrinho, Reserva
+import re
 
 # Criar Blueprint para rotas principais da aplicação
 # Sem url_prefix, as rotas começam diretamente da raiz (/)
 main_bp = Blueprint('main', __name__)
+
+
+def validar_cpf(cpf):
+    """
+    Valida apenas o FORMATO do CPF (11 dígitos numéricos), sem checar os
+    dígitos verificadores. Isso permite usar qualquer sequência de 11 números
+    para testes, sem exigir um CPF real.
+    """
+    cpf = re.sub(r'\D', '', cpf or '')
+    return len(cpf) == 11
+
+
+def mascarar_cpf(cpf):
+    """
+    Retorna apenas os 3 últimos dígitos do CPF (formato usado para exibição
+    no histórico), sem guardar nem mostrar o número completo em nenhum momento.
+    """
+    cpf = re.sub(r'\D', '', cpf or '')
+    return cpf[-3:] if len(cpf) >= 3 else cpf
+
+
+def validar_dados_cartao(numero_cartao, validade_cartao, cvv_cartao):
+    """
+    Faz uma validação básica dos dados do cartão de crédito informado no formulário:
+    - número com 13 a 19 dígitos (padrão da maioria das bandeiras)
+    - validade no formato MM/AA, com mês entre 01 e 12
+    - CVV com 3 ou 4 dígitos
+    Retorna True se todos os campos estiverem em um formato aceitável.
+    """
+    numero_limpo = re.sub(r'\D', '', numero_cartao or '')
+    if not (13 <= len(numero_limpo) <= 19):
+        return False
+
+    if not re.fullmatch(r'(0[1-9]|1[0-2])/\d{2}', validade_cartao or ''):
+        return False
+
+    if not re.fullmatch(r'\d{3,4}', cvv_cartao or ''):
+        return False
+
+    return True
 
 @main_bp.route('/')
 # @login_required  # Decorator que protege a rota - requer autenticação
@@ -203,11 +244,28 @@ def finalizar_reserva():
     # Dados gerais, válidos para todos os itens desta reserva
     nome_responsavel = request.form.get('nome_responsavel', '').strip()
     telefone_contato = request.form.get('telefone_contato', '').strip()
+    cpf_responsavel = request.form.get('cpf_responsavel', '').strip()
     observacoes = request.form.get('observacoes', '').strip()
 
-    if not nome_responsavel or not telefone_contato:
-        flash('Preencha o nome do responsável e o telefone de contato para confirmar a reserva.', 'warning')
+    nome_cartao = request.form.get('nome_cartao', '').strip()
+    numero_cartao = request.form.get('numero_cartao', '').strip()
+    validade_cartao = request.form.get('validade_cartao', '').strip()
+    cvv_cartao = request.form.get('cvv_cartao', '').strip()
+
+    if not nome_responsavel or not telefone_contato or not cpf_responsavel:
+        flash('Preencha o nome do responsável, o telefone de contato e o CPF para confirmar a reserva.', 'warning')
         return redirect(url_for('main.perfil_carrinho'))
+
+    if not validar_cpf(cpf_responsavel):
+        flash('O CPF informado é inválido. Verifique os números digitados.', 'warning')
+        return redirect(url_for('main.perfil_carrinho'))
+
+    if not nome_cartao or not validar_dados_cartao(numero_cartao, validade_cartao, cvv_cartao):
+        flash('Verifique os dados do cartão de crédito: número, validade (MM/AA) e CVV.', 'warning')
+        return redirect(url_for('main.perfil_carrinho'))
+
+    cpf_formatado = mascarar_cpf(cpf_responsavel)
+    numero_cartao_limpo = re.sub(r'\D', '', numero_cartao)
 
     for item in itens_carrinho:
         nova_reserva = Reserva(
@@ -216,6 +274,10 @@ def finalizar_reserva():
             valor_total=item.subtotal,
             nome_responsavel=nome_responsavel,
             telefone_contato=telefone_contato,
+            cpf_responsavel=cpf_formatado,
+            nome_cartao=nome_cartao,
+            numero_cartao_final=numero_cartao_limpo[-4:],
+            validade_cartao=validade_cartao,
             observacoes=observacoes or None
         )
 
@@ -468,15 +530,31 @@ def detalhe_reserva(tipo, item_id):
     if request.method == 'POST':
         nome_responsavel = request.form.get('nome_responsavel', '').strip()
         telefone_contato = request.form.get('telefone_contato', '').strip()
+        cpf_responsavel = request.form.get('cpf_responsavel', '').strip()
         observacoes = request.form.get('observacoes', '').strip()
+
+        nome_cartao = request.form.get('nome_cartao', '').strip()
+        numero_cartao = request.form.get('numero_cartao', '').strip()
+        validade_cartao = request.form.get('validade_cartao', '').strip()
+        cvv_cartao = request.form.get('cvv_cartao', '').strip()
 
         quantidade = request.form.get('quantidade', 1, type=int)
         if quantidade is None or quantidade < 1:
             quantidade = 1
 
-        if not nome_responsavel or not telefone_contato:
-            flash('Preencha o nome do responsável e o telefone de contato para confirmar a reserva.', 'warning')
+        if not nome_responsavel or not telefone_contato or not cpf_responsavel:
+            flash('Preencha o nome do responsável, o telefone de contato e o CPF para confirmar a reserva.', 'warning')
             return redirect(url_for('main.detalhe_reserva', tipo=tipo, item_id=item_id))
+
+        if not validar_cpf(cpf_responsavel):
+            flash('O CPF informado é inválido. Verifique os números digitados.', 'warning')
+            return redirect(url_for('main.detalhe_reserva', tipo=tipo, item_id=item_id))
+
+        if not nome_cartao or not validar_dados_cartao(numero_cartao, validade_cartao, cvv_cartao):
+            flash('Verifique os dados do cartão de crédito: número, validade (MM/AA) e CVV.', 'warning')
+            return redirect(url_for('main.detalhe_reserva', tipo=tipo, item_id=item_id))
+
+        numero_cartao_limpo = re.sub(r'\D', '', numero_cartao)
 
         nova_reserva = Reserva(
             user_id=current_user.id,
@@ -484,6 +562,10 @@ def detalhe_reserva(tipo, item_id):
             valor_total=preco_item * quantidade,
             nome_responsavel=nome_responsavel,
             telefone_contato=telefone_contato,
+            cpf_responsavel=mascarar_cpf(cpf_responsavel),
+            nome_cartao=nome_cartao,
+            numero_cartao_final=numero_cartao_limpo[-4:],
+            validade_cartao=validade_cartao,
             observacoes=observacoes or None
         )
 

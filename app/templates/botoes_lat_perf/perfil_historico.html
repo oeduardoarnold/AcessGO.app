@@ -76,6 +76,10 @@
                         <p class="reserva-detalhe">🛏️ Diárias: {{ reserva.quantidade }}</p>
                         <p class="reserva-detalhe">👤 Responsável: {{ reserva.nome_responsavel }}</p>
                         <p class="reserva-detalhe">📞 Contato: {{ reserva.telefone_contato }}</p>
+                        <p class="reserva-detalhe">🪪 CPF final {{ reserva.cpf_responsavel }}</p>
+                        {% if reserva.numero_cartao_final %}
+                        <p class="reserva-detalhe">💳 Cartão final {{ reserva.numero_cartao_final }}</p>
+                        {% endif %}
                         {% if reserva.observacoes %}
                         <p class="reserva-detalhe">📝 {{ reserva.observacoes }}</p>
                         {% endif %}
@@ -108,6 +112,10 @@
                         <p class="reserva-detalhe">🎟️ Ingressos: {{ reserva.quantidade }}</p>
                         <p class="reserva-detalhe">👤 Responsável: {{ reserva.nome_responsavel }}</p>
                         <p class="reserva-detalhe">📞 Contato: {{ reserva.telefone_contato }}</p>
+                        <p class="reserva-detalhe">🪪 CPF final {{ reserva.cpf_responsavel }}</p>
+                        {% if reserva.numero_cartao_final %}
+                        <p class="reserva-detalhe">💳 Cartão final {{ reserva.numero_cartao_final }}</p>
+                        {% endif %}
                         {% if reserva.observacoes %}
                         <p class="reserva-detalhe">📝 {{ reserva.observacoes }}</p>
                         {% endif %}
