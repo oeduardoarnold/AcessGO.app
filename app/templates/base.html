@@ -16,11 +16,11 @@
                 </a>
             </div>
             {% block search_bar_condition %}
-                <div class="search">
+                <form class="search" method="GET" action="{{ url_for('main.busca') }}">
                     <label for="searchInput"></label>
-                    <img src="{{ url_for('static', filename='images/search_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg') }}" alt="Search" class="material-icon-symbols-outlined">    
-                    <input type="text" id="searchInput" placeholder="Pesquisar">
-            </div>
+                    <img src="{{ url_for('static', filename='images/search_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg') }}" alt="Search" class="material-icon-symbols-outlined">
+                    <input type="text" id="searchInput" name="q" placeholder="Pesquisar">
+                </form>
             {% endblock search_bar_condition %}
             <div class="navbar-menu">
                 {% if current_user.is_authenticated %}

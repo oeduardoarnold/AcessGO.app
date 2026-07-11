@@ -125,6 +125,55 @@ def index():
         filtro_ativo=filtro_ativo
     )
 
+# Nomes das cidades cadastradas -> slug usado na rota /destinos/<slug>.
+# Se uma nova cidade for cadastrada, adicione o mapeamento dela aqui.
+CIDADE_SLUGS = {
+    "bento gonçalves": "bento",
+    "porto alegre": "porto",
+    "gramado": "gramado",
+}
+
+@main_bp.route('/busca')
+def busca():
+    """
+    Busca "inteligente" pela barra de pesquisa:
+    - Se o texto digitado corresponder a uma cidade, vai direto pra página
+      daquela cidade (/destinos/<slug>).
+    - Senão, procura um hotel ou uma experiência/ponto turístico com esse
+      nome e vai direto pra página de reserva/detalhe daquele local.
+    - Se não achar nada, volta pra home com um aviso.
+    """
+    q = request.args.get('q', '').strip()
+
+    if not q:
+        return redirect(url_for('main.index'))
+
+    q_lower = q.lower()
+
+    # 1. Tenta casar com uma cidade
+    for cidade in Cidade.query.all():
+        nome_lower = cidade.nome.lower()
+        if q_lower in nome_lower or nome_lower in q_lower:
+            slug = CIDADE_SLUGS.get(nome_lower)
+            if slug:
+                return redirect(url_for('main.destinos', destino=slug))
+
+    termo = f'%{q}%'
+
+    # 2. Tenta casar com um hotel
+    hotel = Hotel.query.filter(Hotel.nome.ilike(termo)).first()
+    if hotel:
+        return redirect(url_for('main.detalhe_reserva', tipo='hotel', item_id=hotel.id))
+
+    # 3. Tenta casar com uma experiência ou ponto turístico
+    experiencia = Experiencia.query.filter(Experiencia.nome.ilike(termo)).first()
+    if experiencia:
+        return redirect(url_for('main.detalhe_reserva', tipo='experiencia', item_id=experiencia.id))
+
+    # 4. Nada encontrado
+    flash(f'Nenhum resultado encontrado para "{q}".', 'info')
+    return redirect(url_for('main.index'))
+
 @main_bp.route('/dashboard')
 @login_required  # Esta rota também requer autenticação
 def dashboard():
