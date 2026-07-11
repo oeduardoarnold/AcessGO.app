@@ -1607,3 +1607,77 @@ figcaption{
 
 #prevBtn { left: 0.625rem; }
 #nextBtn { right: 0.625rem; }
+/* Banner de convite para preencher as preferências de acessibilidade (home) */
+.banner-preferencias {
+    background: #eef6ff;
+    border: 1px solid #bcdcff;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin: 20px auto;
+    max-width: 900px;
+    text-align: center;
+}
+
+.banner-preferencias p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.banner-preferencias a {
+    font-weight: 600;
+    color: #1f6feb;
+    text-decoration: underline;
+}
+
+/* Carrossel horizontal para as listas de hotéis/pontos/experiências (home) */
+.carrossel-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.4rem;
+}
+
+.carrossel-track {
+    display: flex;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+    gap: 1.1rem;
+}
+
+.carrossel-track::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
+
+.carrossel-track figure {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+}
+
+.carrossel-seta {
+    flex: 0 0 auto;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.carrossel-seta:hover {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+/* Banner exibido quando a home está filtrada pelas preferências de acessibilidade */
+.banner-filtro-ativo {
+    background: #eafbea;
+    border-color: #bfe8bf;
+}

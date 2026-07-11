@@ -21,11 +21,11 @@ class PreferenciaForm(FlaskForm):
             ("braille", "Sinalização em braille"),
             ("sinalizacao_visual", "Sinalização visual"),
             ("sinalizacao_auditiva", "Sinalização auditiva"),
-        ]
-)
+            ]
+    )
 
-def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.cidade_id.choices = [(0, "Todas as cidades")] + [
-        (c.id, c.nome) for c in Cidade.query.all()
-    ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cidade_id.choices = [(0, "Todas as cidades")] + [
+            (c.id, c.nome) for c in Cidade.query.all()
+        ]

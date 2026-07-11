@@ -5,6 +5,8 @@ from flask_login import login_required, current_user
 from datetime import datetime
 from app import db
 from app.models import Hotel, Experiencia, Acessibilidade, Cidade, Favorito, User, Carrinho, Reserva
+from app.forms.preferencia_form import PreferenciaForm
+from app.recomendacao.engine import recomendar
 import re
 
 # Criar Blueprint para rotas principais da aplicação
@@ -87,8 +89,42 @@ def index():
             "button_text": "Ver mais"
         }
     ]
-    
-    return render_template('index.html', user=current_user, slides=slides_data)
+
+    # Todos os hotéis e experiências/pontos turísticos de todas as cidades
+    todos_hoteis = Hotel.query.all()
+    todas_experiencias = Experiencia.query.filter_by(categoria='Experiencia').all()
+    todos_pontos = Experiencia.query.filter_by(categoria='Ponto Turistico').all()
+
+    # Se o usuário veio da tela de Preferências de Acessibilidade (parâmetro
+    # ?filtrado=1 na URL), filtra o que aparece na home pelas preferências
+    # escolhidas. Sem esse parâmetro, a home mostra tudo normalmente.
+    filtro_ativo = bool(request.args.get('filtrado'))
+
+    if filtro_ativo:
+        preferencias = {
+            "cidade_id": request.args.get('cidade_id', type=int),
+            "preco_max": request.args.get('preco_max', type=float),
+            "acessibilidade": request.args.getlist('acessibilidade'),
+        }
+        # top_n bem alto para não cortar resultados: queremos TODOS os locais
+        # que atendem às preferências, não só um "top 10"
+        hoteis_exibir = [h for h, _ in recomendar(todos_hoteis, preferencias, top_n=len(todos_hoteis) or 1)]
+        pontos_exibir = [p for p, _ in recomendar(todos_pontos, preferencias, top_n=len(todos_pontos) or 1)]
+        experiencias_exibir = [e for e, _ in recomendar(todas_experiencias, preferencias, top_n=len(todas_experiencias) or 1)]
+    else:
+        hoteis_exibir = todos_hoteis
+        pontos_exibir = todos_pontos
+        experiencias_exibir = todas_experiencias
+
+    return render_template(
+        'index.html',
+        user=current_user,
+        slides=slides_data,
+        hoteis=hoteis_exibir,
+        experiencias=experiencias_exibir,
+        pontos=pontos_exibir,
+        filtro_ativo=filtro_ativo
+    )
 
 @main_bp.route('/dashboard')
 @login_required  # Esta rota também requer autenticação
@@ -332,9 +368,30 @@ def finalizar_reserva():
     flash('Reserva confirmada com sucesso! Você pode acompanhar tudo no seu histórico.', 'success')
     return redirect(url_for('main.perfil_historico'))
 
-@main_bp.route('/botoes_lat_perf/perfil_preferencias')
+@main_bp.route('/botoes_lat_perf/perfil_preferencias', methods=['GET', 'POST'])
+@login_required
 def perfil_preferencias():
-    return render_template('botoes_lat_perf/perfil_preferencias.html', active_page='preferencias')
+    form = PreferenciaForm()
+
+    if form.validate_on_submit():
+        # Em vez de mostrar o resultado aqui, redireciona pra home já filtrada
+        # pelas preferências escolhidas (a filtragem em si é feita lá no index()).
+        parametros = {'filtrado': 1}
+
+        if form.cidade_id.data:  # 0 = "Todas as cidades", então é ignorado
+            parametros['cidade_id'] = form.cidade_id.data
+        if form.preco_max.data:
+            parametros['preco_max'] = float(form.preco_max.data)
+        if form.acessibilidade.data:
+            parametros['acessibilidade'] = form.acessibilidade.data
+
+        return redirect(url_for('main.index', **parametros))
+
+    return render_template(
+        'botoes_lat_perf/perfil_preferencias.html',
+        active_page='preferencias',
+        form=form
+    )
 
 @main_bp.route('/botoes_lat_perf/perfil_historico')
 @login_required

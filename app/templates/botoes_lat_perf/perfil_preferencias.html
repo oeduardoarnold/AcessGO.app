@@ -1,6 +1,33 @@
 {% extends "perfil.html" %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recomendacao.css') }}">
+{% endblock %}
+
 {% block perfil_content %}
-    <h1>Título da Página (Ex: Meu Carrinho)</h1>
-    <p>Conteúdo específico aqui...</p>
+<div class="recom-container">
+    <h1>Preferências de Acessibilidade</h1>
+    <p>Preencha suas preferências. Ao buscar, você será levado(a) para a home já com os resultados filtrados.</p>
+
+    <form method="POST" class="recom-form">
+        {{ form.hidden_tag() }}
+
+        <label for="{{ form.cidade_id.id }}">{{ form.cidade_id.label.text }}</label>
+        {{ form.cidade_id() }}
+
+        <label for="{{ form.preco_max.id }}">{{ form.preco_max.label.text }}</label>
+        {{ form.preco_max(placeholder="Ex: 300.00") }}
+
+        <label>{{ form.acessibilidade.label.text }}</label>
+        <div class="checkbox-group">
+            {% for subfield in form.acessibilidade %}
+                <label>
+                    {{ subfield() }} {{ subfield.label.text }}
+                </label>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn-buscar">Buscar recomendações</button>
+    </form>
+</div>
 {% endblock %}
