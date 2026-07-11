@@ -1,0 +1,124 @@
+/*=======================================================================
+ESTILIZAÇÃO RESULTADO
+=======================================================================*/ 
+
+.recom-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    font-family: Arial, sans-serif;
+}
+
+.recom-form {
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 32px;
+}
+
+.recom-form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
+.recom-form select,
+.recom-form input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.checkbox-group label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+}
+
+.btn-buscar {
+    margin-top: 20px;
+    padding: 10px 24px;
+    background: #2b6cb0;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn-buscar:hover {
+    background: #245a94;
+}
+
+.resultado-secao h2 {
+    border-bottom: 2px solid #2b6cb0;
+    padding-bottom: 6px;
+    margin-top: 32px;
+}
+
+.card-resultado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.card-info h3 {
+    margin: 0 0 4px 0;
+}
+
+.card-info p {
+    margin: 2px 0;
+    color: #555;
+    font-size: 14px;
+}
+
+.card-score {
+    text-align: right;
+    min-width: 100px;
+}
+
+.score-badge {
+    display: inline-block;
+    background: #2b6cb0;
+    color: #fff;
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.acess-tags {
+    margin-top: 6px;
+}
+
+.acess-tag {
+    display: inline-block;
+    background: #e2e8f0;
+    color: #2d3748;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-right: 4px;
+    margin-top: 4px;
+}
+
+.sem-resultado {
+    color: #888;
+    font-style: italic;
+    margin-top: 12px;
+}

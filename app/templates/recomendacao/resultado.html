@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Recomendações{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recomendacao.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="recom-container">
+    <h1>Encontre o local ideal para você</h1>
+    <p>Preencha suas preferências e receba recomendações personalizadas.</p>
+
+    <form method="POST" class="recom-form">
+        {{ form.hidden_tag() }}
+
+        <label for="{{ form.cidade_id.id }}">{{ form.cidade_id.label.text }}</label>
+        {{ form.cidade_id() }}
+
+        <label for="{{ form.preco_max.id }}">{{ form.preco_max.label.text }}</label>
+        {{ form.preco_max(placeholder="Ex: 300.00") }}
+
+        <label>{{ form.acessibilidade.label.text }}</label>
+        <div class="checkbox-group">
+            {% for subfield in form.acessibilidade %}
+                <label>
+                    {{ subfield() }} {{ subfield.label.text }}
+                </label>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn-buscar">Buscar recomendações</button>
+    </form>
+
+    {% if hoteis or experiencias %}
+
+        <div class="resultado-secao">
+            <h2>Hotéis recomendados</h2>
+            {% if hoteis %}
+                {% for hotel, score in hoteis %}
+                    <div class="card-resultado">
+                        <div class="card-info">
+                            <h3>{{ hotel.nome }}</h3>
+                            <p>{{ hotel.cidade.nome }} - {{ hotel.cidade.estado }}</p>
+                            <p>R$ {{ "%.2f"|format(hotel.preco) }}</p>
+                            {% if hotel.acessibilidade %}
+                            <div class="acess-tags">
+                                {% if hotel.acessibilidade.rampa %}<span class="acess-tag">Rampa</span>{% endif %}
+                                {% if hotel.acessibilidade.elevador %}<span class="acess-tag">Elevador</span>{% endif %}
+                                {% if hotel.acessibilidade.banheiro_acessivel %}<span class="acess-tag">Banheiro acessível</span>{% endif %}
+                                {% if hotel.acessibilidade.piso_tatil %}<span class="acess-tag">Piso tátil</span>{% endif %}
+                                {% if hotel.acessibilidade.braille %}<span class="acess-tag">Braille</span>{% endif %}
+                                {% if hotel.acessibilidade.sinalizacao_visual %}<span class="acess-tag">Sinalização visual</span>{% endif %}
+                                {% if hotel.acessibilidade.sinalizacao_auditiva %}<span class="acess-tag">Sinalização auditiva</span>{% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-score">
+                            <span class="score-badge">{{ (score * 100)|round(0) }}% match</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="sem-resultado">Nenhum hotel encontrado para esses critérios.</p>
+            {% endif %}
+        </div>
+
+        <div class="resultado-secao">
+            <h2>Experiências recomendadas</h2>
+            {% if experiencias %}
+                {% for exp, score in experiencias %}
+                    <div class="card-resultado">
+                        <div class="card-info">
+                            <h3>{{ exp.nome }}</h3>
+                            <p>{{ exp.categoria }} · {{ exp.cidade.nome }} - {{ exp.cidade.estado }}</p>
+                            <p>R$ {{ "%.2f"|format(exp.preco) }}</p>
+                            {% if exp.acessibilidade %}
+                            <div class="acess-tags">
+                                {% if exp.acessibilidade.rampa %}<span class="acess-tag">Rampa</span>{% endif %}
+                                {% if exp.acessibilidade.elevador %}<span class="acess-tag">Elevador</span>{% endif %}
+                                {% if exp.acessibilidade.banheiro_acessivel %}<span class="acess-tag">Banheiro acessível</span>{% endif %}
+                                {% if exp.acessibilidade.piso_tatil %}<span class="acess-tag">Piso tátil</span>{% endif %}
+                                {% if exp.acessibilidade.braille %}<span class="acess-tag">Braille</span>{% endif %}
+                                {% if exp.acessibilidade.sinalizacao_visual %}<span class="acess-tag">Sinalização visual</span>{% endif %}
+                                {% if exp.acessibilidade.sinalizacao_auditiva %}<span class="acess-tag">Sinalização auditiva</span>{% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-score">
+                            <span class="score-badge">{{ (score * 100)|round(0) }}% match</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="sem-resultado">Nenhuma experiência encontrada para esses critérios.</p>
+            {% endif %}
+        </div>
+
+    {% endif %}
+</div>
+{% endblock %}
