@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import DecimalField, SelectField, SelectMultipleField, widgets
+from wtforms import SelectField, SelectMultipleField, widgets
 from app.models.cidade import Cidade
 
 
@@ -10,7 +10,6 @@ class MultiCheckboxField(SelectMultipleField):
 
 class PreferenciaForm(FlaskForm):
     cidade_id = SelectField("Cidade", coerce=int, choices=[])
-    preco_max = DecimalField("Preço máximo", places=2)
     acessibilidade = MultiCheckboxField(
         "Recursos de acessibilidade necessários",
         choices=[

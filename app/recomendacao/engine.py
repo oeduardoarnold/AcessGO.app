@@ -11,6 +11,16 @@ CAMPOS_ACESSIBILIDADE = [
 ]
 
 
+def atende_cidade(entidade, cidade_id):
+    """
+    Filtro RÍGIDO de cidade: se o usuário escolheu uma cidade específica
+    (cidade_id != 0/None), só passam entidades daquela cidade.
+    """
+    if not cidade_id:
+        return True
+    return entidade.cidade_id == int(cidade_id)
+
+
 def atende_acessibilidade(entidade, requisitos):
     """
     Filtro RÍGIDO: funciona tanto para Hotel quanto para Experiencia,
@@ -63,8 +73,12 @@ def recomendar(entidades, preferencias, top_n=10):
     Genérico: aceita queryset de Hotel OU Experiencia,
     desde que tenham .preco, .cidade_id e .acessibilidade.
     """
+    cidade_id = preferencias.get("cidade_id")
     requisitos = preferencias.get("acessibilidade", [])
-    candidatos = [e for e in entidades if atende_acessibilidade(e, requisitos)]
+    candidatos = [
+        e for e in entidades
+        if atende_cidade(e, cidade_id) and atende_acessibilidade(e, requisitos)
+    ]
     resultados = [(e, calcular_score(e, preferencias)) for e in candidatos]
     resultados.sort(key=lambda x: x[1], reverse=True)
     return resultados[:top_n]

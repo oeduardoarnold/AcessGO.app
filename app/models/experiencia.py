@@ -13,3 +13,5 @@ class Experiencia(db.Model):
     
     latitude = db.Column(db.Float, nullable=True)
     longitude = db.Column(db.Float, nullable=True)
+    
+    acessibilidade = db.relationship('Acessibilidade', backref='experiencia', uselist=False)

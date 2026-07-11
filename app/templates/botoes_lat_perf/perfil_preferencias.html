@@ -11,12 +11,21 @@
 
     <form method="POST" class="recom-form">
         {{ form.hidden_tag() }}
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>Corrija os campos abaixo:</strong>
+                <ul>
+                    {% for field_name, field_errors in form.errors.items() %}
+                        {% for error in field_errors %}
+                            <li>{{ form[field_name].label.text }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
         <label for="{{ form.cidade_id.id }}">{{ form.cidade_id.label.text }}</label>
         {{ form.cidade_id() }}
-
-        <label for="{{ form.preco_max.id }}">{{ form.preco_max.label.text }}</label>
-        {{ form.preco_max(placeholder="Ex: 300.00") }}
 
         <label>{{ form.acessibilidade.label.text }}</label>
         <div class="checkbox-group">

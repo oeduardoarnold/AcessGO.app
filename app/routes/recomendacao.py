@@ -15,7 +15,6 @@ def buscar_recomendacoes():
     if form.validate_on_submit():
         preferencias = {
             "cidade_id": form.cidade_id.data or None,
-            "preco_max": form.preco_max.data,
             "acessibilidade": form.acessibilidade.data,
         }
         hoteis_rec = recomendar(Hotel.query.all(), preferencias, top_n=10)

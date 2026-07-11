@@ -103,7 +103,6 @@ def index():
     if filtro_ativo:
         preferencias = {
             "cidade_id": request.args.get('cidade_id', type=int),
-            "preco_max": request.args.get('preco_max', type=float),
             "acessibilidade": request.args.getlist('acessibilidade'),
         }
         # top_n bem alto para não cortar resultados: queremos TODOS os locais
@@ -380,8 +379,6 @@ def perfil_preferencias():
 
         if form.cidade_id.data:  # 0 = "Todas as cidades", então é ignorado
             parametros['cidade_id'] = form.cidade_id.data
-        if form.preco_max.data:
-            parametros['preco_max'] = float(form.preco_max.data)
         if form.acessibilidade.data:
             parametros['acessibilidade'] = form.acessibilidade.data
 
