@@ -79,7 +79,8 @@ body {
     align-items: center;
     border: 0.06rem solid var(--border-color);
     background-color: white;
-    width: 25rem;
+    width: 100%;
+    max-width: 25rem;
     margin: 1.25rem auto;
     border-radius: 1.25rem;
     padding: 0.312rem 0.625rem;
@@ -1542,6 +1543,38 @@ figcaption{
     .dashboard-stats {
         grid-template-columns: 1fr;
     }
+
+    /* Perfil: sidebar + conteúdo empilham em telas pequenas (antes ficavam
+       espremidos lado a lado, sem espaço nenhum pro conteúdo) */
+    .perfil-container {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .sidebar {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .sidebar-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px 14px;
+    }
+
+    .perfil-conteudo {
+        padding: 24px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search {
+        max-width: 100%;
+    }
+
+    .wrapper-reserva-pagedolado {
+        padding: 12px;
+    }
 }
 
 /* Container Principal */
@@ -2044,8 +2077,10 @@ figcaption{
 
 @media (max-width: 600px) {
     .filtro-busca-painel {
-        right: -60px;
-        width: 240px;
+        right: 0px;
+        left: -200px;
+        width: 200px;
+        margin: 0 4px;
     }
 }
 
@@ -2080,4 +2115,23 @@ figcaption{
     border: 1.5px dashed #dbe2de;
     border-radius: 14px;
     background: #fbfcfb;
+}
+
+/* ==========================================================================
+   Aviso sobre fotos placeholder (reserva.html)
+   ========================================================================== */
+.aviso-fotos-placeholder {
+    display: inline-block;
+    color: #c0392b;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+@media (max-width: 600px) {
+    .aviso-fotos-placeholder {
+        display: block;
+        margin: 4px 0 0;
+    }
 }
