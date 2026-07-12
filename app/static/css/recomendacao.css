@@ -1,89 +1,176 @@
 /*=======================================================================
-ESTILIZAÇÃO RESULTADO
-=======================================================================*/ 
+PREFERÊNCIAS DE ACESSIBILIDADE — cartão de busca/recomendação
+=======================================================================*/
 
 .recom-container {
-    max-width: 900px;
+    max-width: 640px;
     margin: 0 auto;
-    padding: 24px 16px;
-    font-family: Arial, sans-serif;
+    padding: 8px 4px 32px;
 }
 
+.recom-container h1 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #16241c;
+}
+
+.recom-container > p {
+    color: #666f69;
+    margin-top: 4px;
+    margin-bottom: 22px;
+    font-size: 14.5px;
+}
+
+/* O "cartão" principal do formulário */
 .recom-form {
-    background: #f5f5f5;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 32px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 28px 26px 26px;
+    border: 1px solid #eef1ee;
+    box-shadow: 0 10px 30px rgba(20, 30, 25, 0.07);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Faixa de destaque no topo, a mesma linguagem visual usada nos cards do carrinho */
+.recom-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #0bca0e, #066ef6);
 }
 
 .recom-form label {
     display: block;
-    font-weight: bold;
-    margin-top: 12px;
-    margin-bottom: 4px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #2c342f;
+    margin-top: 18px;
+    margin-bottom: 6px;
+}
+
+.recom-form label:first-of-type {
+    margin-top: 0;
 }
 
 .recom-form select,
 .recom-form input[type="number"] {
     width: 100%;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    padding: 11px 14px;
+    border-radius: 10px;
+    border: 1.5px solid #e1e6e2;
+    background: #fbfcfb;
+    font-size: 14.5px;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.15s ease, background 0.15s ease;
 }
 
+.recom-form select:focus,
+.recom-form input[type="number"]:focus {
+    outline: none;
+    border-color: #066ef6;
+    background: #fff;
+}
+
+/* Grupo de recursos de acessibilidade em formato de "pills" selecionáveis */
 .checkbox-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 4px;
+    gap: 10px;
+    margin-top: 8px;
 }
 
 .checkbox-group label {
-    font-weight: normal;
+    font-weight: 500;
+    font-size: 13.5px;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 7px;
+    margin: 0;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1.5px solid #e1e6e2;
+    background: #fbfcfb;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.checkbox-group label:has(input:checked) {
+    border-color: #0bca0e;
+    background: rgba(11, 202, 14, 0.1);
+    color: #1e5f38;
+}
+
+.checkbox-group input[type="checkbox"] {
+    accent-color: #0bca0e;
+    width: 15px;
+    height: 15px;
     margin: 0;
 }
 
+/* Botão principal de busca */
 .btn-buscar {
-    margin-top: 20px;
-    padding: 10px 24px;
-    background: #2b6cb0;
+    margin-top: 26px;
+    width: 100%;
+    padding: 13px 24px;
+    background: linear-gradient(90deg, #0bca0e, #066ef6);
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 999px;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 15.5px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 8px 20px rgba(6, 110, 246, 0.22);
+    transition: filter 0.15s ease, transform 0.15s ease;
 }
 
 .btn-buscar:hover {
-    background: #245a94;
+    filter: brightness(1.06);
+    transform: translateY(-1px);
 }
 
+/*=======================================================================
+Resultado (ainda usado caso a listagem seja renderizada em outra tela)
+=======================================================================*/
+
 .resultado-secao h2 {
-    border-bottom: 2px solid #2b6cb0;
+    border-bottom: 2px solid #066ef6;
     padding-bottom: 6px;
     margin-top: 32px;
+    font-weight: 700;
+    color: #16241c;
 }
 
 .card-resultado {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 16px;
+    border: 1px solid #eef1ee;
+    border-radius: 14px;
+    padding: 16px 18px;
     margin-bottom: 12px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(20, 30, 25, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-resultado:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(20, 30, 25, 0.1);
 }
 
 .card-info h3 {
     margin: 0 0 4px 0;
+    font-weight: 700;
 }
 
 .card-info p {
     margin: 2px 0;
-    color: #555;
+    color: #666f69;
     font-size: 14px;
 }
 
@@ -94,11 +181,11 @@ ESTILIZAÇÃO RESULTADO
 
 .score-badge {
     display: inline-block;
-    background: #2b6cb0;
+    background: linear-gradient(90deg, #0bca0e, #066ef6);
     color: #fff;
-    border-radius: 12px;
-    padding: 4px 12px;
-    font-weight: bold;
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-weight: 700;
     font-size: 13px;
 }
 
@@ -108,17 +195,23 @@ ESTILIZAÇÃO RESULTADO
 
 .acess-tag {
     display: inline-block;
-    background: #e2e8f0;
-    color: #2d3748;
+    background: #eef1ee;
+    color: #2c342f;
     font-size: 12px;
-    padding: 2px 8px;
-    border-radius: 10px;
+    padding: 3px 10px;
+    border-radius: 999px;
     margin-right: 4px;
     margin-top: 4px;
+    font-weight: 500;
 }
 
 .sem-resultado {
-    color: #888;
-    font-style: italic;
+    color: #8b938d;
+    font-style: normal;
     margin-top: 12px;
+    text-align: center;
+    padding: 18px;
+    border: 1.5px dashed #dbe2de;
+    border-radius: 14px;
+    background: #fbfcfb;
 }

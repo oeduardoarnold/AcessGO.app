@@ -408,53 +408,6 @@ body {
     font-weight: bold;
 }
 
-/* Info Section */
-.info-section {
-    background: white;
-    padding: 2rem;
-    border-radius: 0.75rem;
-    box-shadow: var(--shadow);
-    margin-top: 2rem;
-}
-
-.info-section h2 {
-    font-size: 1.75rem;
-    color: var(--dark-color);
-    margin-bottom: 1.5rem;
-}
-
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-
-.info-item {
-    padding: 1rem;
-    background: var(--light-color);
-    border-radius: 0.5rem;
-}
-
-.info-item strong {
-    color: var(--dark-color);
-    display: block;
-    margin-bottom: 0.25rem;
-}
-
-/* Badge */
-.badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    font-weight: 600;
-}
-
-.badge-success {
-    background-color: #d1fae5;
-    color: #065f46;
-}
-
 /* Dashboard */
 .page-header {
     margin-bottom: 2rem;
@@ -1072,27 +1025,6 @@ figcaption{
   color: #333;
 }
 
-.info-grid {
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.info-item {
-  background-color: #f0f0f0;
-  padding: 15px;
-  border-radius: 8px;
-  font-size: 16px;
-  border: solid 1px black;
-}
-
-.badge-success {
-  background-color: #4caf50;
-  color: white;
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
 
 /*======================================================================
    ESTILIZANDO A PAGINA DE FAVORITOS
@@ -1177,29 +1109,45 @@ figcaption{
 
 /* Textos dentro do Card */
 .carrinho-card-info {
-    padding: 15px;
+    padding: 16px 20px 20px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
 }
 
 .nome-estabelecimento {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 700;
     text-decoration: none;
-    color: #333;
+    color: #1a1a1a;
+    transition: color 0.15s ease;
+}
+
+.carrinho-card--hotel .nome-estabelecimento:hover {
+    color: #1e5f38;
+}
+
+.carrinho-card--experiencia .nome-estabelecimento:hover {
+    color: #066ef6;
 }
 
 .data-adicionado {
-    color: #666;
-    font-size: 14px;
+    color: #767f78;
+    font-size: 13.5px;
     margin: 0;
 }
 
 /* Cores das fontes dos preços de cada tipo */
 .preco-item {
-    font-weight: bold;
-    margin: 5px 0 0 0;
+    font-weight: 800;
+    font-size: 16px;
+    margin: 6px 0 0 0;
+}
+
+.unidade-preco {
+    font-weight: 500;
+    font-size: 12.5px;
+    color: #8b938d;
 }
 
 .valor-hotel {
@@ -1214,17 +1162,41 @@ figcaption{
     color: #db7b04;
 }
 
+/* Linha de subtotal — logo depois do form de quantidade, vira um "chip" de destaque */
+.form-quantidade-carrinho + .preco-item {
+    display: inline-block;
+    width: fit-content;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.carrinho-card--hotel .form-quantidade-carrinho + .preco-item {
+    background: rgba(11, 202, 14, 0.1);
+}
+
+.carrinho-card--experiencia .form-quantidade-carrinho + .preco-item {
+    background: rgba(6, 110, 246, 0.1);
+}
+
 /* Mensagem de Categoria Vazia */
 .carrinho-vazio {
-    color: #888;
-    font-style: italic;
+    color: #8b938d;
+    font-style: normal;
     margin: 5px 0;
+    padding: 26px 16px;
+    text-align: center;
+    width: 100%;
+    border: 1.5px dashed #dbe2de;
+    border-radius: 14px;
+    background: #fbfcfb;
 }
 
 /* Ajuste fino extra para telas pequenas (ex: celulares antigos) */
 @media (max-width: 600px) {
-    .carrinho-card {
-        flex: 1 1 100%; /* Faz o card ocupar a largura total caso a tela seja minúscula */
+    .carrinho-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -1249,34 +1221,60 @@ figcaption{
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-top: 8px;
+    margin-top: 10px;
+    background: #f7f9f7;
+    border-radius: 10px;
+    padding: 6px 10px;
 }
 
 .form-quantidade-carrinho label {
-    font-size: 14px;
-    color: #555;
+    font-size: 13px;
+    color: #55605a;
+    font-weight: 600;
 }
 
 .input-quantidade-carrinho {
-    width: 60px;
-    padding: 4px 6px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    width: 56px;
+    padding: 5px 6px;
+    border: 1px solid #dde3df;
+    border-radius: 8px;
     text-align: center;
+    font-weight: 600;
+    background: #fff;
 }
 
 .btn-atualizar-quantidade {
-    background: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 4px 10px;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 12px;
     font-size: 13px;
+    font-weight: 600;
+    color: #fff;
     cursor: pointer;
-    transition: background 0.15s ease-in-out;
+    transition: filter 0.15s ease-in-out;
+}
+
+.secao-hoteis .btn-atualizar-quantidade {
+    background: #1e5f38;
+}
+
+.secao-experiencias .btn-atualizar-quantidade {
+    background: #066ef6;
 }
 
 .btn-atualizar-quantidade:hover {
-    background: #e2e2e2;
+    filter: brightness(1.12);
+}
+
+/* Botão de remover item — vira um link discreto que fica vermelho no hover */
+.btn-remover-carrinho {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #8b938d !important;
+}
+
+.btn-remover-carrinho:hover {
+    color: #d64545 !important;
 }
 
 /* ================= DETALHES DA RESERVA (HISTÓRICO) ================= */
@@ -1288,11 +1286,12 @@ figcaption{
 
 /* ================= FINALIZAR RESERVA (CARRINHO) ================= */
 .finalizar-reserva-details {
-    margin-top: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 14px 18px;
-    background: #fafafa;
+    margin-top: 24px;
+    border: 1px solid #eef1ee;
+    border-radius: 16px;
+    padding: 18px 22px;
+    background: #fbfcfb;
+    box-shadow: 0 2px 8px rgba(20, 30, 25, 0.05);
 }
 
 .btn-finalizar-reserva {
@@ -1301,16 +1300,18 @@ figcaption{
     font-size: 16px;
     font-weight: 700;
     color: #fff;
-    background-color: #1e5f38;
-    padding: 12px 22px;
-    border-radius: 8px;
+    background: linear-gradient(90deg, #0bca0e, #066ef6);
+    padding: 13px 26px;
+    border-radius: 999px;
     list-style: none;
     user-select: none;
-    transition: background-color 0.15s ease-in-out;
+    box-shadow: 0 6px 16px rgba(6, 110, 246, 0.22);
+    transition: filter 0.15s ease-in-out, transform 0.15s ease-in-out;
 }
 
 .btn-finalizar-reserva:hover {
-    background-color: #164a2c;
+    filter: brightness(1.05);
+    transform: translateY(-1px);
 }
 
 .btn-finalizar-reserva::-webkit-details-marker {
@@ -1318,15 +1319,16 @@ figcaption{
 }
 
 .form-finalizar-reserva {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid #e2e2e2;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #e6ebe7;
 }
 
 .finalizar-subtitulo {
-    margin-top: 18px;
-    margin-bottom: 8px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     font-size: 16px;
+    font-weight: 700;
     color: #333;
 }
 
@@ -1336,14 +1338,14 @@ figcaption{
 
 .item-finalizar-reserva {
     background: #fff;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 10px;
+    border: 1px solid #eef1ee;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
 }
 
 .item-finalizar-nome {
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 8px;
 }
 
@@ -1361,9 +1363,9 @@ figcaption{
 .btn-esvaziar-tudo {
     background: #fff;
     color: #1e5f38;
-    border: 1px solid #1e5f38;
-    border-radius: 8px;
-    padding: 8px 16px;
+    border: 1.5px solid #1e5f38;
+    border-radius: 999px;
+    padding: 8px 18px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -1377,20 +1379,30 @@ figcaption{
 
 /* ================= TOTAL DO CARRINHO ================= */
 .carrinho-total-container {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 2px solid #eee;
-    text-align: right;
+    margin-top: 28px;
+    padding: 20px 26px;
+    border-top: none;
+    border-radius: 16px;
+    background: linear-gradient(90deg, rgba(11, 202, 14, 0.08), rgba(6, 110, 246, 0.08));
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 10px;
 }
 
 .carrinho-total-label {
-    font-size: 18px;
-    color: #333;
+    font-size: 17px;
+    color: #444;
+    font-weight: 500;
 }
 
 .carrinho-total-valor {
-    color: #1e5f38;
-    font-weight: 700;
+    color: #1a1a1a;
+    font-weight: 800;
+    font-size: 1.4rem;
+    background: linear-gradient(90deg, #0bca0e, #066ef6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 /*======================================================================*/
@@ -1680,4 +1692,255 @@ figcaption{
 .banner-filtro-ativo {
     background: #eafbea;
     border-color: #bfe8bf;
+}
+
+/* Modal de finalização de reserva/compra de ingressos (reserva.html) */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-overlay.modal-aberto {
+    display: flex;
+}
+
+.modal-conteudo {
+    background: #fff;
+    border-radius: 10px;
+    padding: 28px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.modal-fechar {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #555;
+}
+
+.modal-fechar:hover {
+    color: #000;
+}
+
+/* ================= PERFIL — INFORMAÇÕES DA CONTA ================= */
+.info-container {
+    padding: 4px 2px 24px;
+    max-width: 760px;
+}
+
+.info-titulo {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #16241c;
+}
+
+.info-subtitulo {
+    color: #666f69;
+    margin-top: 4px;
+    margin-bottom: 24px;
+    font-size: 14.5px;
+}
+
+/* Cartão principal com os dados da conta */
+.info-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 26px;
+    border: 1px solid #eef1ee;
+    box-shadow: 0 10px 30px rgba(20, 30, 25, 0.07);
+    position: relative;
+    overflow: hidden;
+}
+
+.info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #0bca0e, #066ef6);
+}
+
+.info-avatar {
+    flex: 0 0 auto;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0bca0e, #066ef6);
+    color: #fff;
+    font-size: 1.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-dados {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.info-dados h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #16241c;
+    margin-bottom: 2px;
+}
+
+.info-email {
+    color: #666f69;
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-label {
+    font-size: 12.5px;
+    color: #8b938d;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.info-valor {
+    font-size: 15px;
+    font-weight: 600;
+    color: #2c342f;
+}
+
+.badge {
+    display: inline-block;
+    width: fit-content;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.badge-success {
+    background: rgba(11, 202, 14, 0.12);
+    color: #1e5f38;
+}
+
+.badge-inativo {
+    background: rgba(214, 69, 69, 0.12);
+    color: #b23434;
+}
+
+/* Estatísticas de atividade */
+.info-secao-titulo {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #16241c;
+    margin: 32px 0 14px;
+}
+
+.info-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+}
+
+.info-stat-card {
+    background: #fff;
+    border: 1px solid #eef1ee;
+    border-radius: 16px;
+    padding: 20px 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(20, 30, 25, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.info-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(20, 30, 25, 0.1);
+}
+
+.info-stat-card--destaque {
+    background: linear-gradient(135deg, rgba(11, 202, 14, 0.08), rgba(6, 110, 246, 0.08));
+    border-color: transparent;
+}
+
+.info-stat-icone {
+    font-size: 1.6rem;
+}
+
+.info-stat-numero {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #16241c;
+}
+
+.info-stat-label {
+    font-size: 12.5px;
+    color: #666f69;
+    font-weight: 500;
+}
+
+/* Atalhos rápidos */
+.info-atalhos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.info-atalho {
+    background: #fbfcfb;
+    border: 1.5px solid #e1e6e2;
+    border-radius: 999px;
+    padding: 9px 18px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #2c342f;
+    text-decoration: none;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.info-atalho:hover {
+    border-color: #066ef6;
+    color: #066ef6;
+    background: rgba(6, 110, 246, 0.06);
+}
+
+@media (max-width: 560px) {
+    .info-card {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
 }

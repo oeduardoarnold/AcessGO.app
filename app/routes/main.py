@@ -199,9 +199,21 @@ def perfil():
     return redirect(url_for('main.perfil_informacoes'))
 
 @main_bp.route('/botoes_lat_perf/perfil_informacoes')
+@login_required
 def perfil_informacoes():
-    # Aponta para a subpasta e respeita o nome "perfil_informacoes" do seu arquivo
-    return render_template('botoes_lat_perf/perfil_informacoes.html', active_page='informacoes')
+    total_reservas = Reserva.query.filter_by(user_id=current_user.id).count()
+    total_gasto = db.session.query(db.func.sum(Reserva.valor_total)).filter_by(user_id=current_user.id).scalar() or 0
+    total_favoritos = Favorito.query.filter_by(user_id=current_user.id).count()
+    total_carrinho = Carrinho.query.filter_by(user_id=current_user.id).count()
+
+    return render_template(
+        'botoes_lat_perf/perfil_informacoes.html',
+        active_page='informacoes',
+        total_reservas=total_reservas,
+        total_gasto=total_gasto,
+        total_favoritos=total_favoritos,
+        total_carrinho=total_carrinho
+    )
 
 @main_bp.route('/botoes_lat_perf/perfil_carrinho')
 @login_required

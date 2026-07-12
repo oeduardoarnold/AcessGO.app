@@ -86,7 +86,51 @@
                     <p class="preco-destaque">
                         <strong>Valor da Diária:</strong> R$ {{ "%.2f"|format(preco_item) }}
                     </p>
-                    
+
+                    <button type="button" class="btn-confirmar" onclick="abrirModalReserva()">Reservar</button>
+                    <form method="POST" action="{{ url_for('main.adicionar_carrinho', tipo=tipo, item_id=item_id) }}">
+                        <button type="submit" class="btn-confirmar btn-carrinho-secundario">Adicionar ao Carrinho</button>
+                    </form>
+
+                {% elif tipo == 'experiencia' and preco_item > 0 %}
+                    <h3>Agendar Atividade</h3>
+                    <p class="preco-destaque azul">
+                        <strong>Valor do Ingresso:</strong> R$ {{ "%.2f"|format(preco_item) }} / pessoa
+                    </p>
+
+                    <button type="button" class="btn-confirmar btn-azul" onclick="abrirModalReserva()">Adquirir Ingressos</button>
+                    <form method="POST" action="{{ url_for('main.adicionar_carrinho', tipo=tipo, item_id=item_id) }}">
+                        <button type="submit" class="btn-confirmar btn-carrinho-secundario">Adicionar ao Carrinho</button>
+                    </form>
+
+                {% else %}
+                    <h3>Guia de Visitação</h3>
+                    <div class="info-guia-item">
+                        <p class="guia-label"><strong>⏰ Melhor Horário:</strong></p>
+                        <p class="guia-text">Recomendamos a visitação durante o dia para aproveitar melhor os espaços e registrar belas fotos.</p>
+                    </div>
+
+                    <div class="info-guia-item">
+                        <p class="guia-label"><strong>💵 Custo estimado:</strong></p>
+                        <p class="guia-text">Este local possui acesso gratuito à comunidade e visitantes.</p>
+                    </div>
+
+                    <button onclick="window.history.back()" class="btn-voltar">Voltar para a Exploração</button>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if tipo == 'hotel' or (tipo == 'experiencia' and preco_item > 0) %}
+        <div id="modal-reserva" class="modal-overlay">
+            <div class="modal-conteudo">
+                <button type="button" class="modal-fechar" onclick="fecharModalReserva()" aria-label="Fechar">&times;</button>
+
+                {% if tipo == 'hotel' %}
+                    <h3>Finalizar Reserva</h3>
+                    <p class="preco-destaque">
+                        <strong>Valor da Diária:</strong> R$ {{ "%.2f"|format(preco_item) }}
+                    </p>
+
                     <form method="POST" action="">
                         <div class="form-group">
                             <label for="nome_responsavel">Nome completo:</label>
@@ -139,18 +183,14 @@
                         </div>
 
                         <button type="submit" class="btn-confirmar">Confirmar Reserva</button>
-                        <button type="submit"
-                                formaction="{{ url_for('main.adicionar_carrinho', tipo=tipo, item_id=item_id) }}"
-                                formnovalidate
-                                class="btn-confirmar btn-carrinho-secundario">Adicionar ao Carrinho</button>
                     </form>
 
                 {% elif tipo == 'experiencia' and preco_item > 0 %}
-                    <h3>Agendar Atividade</h3>
+                    <h3>Finalizar Compra de Ingressos</h3>
                     <p class="preco-destaque azul">
                         <strong>Valor do Ingresso:</strong> R$ {{ "%.2f"|format(preco_item) }} / pessoa
                     </p>
-                    
+
                     <form method="POST" action="">
                         <div class="form-group">
                             <label for="nome_responsavel_exp">Nome completo:</label>
@@ -202,28 +242,11 @@
                         </div>
 
                         <button type="submit" class="btn-confirmar btn-azul">Adquirir Ingressos</button>
-                        <button type="submit"
-                                formaction="{{ url_for('main.adicionar_carrinho', tipo=tipo, item_id=item_id) }}"
-                                formnovalidate
-                                class="btn-confirmar btn-carrinho-secundario">Adicionar ao Carrinho</button>
                     </form>
-
-                {% else %}
-                    <h3>Guia de Visitação</h3>
-                    <div class="info-guia-item">
-                        <p class="guia-label"><strong>⏰ Melhor Horário:</strong></p>
-                        <p class="guia-text">Recomendamos a visitação durante o dia para aproveitar melhor os espaços e registrar belas fotos.</p>
-                    </div>
-
-                    <div class="info-guia-item">
-                        <p class="guia-label"><strong>💵 Custo estimado:</strong></p>
-                        <p class="guia-text">Este local possui acesso gratuito à comunidade e visitantes.</p>
-                    </div>
-
-                    <button onclick="window.history.back()" class="btn-voltar">Voltar para a Exploração</button>
                 {% endif %}
             </div>
         </div>
+        {% endif %}
 
     </div>
 </div>
@@ -292,4 +315,41 @@
     });
 </script>
 {% endif %}
+
+<script>
+    function abrirModalReserva() {
+        var modal = document.getElementById('modal-reserva');
+        if (modal) {
+            modal.classList.add('modal-aberto');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function fecharModalReserva() {
+        var modal = document.getElementById('modal-reserva');
+        if (modal) {
+            modal.classList.remove('modal-aberto');
+            document.body.style.overflow = '';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var modal = document.getElementById('modal-reserva');
+        if (!modal) return;
+
+        // Fecha ao clicar fora da caixa de conteúdo (na área escurecida)
+        modal.addEventListener('click', function (evento) {
+            if (evento.target === modal) {
+                fecharModalReserva();
+            }
+        });
+
+        // Fecha com a tecla Esc
+        document.addEventListener('keydown', function (evento) {
+            if (evento.key === 'Escape') {
+                fecharModalReserva();
+            }
+        });
+    });
+</script>
 {% endblock %}

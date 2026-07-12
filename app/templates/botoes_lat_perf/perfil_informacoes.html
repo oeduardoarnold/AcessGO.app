@@ -1,13 +1,58 @@
 {% extends "perfil.html" %}
 
 {% block perfil_content %}
-    <h1>Informações</h1>
-    <div class="info-section">
-        <div class="info-grid">
-            <div class="info-item"><strong>Usuário:</strong> Usertest</div>
-            <div class="info-item"><strong>Email:</strong> Teste@gmail.com</div>
-            <div class="info-item"><strong>Conta criada em:</strong> 03/12/2025</div>
-            <div class="info-item"><strong>Status:</strong> <span class="badge badge-success">Ativo</span></div>
+<div class="info-container">
+    <h1 class="info-titulo">Minhas Informações</h1>
+    <p class="info-subtitulo">Seus dados de conta e um resumo da sua atividade no AcessGO.</p>
+
+    <div class="info-card">
+        <div class="info-avatar">{{ current_user.username[0]|upper }}</div>
+        <div class="info-dados">
+            <h2>{{ current_user.username }}</h2>
+            <p class="info-email">{{ current_user.email }}</p>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Conta criada em</span>
+                    <span class="info-valor">{{ current_user.created_at.strftime('%d/%m/%Y') if current_user.created_at else 'Não informado' }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Status</span>
+                    <span class="badge {% if current_user.is_active %}badge-success{% else %}badge-inativo{% endif %}">
+                        {{ 'Ativo' if current_user.is_active else 'Inativo' }}
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
+
+    <h2 class="info-secao-titulo">Resumo da sua atividade</h2>
+    <div class="info-stats-grid">
+        <div class="info-stat-card">
+            <span class="info-stat-icone"></span>
+            <span class="info-stat-numero">{{ total_reservas }}</span>
+            <span class="info-stat-label">Reserva{{ 's' if total_reservas != 1 else '' }} feita{{ 's' if total_reservas != 1 else '' }}</span>
+        </div>
+        <div class="info-stat-card info-stat-card--destaque">
+            <span class="info-stat-icone"></span>
+            <span class="info-stat-numero">R$ {{ "%.2f"|format(total_gasto) }}</span>
+            <span class="info-stat-label">Total gasto em reservas</span>
+        </div>
+        <div class="info-stat-card">
+            <span class="info-stat-icone"></span>
+            <span class="info-stat-numero">{{ total_favoritos }}</span>
+            <span class="info-stat-label">Favorito{{ 's' if total_favoritos != 1 else '' }}</span>
+        </div>
+        <div class="info-stat-card">
+            <span class="info-stat-icone"></span>
+            <span class="info-stat-numero">{{ total_carrinho }}</span>
+            <span class="info-stat-label">Ite{{ 'ns' if total_carrinho != 1 else 'm' }} no carrinho</span>
+        </div>
+    </div>
+
+    <div class="info-atalhos">
+        <a href="{{ url_for('main.perfil_historico') }}" class="info-atalho">Ver histórico de reservas →</a>
+        <a href="{{ url_for('main.perfil_carrinho') }}" class="info-atalho">Ver meu carrinho →</a>
+        <a href="{{ url_for('main.perfil_preferencias') }}" class="info-atalho">Preferências de acessibilidade →</a>
+    </div>
+</div>
 {% endblock %}

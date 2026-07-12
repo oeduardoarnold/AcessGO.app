@@ -69,7 +69,7 @@
         <div class="carrinho-grid">
             {% for item in hoteis %}
                 {% if item.hotel %}
-                <div class="carrinho-card">
+                <div class="carrinho-card carrinho-card--hotel">
                     <div class="image-wrapper">
                         <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=item.hotel.id) }}" class="link-estabelecimento">
                             {% set foto_path = fotos_hoteis.get(item.hotel.id, 'images/hotel_padrao.jpg') %}
@@ -80,8 +80,8 @@
                         <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=item.hotel.id) }}" class="nome-estabelecimento">
                             {{ item.hotel.nome }}
                         </a>
-                        <p class="data-adicionado">{{ item.hotel.endereco }}</p>
-                        <p class="preco-item valor-hotel">R$ {{ "%.2f"|format(item.hotel.preco) }} / diária</p>
+                        <p class="data-adicionado">📍 {{ item.hotel.endereco }}</p>
+                        <p class="preco-item valor-hotel">R$ {{ "%.2f"|format(item.hotel.preco) }} <span class="unidade-preco">/ diária</span></p>
 
                         <form action="{{ url_for('main.atualizar_carrinho', carrinho_id=item.id) }}" method="POST" class="form-quantidade-carrinho">
                             <label for="quantidade-{{ item.id }}">Diárias (estimativa):</label>
@@ -93,8 +93,8 @@
                         <p class="sub-text" style="margin-top: -6px;">O valor final será recalculado pelas datas de entrada/saída escolhidas na finalização.</p>
 
                         <form action="{{ url_for('main.remover_carrinho', carrinho_id=item.id) }}" method="POST" style="margin-top: 10px;">
-                            <button type="submit" class="btn-favoritar" title="Remover do Carrinho">
-                                <span>Remover do Carrinho</span>
+                            <button type="submit" class="btn-favoritar btn-remover-carrinho" title="Remover do Carrinho">
+                                <span>🗑 Remover do Carrinho</span>
                             </button>
                         </form>
                     </div>
@@ -112,19 +112,20 @@
         <div class="carrinho-grid">
             {% for item in experiencias %}
                 {% if item.experiencia %}
-                <div class="carrinho-card">
+                <div class="carrinho-card carrinho-card--experiencia">
                     <div class="image-wrapper">
                         <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=item.experiencia.id) }}" class="link-estabelecimento">
                             {% set foto_path = fotos_experiencias.get(item.experiencia.id, 'images/exp_padrao.jpg') %}
                             <div class="carrinho-img" style="background-image: url('{{ url_for('static', filename=foto_path) }}');"></div>
+                            <span class="carrinho-badge carrinho-badge--experiencia">{{ item.experiencia.categoria }}</span>
                         </a>
                     </div>
                     <div class="carrinho-card-info">
                         <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=item.experiencia.id) }}" class="nome-estabelecimento">
                             {{ item.experiencia.nome }}
                         </a>
-                        <p class="data-adicionado">{{ item.experiencia.categoria }}</p>
-                        <p class="preco-item valor-experiencia">R$ {{ "%.2f"|format(item.experiencia.preco) }} / pessoa</p>
+                        <p class="data-adicionado">🏷️ {{ item.experiencia.categoria }}</p>
+                        <p class="preco-item valor-experiencia">R$ {{ "%.2f"|format(item.experiencia.preco) }} <span class="unidade-preco">/ pessoa</span></p>
 
                         <form action="{{ url_for('main.atualizar_carrinho', carrinho_id=item.id) }}" method="POST" class="form-quantidade-carrinho">
                             <label for="quantidade-{{ item.id }}">Ingressos:</label>
@@ -135,8 +136,8 @@
                         <p class="preco-item valor-experiencia">Subtotal: R$ {{ "%.2f"|format(item.subtotal) }}</p>
 
                         <form action="{{ url_for('main.remover_carrinho', carrinho_id=item.id) }}" method="POST" style="margin-top: 10px;">
-                            <button type="submit" class="btn-favoritar" title="Remover do Carrinho">
-                                <span>Remover do Carrinho</span>
+                            <button type="submit" class="btn-favoritar btn-remover-carrinho" title="Remover do Carrinho">
+                                <span>🗑 Remover do Carrinho</span>
                             </button>
                         </form>
                     </div>
