@@ -136,43 +136,115 @@ CIDADE_SLUGS = {
 @main_bp.route('/busca')
 def busca():
     """
-    Busca "inteligente" pela barra de pesquisa:
-    - Se o texto digitado corresponder a uma cidade, vai direto pra página
-      daquela cidade (/destinos/<slug>).
-    - Senão, procura um hotel ou uma experiência/ponto turístico com esse
-      nome e vai direto pra página de reserva/detalhe daquele local.
-    - Se não achar nada, volta pra home com um aviso.
+    Busca da barra de pesquisa. Tem dois modos:
+
+    1. Busca "inteligente" (quando nenhum filtro é usado, só o texto):
+       - Se o texto digitado corresponder a uma cidade, vai direto pra página
+         daquela cidade (/destinos/<slug>).
+       - Senão, procura um hotel ou uma experiência/ponto turístico com esse
+         nome e vai direto pra página de reserva/detalhe daquele local.
+       - Se não achar nada, volta pra home com um aviso.
+
+    2. Busca filtrada (quando cidade, tipo e/ou preço são informados no
+       painel de filtros): mostra uma página de resultados com tudo que
+       combina com os critérios escolhidos.
     """
     q = request.args.get('q', '').strip()
+    cidade_id = request.args.get('cidade_id', type=int)
+    tipo_filtro = request.args.get('tipo', '').strip()
+    preco_min = request.args.get('preco_min', type=float)
+    preco_max = request.args.get('preco_max', type=float)
+    ordenar = request.args.get('ordenar', '').strip()
 
-    if not q:
+    tem_filtro = bool(cidade_id or tipo_filtro or preco_min is not None or preco_max is not None or ordenar)
+
+    if not tem_filtro:
+        if not q:
+            return redirect(url_for('main.index'))
+
+        q_lower = q.lower()
+
+        # 1. Tenta casar com uma cidade
+        for cidade in Cidade.query.all():
+            nome_lower = cidade.nome.lower()
+            if q_lower in nome_lower or nome_lower in q_lower:
+                slug = CIDADE_SLUGS.get(nome_lower)
+                if slug:
+                    return redirect(url_for('main.destinos', destino=slug))
+
+        termo = f'%{q}%'
+
+        # 2. Tenta casar com um hotel
+        hotel = Hotel.query.filter(Hotel.nome.ilike(termo)).first()
+        if hotel:
+            return redirect(url_for('main.detalhe_reserva', tipo='hotel', item_id=hotel.id))
+
+        # 3. Tenta casar com uma experiência ou ponto turístico
+        experiencia = Experiencia.query.filter(Experiencia.nome.ilike(termo)).first()
+        if experiencia:
+            return redirect(url_for('main.detalhe_reserva', tipo='experiencia', item_id=experiencia.id))
+
+        # 4. Nada encontrado
+        flash(f'Nenhum resultado encontrado para "{q}".', 'info')
         return redirect(url_for('main.index'))
 
-    q_lower = q.lower()
+    # ---- Busca filtrada: monta os resultados por cidade/tipo/preço ----
+    hoteis_resultado, pontos_resultado, experiencias_resultado = [], [], []
 
-    # 1. Tenta casar com uma cidade
-    for cidade in Cidade.query.all():
-        nome_lower = cidade.nome.lower()
-        if q_lower in nome_lower or nome_lower in q_lower:
-            slug = CIDADE_SLUGS.get(nome_lower)
-            if slug:
-                return redirect(url_for('main.destinos', destino=slug))
+    if not tipo_filtro or tipo_filtro == 'hotel':
+        query_hoteis = Hotel.query
+        if cidade_id:
+            query_hoteis = query_hoteis.filter(Hotel.cidade_id == cidade_id)
+        if q:
+            query_hoteis = query_hoteis.filter(Hotel.nome.ilike(f'%{q}%'))
+        if preco_min is not None:
+            query_hoteis = query_hoteis.filter(Hotel.preco >= preco_min)
+        if preco_max is not None:
+            query_hoteis = query_hoteis.filter(Hotel.preco <= preco_max)
+        if ordenar == 'preco_asc':
+            query_hoteis = query_hoteis.filter(Hotel.preco > 0).order_by(Hotel.preco.asc())
+        elif ordenar == 'preco_desc':
+            query_hoteis = query_hoteis.filter(Hotel.preco > 0).order_by(Hotel.preco.desc())
+        hoteis_resultado = query_hoteis.all()
 
-    termo = f'%{q}%'
+    if not tipo_filtro or tipo_filtro in ('ponto', 'experiencia'):
+        query_exp = Experiencia.query
+        if cidade_id:
+            query_exp = query_exp.filter(Experiencia.cidade_id == cidade_id)
+        if q:
+            query_exp = query_exp.filter(Experiencia.nome.ilike(f'%{q}%'))
+        if preco_min is not None:
+            query_exp = query_exp.filter(Experiencia.preco >= preco_min)
+        if preco_max is not None:
+            query_exp = query_exp.filter(Experiencia.preco <= preco_max)
+        if ordenar == 'preco_asc':
+            query_exp = query_exp.filter(Experiencia.preco > 0).order_by(Experiencia.preco.asc())
+        elif ordenar == 'preco_desc':
+            query_exp = query_exp.filter(Experiencia.preco > 0).order_by(Experiencia.preco.desc())
 
-    # 2. Tenta casar com um hotel
-    hotel = Hotel.query.filter(Hotel.nome.ilike(termo)).first()
-    if hotel:
-        return redirect(url_for('main.detalhe_reserva', tipo='hotel', item_id=hotel.id))
+        if tipo_filtro == 'ponto':
+            pontos_resultado = query_exp.filter(Experiencia.categoria == 'Ponto Turistico').all()
+        elif tipo_filtro == 'experiencia':
+            experiencias_resultado = query_exp.filter(Experiencia.categoria == 'Experiencia').all()
+        else:
+            todas = query_exp.all()
+            pontos_resultado = [e for e in todas if e.categoria == 'Ponto Turistico']
+            experiencias_resultado = [e for e in todas if e.categoria == 'Experiencia']
 
-    # 3. Tenta casar com uma experiência ou ponto turístico
-    experiencia = Experiencia.query.filter(Experiencia.nome.ilike(termo)).first()
-    if experiencia:
-        return redirect(url_for('main.detalhe_reserva', tipo='experiencia', item_id=experiencia.id))
+    cidade_selecionada = Cidade.query.get(cidade_id) if cidade_id else None
 
-    # 4. Nada encontrado
-    flash(f'Nenhum resultado encontrado para "{q}".', 'info')
-    return redirect(url_for('main.index'))
+    return render_template(
+        'resultados_busca.html',
+        q=q,
+        tipo_filtro=tipo_filtro,
+        preco_min=preco_min,
+        preco_max=preco_max,
+        ordenar=ordenar,
+        cidade_selecionada=cidade_selecionada,
+        hoteis=hoteis_resultado,
+        pontos=pontos_resultado,
+        experiencias=experiencias_resultado
+    )
 
 @main_bp.route('/dashboard')
 @login_required  # Esta rota também requer autenticação

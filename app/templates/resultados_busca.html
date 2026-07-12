@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados da Busca{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="busca-header">
+        <h1 class="busca-titulo">Resultados da busca</h1>
+        <p class="busca-resumo">
+            {% if q %}"{{ q }}"{% endif %}
+            {% if cidade_selecionada %} em <strong>{{ cidade_selecionada.nome }}</strong>{% endif %}
+            {% if tipo_filtro == 'hotel' %} · Hotéis{% elif tipo_filtro == 'ponto' %} · Pontos Turísticos{% elif tipo_filtro == 'experiencia' %} · Experiências{% endif %}
+            {% if preco_min is not none or preco_max is not none %}
+                · R$
+                {% if preco_min is not none %}{{ "%.2f"|format(preco_min) }}{% else %}0{% endif %}
+                –
+                {% if preco_max is not none %}{{ "%.2f"|format(preco_max) }}{% else %}sem limite{% endif %}
+            {% endif %}
+            {% if ordenar == 'preco_asc' %} · Ordenado do menor para o maior preço
+            {% elif ordenar == 'preco_desc' %} · Ordenado do maior para o menor preço
+            {% endif %}
+        </p>
+        <a href="{{ url_for('main.index') }}" class="info-atalho">← Limpar filtros e voltar pra home</a>
+    </div>
+
+    {% set fotos_hoteis = {
+        1: 'images/bento/hotel1.bento.jfif', 2: 'images/bento/hotel2.bento.jfif', 3: 'images/bento/hotel3.bento.jfif',
+        4: 'images/bento/hotel4.bento.jfif', 5: 'images/bento/hotel5.bento.jfif', 6: 'images/gramado/gram_ht01.webp',
+        7: 'images/gramado/gram_ht02.jpg', 8: 'images/gramado/gram_ht03.jpg', 9: 'images/gramado/gram_ht04.jpg',
+        10: 'images/gramado/gram_ht05.webp', 11: 'images/poa/hotel1.poa.jfif', 12: 'images/poa/hotel2.poa.jfif',
+        13: 'images/poa/hotel3.poa.jfif', 14: 'images/poa/hotel4.poa.jfif', 15: 'images/poa/hotel5.poa.jfif'
+    } %}
+    {% set fotos_experiencias = {
+        1: 'images/bento/ponto1.jfif', 2: 'images/bento/ponto2.jfif', 3: 'images/bento/ponto3.jfif',
+        4: 'images/bento/ponto4.jfif', 5: 'images/bento/ponto5.jfif', 6: 'images/bento/exp1.jfif',
+        7: 'images/bento/exp2.jfif', 8: 'images/bento/exp3.jfif', 9: 'images/bento/exp4.jfif',
+        10: 'images/bento/exp5.jfif', 11: 'images/gramado/pnt_tur01.webp', 12: 'images/gramado/pnt_tur02.jpg',
+        13: 'images/gramado/pnt_tur03.jpg', 14: 'images/gramado/pnt_tur04.avif', 15: 'images/gramado/pnt_tur05.jpg',
+        16: 'images/gramado/gramadoexp1.jfif', 17: 'images/gramado/gramadoexp2.jfif', 18: 'images/gramado/gramadoexp3.jfif',
+        19: 'images/gramado/gramadoexp4.jfif', 20: 'images/gramado/gramadoexp5.jfif', 21: 'images/poa/orla.jfif',
+        22: 'images/poa/marioquintana.jfif', 23: 'images/poa/memorialrs.jfif', 24: 'images/poa/pracamatriz.jfif',
+        25: 'images/poa/moinhos.jfif', 26: 'images/poa/arena.jfif', 27: 'images/poa/guaiba.jfif',
+        28: 'images/poa/rdelaboca.jfif', 29: 'images/poa/theatro.jfif', 30: 'images/poa/iberec.jfif'
+    } %}
+
+    {% if hoteis %}
+    <h2 class="info-secao-titulo">Hospedagens ({{ hoteis|length }})</h2>
+    <div class="hoteis-bento busca-grid">
+        {% for hotel in hoteis %}
+            {% set foto_path = fotos_hoteis.get(hotel.id, 'images/hotel_padrao.jpg') %}
+            <a href="{{ url_for('main.detalhe_reserva', tipo='hotel', item_id=hotel.id) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename=foto_path) }}" alt="{{ hotel.nome }}">
+                    <figcaption>{{ hotel.nome }} — R$ {{ "%.2f"|format(hotel.preco) }}{% if hotel.cidade %} · {{ hotel.cidade.nome }}{% endif %}</figcaption>
+                </figure>
+            </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if pontos %}
+    <h2 class="info-secao-titulo">Pontos Turísticos ({{ pontos|length }})</h2>
+    <div class="hoteis-bento busca-grid">
+        {% for ponto in pontos %}
+            {% set foto_path = fotos_experiencias.get(ponto.id, 'images/experiencia_padrao.jpg') %}
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=ponto.id) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename=foto_path) }}" alt="{{ ponto.nome }}">
+                    <figcaption>{{ ponto.nome }}{% if ponto.preco and ponto.preco > 0 %} — R$ {{ "%.2f"|format(ponto.preco) }}{% endif %}{% if ponto.cidade %} · {{ ponto.cidade.nome }}{% endif %}</figcaption>
+                </figure>
+            </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if experiencias %}
+    <h2 class="info-secao-titulo">Experiências ({{ experiencias|length }})</h2>
+    <div class="hoteis-bento busca-grid">
+        {% for exp in experiencias %}
+            {% set foto_path = fotos_experiencias.get(exp.id, 'images/experiencia_padrao.jpg') %}
+            <a href="{{ url_for('main.detalhe_reserva', tipo='experiencia', item_id=exp.id) }}" class="btn-figure">
+                <figure>
+                    <img src="{{ url_for('static', filename=foto_path) }}" alt="{{ exp.nome }}">
+                    <figcaption>{{ exp.nome }} — R$ {{ "%.2f"|format(exp.preco) }}{% if exp.cidade %} · {{ exp.cidade.nome }}{% endif %}</figcaption>
+                </figure>
+            </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if not hoteis and not pontos and not experiencias %}
+    <p class="sem-resultado">Nenhum resultado encontrado para esses filtros. Tente ampliar a faixa de preço ou trocar a cidade/tipo.</p>
+    {% endif %}
+</div>
+{% endblock %}

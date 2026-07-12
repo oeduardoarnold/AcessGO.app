@@ -16,10 +16,51 @@
                 </a>
             </div>
             {% block search_bar_condition %}
-                <form class="search" method="GET" action="{{ url_for('main.busca') }}">
+                <form class="search search-com-filtro" method="GET" action="{{ url_for('main.busca') }}">
                     <label for="searchInput"></label>
                     <img src="{{ url_for('static', filename='images/search_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg') }}" alt="Search" class="material-icon-symbols-outlined">
-                    <input type="text" id="searchInput" name="q" placeholder="Pesquisar">
+                    <input type="text" id="searchInput" name="q" placeholder="Pesquisar" value="{{ request.args.get('q', '') }}">
+
+                    <details class="filtro-busca-details">
+                        <summary class="filtro-busca-toggle" title="Filtrar busca">⚙️</summary>
+                        <div class="filtro-busca-painel">
+                            <div class="filtro-busca-campo">
+                                <label for="filtro-cidade">Cidade</label>
+                                <select id="filtro-cidade" name="cidade_id">
+                                    <option value="">Todas</option>
+                                    {% for cidade in cidades_disponiveis %}
+                                    <option value="{{ cidade.id }}" {% if (request.args.get('cidade_id') or '')|int == cidade.id %}selected{% endif %}>{{ cidade.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="filtro-busca-campo">
+                                <label for="filtro-tipo">Tipo</label>
+                                <select id="filtro-tipo" name="tipo">
+                                    <option value="">Todos</option>
+                                    <option value="hotel" {% if request.args.get('tipo') == 'hotel' %}selected{% endif %}>Hotel</option>
+                                    <option value="ponto" {% if request.args.get('tipo') == 'ponto' %}selected{% endif %}>Ponto Turístico</option>
+                                    <option value="experiencia" {% if request.args.get('tipo') == 'experiencia' %}selected{% endif %}>Experiência</option>
+                                </select>
+                            </div>
+                            <div class="filtro-busca-campo filtro-busca-preco">
+                                <label>Faixa de preço (R$)</label>
+                                <div class="filtro-busca-preco-inputs">
+                                    <input type="number" name="preco_min" min="0" step="0.01" placeholder="Mín." value="{{ request.args.get('preco_min', '') }}">
+                                    <span>—</span>
+                                    <input type="number" name="preco_max" min="0" step="0.01" placeholder="Máx." value="{{ request.args.get('preco_max', '') }}">
+                                </div>
+                            </div>
+                            <div class="filtro-busca-campo">
+                                <label for="filtro-ordenar">Ordenar por preço</label>
+                                <select id="filtro-ordenar" name="ordenar">
+                                    <option value="">Padrão</option>
+                                    <option value="preco_asc" {% if request.args.get('ordenar') == 'preco_asc' %}selected{% endif %}>Do menor para o maior</option>
+                                    <option value="preco_desc" {% if request.args.get('ordenar') == 'preco_desc' %}selected{% endif %}>Do maior para o menor</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="filtro-busca-btn">Filtrar</button>
+                        </div>
+                    </details>
                 </form>
             {% endblock search_bar_condition %}
             <div class="navbar-menu">
