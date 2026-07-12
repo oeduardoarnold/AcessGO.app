@@ -156,7 +156,10 @@ def busca():
     preco_max = request.args.get('preco_max', type=float)
     ordenar = request.args.get('ordenar', '').strip()
 
-    tem_filtro = bool(cidade_id or tipo_filtro or preco_min is not None or preco_max is not None or ordenar)
+    tem_filtro = bool(
+        cidade_id or tipo_filtro or preco_min is not None or preco_max is not None or ordenar
+        or request.args.get('usar_filtro')
+    )
 
     if not tem_filtro:
         if not q:

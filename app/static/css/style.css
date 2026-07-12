@@ -416,7 +416,7 @@ body {
 
 /*Pagina das cidades*/
 figcaption{
-    height: 2.5rem;
+    min-height: 2.5rem;
     width: 12.5rem;
 }
 
@@ -1923,6 +1923,8 @@ figcaption{
 .info-atalho {
     background: #fbfcfb;
     border: 1.5px solid #e1e6e2;
+    position: relative;
+    top: 10px;
     border-radius: 999px;
     padding: 9px 18px;
     font-size: 13.5px;

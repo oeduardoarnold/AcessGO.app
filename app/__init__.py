@@ -55,5 +55,12 @@ def create_app():
     # app_context() garante que temos acesso ao contexto da aplicação
     with app.app_context():
         db.create_all()
-    
+
+    # Disponibiliza a lista de cidades para TODOS os templates automaticamente
+    # (usado no <select> de filtro de busca dentro de base.html).
+    @app.context_processor
+    def injetar_cidades_disponiveis():
+        from app.models import Cidade
+        return {'cidades_disponiveis': Cidade.query.order_by(Cidade.nome).all()}
+
     return app

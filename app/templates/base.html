@@ -58,7 +58,7 @@
                                     <option value="preco_desc" {% if request.args.get('ordenar') == 'preco_desc' %}selected{% endif %}>Do maior para o menor</option>
                                 </select>
                             </div>
-                            <button type="submit" class="filtro-busca-btn">Filtrar</button>
+                            <button type="submit" name="usar_filtro" value="1" class="filtro-busca-btn">Filtrar</button>
                         </div>
                     </details>
                 </form>
